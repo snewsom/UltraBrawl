@@ -24,6 +24,11 @@ namespace UltraBrawl
         PlayerCharacter playerOne;
         PlayerCharacter playerTwo;
 
+        Vector2 spawnLoc1 = new Vector2(300, 0);
+        Vector2 spawnLoc2 = new Vector2(800, 0);
+        Vector2 spawnLoc3 = new Vector2(600, 0);
+        Vector2 spawnLoc4 = new Vector2(600, 0);
+
         Sprite platform;
 
         Texture2D background;
@@ -58,11 +63,13 @@ namespace UltraBrawl
 
             controllerOne = new PlayerController(PlayerIndex.One);
             controllerTwo = new PlayerController(PlayerIndex.Two);
-
-            playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne);
-            playerTwo = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo);
-
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
+
+            loadLevel();
+        }
+
+        protected void loadLevel(){
+            spawnCharacters();
 
             platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 400)));
             platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 600)));
@@ -71,6 +78,13 @@ namespace UltraBrawl
 
             background = Game.Content.Load<Texture2D>(@"Images/background");
             base.LoadContent();
+        }
+
+        protected void spawnCharacters()
+        {
+
+            playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
+            playerTwo = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
         }
 
         /// <summary>
@@ -82,7 +96,7 @@ namespace UltraBrawl
             playerOne.Update(gameTime, Game.Window.ClientBounds);
             playerTwo.Update(gameTime, Game.Window.ClientBounds);
 
-            if (playerOne.currentHealth >= 10 || playerTwo.currentHealth >= 10)
+            if (playerOne.currentHealth <= 0 || playerTwo.currentHealth <= 0)
             {
                 Game.Exit();
             }
