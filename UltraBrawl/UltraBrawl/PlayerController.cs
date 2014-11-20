@@ -31,6 +31,7 @@ namespace UltraBrawl
                 pcPlayerKeys.Add(Keys.N);
                 pcPlayerKeys.Add(Keys.O);
                 pcPlayerKeys.Add(Keys.U);
+                pcPlayerKeys.Add(Keys.OemSemicolon);
             }
             else if (playerIndex.Equals(PlayerIndex.One))
             {
@@ -41,6 +42,7 @@ namespace UltraBrawl
                 pcPlayerKeys.Add(Keys.Space);
                 pcPlayerKeys.Add(Keys.E);
                 pcPlayerKeys.Add(Keys.Q);
+                pcPlayerKeys.Add(Keys.F);
             }
             GamePadState gamepadState = GamePad.GetState(pcPlayerNum);
         }

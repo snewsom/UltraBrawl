@@ -19,7 +19,7 @@ namespace UltraBrawl
     {
         // constants for this particular sprite
         static Point gokuNumberOfFrames = new Point(18, 9);
-        static CollisionOffset gokuCollisionOffset = new CollisionOffset(30, 1, 40, 20);
+        static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 40, 20);
         static Vector2 gokuSpeed = new Vector2(128, 32);
         static Vector2 gokuFriction = new Vector2(0.8f, 1f);
         static Point gokuFrameSize = new Point(130, 130);

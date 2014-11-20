@@ -23,8 +23,8 @@ namespace UltraBrawl
             JumpKicking,
             Punching,
             Kicking,
-            Charging,
-            Blocking
+            Blocking,
+            Charging
         }
         PlayerCharacterState currentState;
         AbstractState[] states;
@@ -49,7 +49,7 @@ namespace UltraBrawl
         public int jumpCount = 0;
         public bool isSuper = false;
         public int chargeTimer = 0;
-        public int currentHealth = 20;
+        public int currentHealth = 100;
 
         //attack variables
         private bool isBlock = false;
@@ -129,8 +129,8 @@ namespace UltraBrawl
             states[(Int32)PlayerCharacterState.JumpKicking] = new JumpKickState(this);
             states[(Int32)PlayerCharacterState.Punching] = new PunchState(this);
             states[(Int32)PlayerCharacterState.Kicking] = new KickState(this);
-            states[(Int32)PlayerCharacterState.Charging] = new ChargingState(this);
             states[(Int32)PlayerCharacterState.Blocking] = new BlockingState(this);
+            states[(Int32)PlayerCharacterState.Charging] = new ChargingState(this);
 
             // start in Idle state
             switchState(PlayerCharacterState.Idle);
@@ -149,15 +149,17 @@ namespace UltraBrawl
         //get hit by other character
         public void getHit(SpriteEffects direction, int hitType)
         {
-            if (canMove)
+            //if you aren't blocking or hit OR if you're facing the same direction(your back is to the other player)
+            if ((canMove && !isBlock) || direction.Equals(effects))
             {
-                if (currentState.Equals(PlayerCharacterState.Charging))
+                if (currentState.Equals(PlayerCharacterState.Charging) || isSuper)
                 {
+                    isSuper = false;
                     cancelSuper = true;
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
-                    currentHealth -= 3;
+                    currentHealth -= 10;
                     if (direction.Equals(SpriteEffects.None))
                     {
                         effects = SpriteEffects.FlipHorizontally;
@@ -167,6 +169,31 @@ namespace UltraBrawl
                         effects = SpriteEffects.None;
                     }
                     switchState(PlayerCharacterState.Hit);
+                }
+                if (hitType == HIT_TYPE_KICK)
+                {
+                    switchState(PlayerCharacterState.Idle);
+                    currentHealth -= 6;
+                }
+                if (hitType == HIT_TYPE_PUNCH)
+                {
+                    switchState(PlayerCharacterState.Idle);
+                    currentHealth -= 3;
+                }
+            }
+            //if you are blocking AND facing the other player
+            else if (isBlock && !direction.Equals(effects)){
+                if (hitType == HIT_TYPE_JUMPKICK)
+                {
+                    currentHealth -= 3;
+                    if (direction.Equals(SpriteEffects.None))
+                    {
+                        velocity.X += 100;
+                    }
+                    else
+                    {
+                        velocity.X -= 100;
+                    }
                 }
                 if (hitType == HIT_TYPE_KICK)
                 {
@@ -231,23 +258,16 @@ namespace UltraBrawl
 
             else if (otherSprite.checkChar())
             {
+                
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (isJumpKick)
                 {
                     velocity.X = 0f;
-                    if (otherPlayer.isSuper)
-                    {
-                        otherPlayer.cancelSuper = true;
-                    }
                     otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK);
                     isJumpKick = false;
                 }
                 else if (isKick)
                 {
-                    if (otherPlayer.isSuper)
-                    {
-                        otherPlayer.cancelSuper = true;
-                    }
                     otherPlayer.getHit(effects, HIT_TYPE_KICK);
                     isKick = false;
                 }
@@ -269,9 +289,8 @@ namespace UltraBrawl
             if (cancelSuper)
             {
                 isSuper = false;
-
-                switchState(PlayerCharacterState.Idle);
-
+                chargeSoundInstance.Stop();
+                chargeTimer = 0;
                 superLoopInstance.Pause();
                 cancelSuper = false;
             }
@@ -292,7 +311,6 @@ namespace UltraBrawl
             if (isSuper)
             {
                 spriteSheet.setCurrentSegment((Int32)newState + 9);
-                // currentFrame = spriteSheet.currentSegment.startFrame;
             }
             System.Diagnostics.Debug.WriteLine(spriteSheet.segments.Length);
             currentFrame = spriteSheet.currentSegment.startFrame;
@@ -374,8 +392,13 @@ namespace UltraBrawl
                     {
                         player.isKick = true;
                         player.switchState(PlayerCharacterState.Kicking);
-                        player.velocity.Y += -250f;
                     }
+                }
+
+                //idle->block
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(7)))
+                {
+                    player.switchState(PlayerCharacterState.Blocking);
                 }
             }
         }
@@ -401,13 +424,11 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
 
-                //run->jumpkick
+                //run->kick
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(5)))
                 {
-                    player.isJumpKick = true;
-                    player.jumpCount += 2;
-                    player.switchState(PlayerCharacterState.JumpKicking);
-                    player.velocity.Y += -250f;
+                    player.isKick = true;
+                    player.switchState(PlayerCharacterState.Kicking);
                 }
 
                 //run->jump
@@ -525,7 +546,7 @@ namespace UltraBrawl
         /* Kick State  (NOT SET UP)*/
         private class KickState : AbstractState
         {
-
+            
             public KickState(PlayerCharacter player)
                 : base(player)
             {
@@ -533,38 +554,17 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
+                player.canMove = false;
                 if (player.isSuper)
                 {
                     player.currentFrame.Y = 8;
                 }
                 Point ssEndFrame = new Point(8, 8);
-                if (player.isKick)
-                {
-                    if (player.effects == SpriteEffects.None)
-                    {
-                        player.velocity.X += 160f;
-
-                    }
-                    else
-                    {
-                        player.velocity.X += -160f;
-                    }
-                }
-                if (player.onGround)
-                {
-                    player.velocity.Y += -20f;
-                }
                 if (player.currentFrame == player.spriteSheet.currentSegment.endFrame || player.currentFrame == ssEndFrame)
                 {
+                    player.canMove = true;
                     player.isKick = false;
-                    if (player.onGround == false)
-                    {
-                        player.switchState(PlayerCharacterState.Jumping);
-                    }
-                    else
-                    {
-                        player.switchState(PlayerCharacterState.Running);
-                    }
+                    player.switchState(PlayerCharacterState.Idle);
                 }
             }
         }
@@ -627,6 +627,7 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
+                player.canMove = false;
                 if (player.isSuper)
                 {
                     player.currentFrame.Y = 8;
@@ -636,21 +637,26 @@ namespace UltraBrawl
                 {
                     if (player.effects == SpriteEffects.None)
                     {
-                        player.velocity.X += 160f;
+                        player.velocity.X += 300f;
 
                     }
                     else
                     {
-                        player.velocity.X += -160f;
+                        player.velocity.X += -300f;
                     }
                 }
                 if (player.onGround)
                 {
                     player.velocity.Y += -20f;
                 }
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame || player.currentFrame == ssEndFrame)
+
+                if (player.currentFrame.X + 2 >= player.spriteSheet.currentSegment.endFrame.X || player.currentFrame.X + 2 == ssEndFrame.X)
                 {
                     player.isJumpKick = false;
+                }
+                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame || player.currentFrame == ssEndFrame)
+                {
+                    player.canMove = true;
                     if (player.onGround == false)
                     {
                         player.switchState(PlayerCharacterState.Jumping);
@@ -725,62 +731,20 @@ namespace UltraBrawl
             public BlockingState(PlayerCharacter player)
                 : base(player)
             {
-                // define the standing still frame
-                //stillFrame = new Point(14, 0);
             }
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
-                player.canJump = true;
+                player.isBlock = true;
+                player.canJump = false;
+                player.canMove = false;
                 player.pauseAnimation = false;
-
-                //idle->charge
-                if (player.isSuper)
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Released && Keyboard.GetState().IsKeyUp(player.controller.pcPlayerKeys.ElementAt(7)))
                 {
-                    player.currentFrame.Y = 5;
-                }
-                else
-                {
-                    if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(6)))
-                    {
-                        player.switchState(PlayerCharacterState.Charging);
-                    }
-                }
-                //idle->run
-                if (player.direction.X != 0 || player.direction.Y != 0)
-                {
-                    player.switchState(PlayerCharacterState.Running);
-                }
-
-                //idle->jump
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(4)))
-                {
-                    if (player.onGround)
-                    {
-                        player.jumpCount++;
-                        player.canJump = false;
-                        player.switchState(PlayerCharacterState.Jumping);
-                        player.velocity.Y += -400f;
-                    }
-                }
-
-                //idle->fall
-                if (player.velocity.Y > 0)
-                {
-                    player.switchState(PlayerCharacterState.Jumping);
-                    player.currentFrame.X = 8;
-                }
-
-                //idle->jumpkick
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.B == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(5)))
-                {
-                    if (player.onGround)
-                    {
-                        player.isJumpKick = true;
-                        player.jumpCount += 2;
-                        player.switchState(PlayerCharacterState.JumpKicking);
-                        player.velocity.Y += -250f;
-                    }
+                    player.isBlock = false;
+                    player.canJump = true;
+                    player.canMove = true;
+                    player.switchState(PlayerCharacterState.Idle);
                 }
             }
         }
