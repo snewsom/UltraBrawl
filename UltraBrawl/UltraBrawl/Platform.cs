@@ -16,7 +16,7 @@ namespace UltraBrawl
         static Point platformFrameSize = new Point(400, 40);
 
         public Platform(Texture2D image, Vector2 position)
-            : base(new SpriteSheet(image,new Point(1, 1),0.5f), new Vector2(600, 600),new CollisionOffset(0, 0, 39, 0))
+            : base(new SpriteSheet(image,new Point(1, 1),0.5f), new Vector2(600, 600),new CollisionOffset(0, 0, 60, 60))
         {
             spriteSheet = new SpriteSheet(image, new Point(1,1), 0.8f);
             spriteSheet.addSegment(platformFrameSize, new Point(0, 0), new Point(18, 0), 50);

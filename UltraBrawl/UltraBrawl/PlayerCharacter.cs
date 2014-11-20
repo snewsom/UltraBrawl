@@ -92,13 +92,13 @@ namespace UltraBrawl
             //jumping
             spriteSheet.addSegment(pcFrameSize, new Point(0, 2), pcSegmentEndings.ElementAt(2), 120);
             //hit
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 2), pcSegmentEndings.ElementAt(2), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 11), pcSegmentEndings.ElementAt(11), 40);
             //jumpkick
             spriteSheet.addSegment(pcFrameSize, new Point(0, 3), pcSegmentEndings.ElementAt(3), 40);
             //punch
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 3), pcSegmentEndings.ElementAt(3), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 9), pcSegmentEndings.ElementAt(9), 40);
             //kick
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 3), pcSegmentEndings.ElementAt(3), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 10), pcSegmentEndings.ElementAt(10), 40);
             //block
             spriteSheet.addSegment(pcFrameSize, new Point(0, 0), pcSegmentEndings.ElementAt(0), 50);
             //charging
@@ -110,13 +110,13 @@ namespace UltraBrawl
             //superJumping
             spriteSheet.addSegment(pcFrameSize, new Point(0, 7), pcSegmentEndings.ElementAt(7), 120);
             //superHit
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 7), pcSegmentEndings.ElementAt(7), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 11), pcSegmentEndings.ElementAt(11), 40);
             //superJumpKick
             spriteSheet.addSegment(pcFrameSize, new Point(0, 8), pcSegmentEndings.ElementAt(8), 40);
             //superPunch
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 8), pcSegmentEndings.ElementAt(8), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 9), pcSegmentEndings.ElementAt(9), 40);
             //superKick
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 8), pcSegmentEndings.ElementAt(8), 40);
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 10), pcSegmentEndings.ElementAt(10), 40);
             //superBlock
             spriteSheet.addSegment(pcFrameSize, new Point(0, 5), pcSegmentEndings.ElementAt(5), 50);
 
@@ -159,14 +159,17 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
+                    velocity.Y = -100f;
                     currentHealth -= 10;
                     if (direction.Equals(SpriteEffects.None))
                     {
                         effects = SpriteEffects.FlipHorizontally;
+                        velocity.X = 1000f;
                     }
                     else
                     {
                         effects = SpriteEffects.None;
+                        velocity.X = -1000f;
                     }
                     switchState(PlayerCharacterState.Hit);
                 }
@@ -522,13 +525,30 @@ namespace UltraBrawl
             {
                 player.canMove = false;
                 player.canJump = false;
-                if (player.effects == SpriteEffects.None)
+                if (player.currentFrame.X > 5 & player.onGround)
                 {
-                    player.velocity.X = -1000f;
+                    player.velocity.X = 0;
+                    player.velocity.Y = 0;
                 }
-                else
+                if (player.currentFrame.X < 4 && player.effects == SpriteEffects.None)
                 {
-                    player.velocity.X = 1000f;
+                    player.velocity.X = -1500;
+                }
+                else if (player.currentFrame.X < 4 && player.effects == SpriteEffects.FlipHorizontally)
+                {
+                    player.velocity.X = 1500;
+                }
+                if (player.currentFrame.X >= 5 & !player.onGround)
+                {
+                    if (player.effects == SpriteEffects.None)
+                    {
+                        player.velocity.X = -400f;
+                    }
+                    else
+                    {
+                        player.velocity.X = 400f;
+                    }
+                    player.currentFrame.X = 4;
                 }
                 // animate once through -- then go to standing still frame
                 if (player.currentFrame == player.spriteSheet.currentSegment.endFrame)

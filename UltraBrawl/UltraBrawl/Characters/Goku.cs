@@ -44,6 +44,9 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(5, 6));
             base.pcSegmentEndings.Add(new Point(9, 7));
             base.pcSegmentEndings.Add(new Point(13, 8));
+            base.pcSegmentEndings.Add(new Point(4, 9));
+            base.pcSegmentEndings.Add(new Point(7, 10));
+            base.pcSegmentEndings.Add(new Point(14, 11));
             base.setSegments();
 
             CHARACTER_ID = 0;
