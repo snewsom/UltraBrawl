@@ -12,7 +12,7 @@ namespace UltraBrawl
         public Texture2D texture;
         public Point sheetSize;
         public float scale;
-        public SpriteSheetSegment[] segments = new SpriteSheetSegment[17];
+        public SpriteSheetSegment[] segments = new SpriteSheetSegment[30];
         public SpriteSheetSegment currentSegment;
         private int numSegments;
 
