@@ -21,6 +21,7 @@ namespace UltraBrawl
         SpriteBatch spriteBatch;
         PlayerController controllerOne;
         PlayerController controllerTwo;
+        List<PlayerCharacter> players = new List<PlayerCharacter>();
         PlayerCharacter playerOne;
         PlayerCharacter playerTwo;
 
@@ -37,13 +38,31 @@ namespace UltraBrawl
 
         List<Sprite> platformList = new List<Sprite>();
 
+        private Game game;
+
+        private Texture2D startButton;
+        private Texture2D exitButton;
+        private Texture2D resumeButton;
+        private Vector2 startButtonPosition;
+        private Vector2 exitButtonPosition;
+        private Vector2 resumeButtonPosition;
+        MouseState mouseState;
+        MouseState previousMouseState;
+        public GameState gameState;
+        public enum GameState
+        {
+            StartMenu,
+            Playing,
+            Paused
+        }
 
         SpriteFont font;
 
         public SpriteManager(Game game)
             : base(game)
         {
-            // TODO: Construct any child components here
+            this.game = game;
+            gameState = GameState.StartMenu;
         }
 
         /// <summary>
@@ -65,12 +84,17 @@ namespace UltraBrawl
             controllerTwo = new PlayerController(PlayerIndex.Two);
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
 
+
+            startButton = Game.Content.Load<Texture2D>(@"Images/start");
+            exitButton = Game.Content.Load<Texture2D>(@"Images/exit");
+
+            resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
+
             loadLevel();
         }
 
-        protected void loadLevel(){
-            spawnCharacters();
-
+        protected void loadLevel()
+        {
             platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 400)));
             platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 600)));
             platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 600)));
@@ -82,9 +106,10 @@ namespace UltraBrawl
 
         protected void spawnCharacters()
         {
-
             playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
+            players.Add(playerOne);
             playerTwo = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
+            players.Add(playerTwo);
         }
 
         /// <summary>
@@ -93,66 +118,96 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            playerOne.Update(gameTime, Game.Window.ClientBounds);
-            playerTwo.Update(gameTime, Game.Window.ClientBounds);
-
-            if (playerOne.currentHealth <= 0 || playerTwo.currentHealth <= 0)
+            
+            if (gameState == GameState.StartMenu || gameState == GameState.Paused)
             {
-                Game.Exit();
+                mouseState = Mouse.GetState();
+                if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    MouseClicked(mouseState.X, mouseState.Y);
+                }
+                previousMouseState = mouseState;
+            }
+            if (gameState == GameState.Paused)
+            {
+                foreach (PlayerCharacter player in players)
+                    player.Update(gameTime, Game.Window.ClientBounds);
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    foreach (PlayerCharacter player in players)
+                        player.update = true;
+                    gameState = GameState.Playing;
+                }
             }
 
-            // update each automated sprite
-            foreach (Sprite sprite in spriteList)
-                sprite.Update(gameTime, Game.Window.ClientBounds);
-
-            // collision
-            foreach (Sprite sprite in spriteList)
+            if (gameState == GameState.Playing)
             {
-                if (sprite.collisionRect.Intersects(playerOne.collisionRect))
+                foreach(PlayerCharacter player in players)
+                    player.Update(gameTime, Game.Window.ClientBounds);
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
-                    playerOne.Collision(sprite);
-                    sprite.Collision(playerOne);
+                    foreach (PlayerCharacter player in players)
+                        player.update = false;
+                    gameState = GameState.Paused;
                 }
-                if (sprite.collisionRect.Intersects(playerTwo.collisionRect))
+                // update each automated sprite
+                foreach (Sprite sprite in spriteList)
+                    sprite.Update(gameTime, Game.Window.ClientBounds);
+
+                if (playerOne.currentHealth <= 0 || playerTwo.currentHealth <= 0)
                 {
-                    playerTwo.Collision(sprite);
-                    sprite.Collision(playerTwo);
-                }
-                if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
-                {
-                    playerTwo.Collision(playerOne);
-                    playerOne.Collision(playerTwo);
+                    Game.Exit();
                 }
 
-            }
-
-            foreach (Sprite sprite in platformList)
-            {
-                if (sprite.collisionRect.Intersects(playerOne.collisionRect))
+                // collision
+                foreach (Sprite sprite in spriteList)
                 {
-                    playerOne.Collision(sprite);
-                    sprite.Collision(playerOne);
-                }
-                if (sprite.collisionRect.Intersects(playerTwo.collisionRect))
-                {
-                    playerTwo.Collision(sprite);
-                    sprite.Collision(playerTwo);
-                }
-                if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
-                {
-                    playerTwo.Collision(playerOne);
-                    playerOne.Collision(playerTwo);
-                }
-                foreach (Sprite sprite2 in spriteList)
-                {
-                    if (sprite.collisionRect.Intersects(sprite2.collisionRect))
+                    if (sprite.collisionRect.Intersects(playerOne.collisionRect))
                     {
-                        sprite2.Collision(sprite);
-                        sprite.Collision(sprite2);
+                        playerOne.Collision(sprite);
+                        sprite.Collision(playerOne);
                     }
+                    if (sprite.collisionRect.Intersects(playerTwo.collisionRect))
+                    {
+                        playerTwo.Collision(sprite);
+                        sprite.Collision(playerTwo);
+                    }
+                    if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
+                    {
+                        playerTwo.Collision(playerOne);
+                        playerOne.Collision(playerTwo);
+                    }
+
                 }
 
+                foreach (Sprite sprite in platformList)
+                {
+                    if (sprite.collisionRect.Intersects(playerOne.collisionRect))
+                    {
+                        playerOne.Collision(sprite);
+                        sprite.Collision(playerOne);
+                    }
+                    if (sprite.collisionRect.Intersects(playerTwo.collisionRect))
+                    {
+                        playerTwo.Collision(sprite);
+                        sprite.Collision(playerTwo);
+                    }
+                    if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
+                    {
+                        playerTwo.Collision(playerOne);
+                        playerOne.Collision(playerTwo);
+                    }
+                    foreach (Sprite sprite2 in spriteList)
+                    {
+                        if (sprite.collisionRect.Intersects(sprite2.collisionRect))
+                        {
+                            sprite2.Collision(sprite);
+                            sprite.Collision(sprite2);
+                        }
+                    }
 
+
+                }
             }
             base.Update(gameTime);
         }
@@ -160,8 +215,35 @@ namespace UltraBrawl
         public override void Draw(GameTime gameTime)
         {
             spriteBatch.Begin();
+            if (gameState == GameState.StartMenu)
+            {
+                game.IsMouseVisible = true;
+                startButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
+                exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
+                spriteBatch.Draw(startButton, startButtonPosition, Color.White);
+                spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+            }
+            if (gameState == GameState.Paused)
+            {
+                game.IsMouseVisible = true;
+                resumeButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
+                exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
+                spriteBatch.Draw(resumeButton, resumeButtonPosition, Color.White);
+                spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+            }
+            if (gameState == GameState.Playing)
+            {
+                game.IsMouseVisible = false;
+                LoadGame(gameTime);
+            }
+            spriteBatch.End();
+            base.Draw(gameTime);
+        }
+
+        private void LoadGame(GameTime gameTime)
+        {
             spriteBatch.Draw(background, new Rectangle(0, 0, 1280, 800), Color.White);
-            spriteBatch.DrawString(font, playerOne.CHARACTER_NAME +" " + playerOne.currentHealth, new Vector2(100, 100), Color.Black);
+            spriteBatch.DrawString(font, playerOne.CHARACTER_NAME + " " + playerOne.currentHealth, new Vector2(100, 100), Color.Black);
             spriteBatch.DrawString(font, playerTwo.currentHealth + " " + playerOne.CHARACTER_NAME, new Vector2(1080, 100), Color.Black);
             playerOne.Draw(gameTime, spriteBatch);
             playerTwo.Draw(gameTime, spriteBatch);
@@ -169,8 +251,47 @@ namespace UltraBrawl
                 sprite.Draw(gameTime, spriteBatch);
             foreach (Sprite sprite in platformList)
                 sprite.Draw(gameTime, spriteBatch);
-            spriteBatch.End();
-            base.Draw(gameTime);
+        }
+
+        void MouseClicked(int x, int y)
+        {
+            //creates a rectangle of 10x10 around the place where the mouse was clicked
+            Rectangle mouseClickRect = new Rectangle(x, y, 10, 10);
+
+            //check the startmenu
+            if (gameState == GameState.StartMenu)
+            {
+                Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 100, 20);
+                Rectangle exitButtonRect = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 100, 20);
+
+                if (mouseClickRect.Intersects(startButtonRect)) //player clicked start button
+                {
+                    spawnCharacters();
+                    foreach (PlayerCharacter player in players)
+                        player.update = true;
+                    gameState = GameState.Playing;
+                }
+                else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
+                {
+                    game.Exit();
+                }
+            }
+            if (gameState == GameState.Paused)
+            {
+                Rectangle resumeButtonRect = new Rectangle((int)resumeButtonPosition.X, (int)resumeButtonPosition.Y, 100, 20);
+                Rectangle exitButtonRect = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 100, 20);
+
+                if (mouseClickRect.Intersects(resumeButtonRect))
+                {
+                    foreach (PlayerCharacter player in players)
+                        player.update = true;
+                    gameState = GameState.Playing;
+                }
+                else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
+                {
+                    game.Exit();
+                }
+            }
         }
     }
 }

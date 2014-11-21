@@ -29,12 +29,12 @@ namespace UltraBrawl
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
-
             // resize the game
             graphics.IsFullScreen = false;
             graphics.PreferredBackBufferHeight = 800;
             graphics.PreferredBackBufferWidth = 1280;
         }
+
 
         /// <summary>
         /// Allows the game to perform any initialization it needs to before starting to run.
@@ -44,9 +44,9 @@ namespace UltraBrawl
         /// </summary>
         protected override void Initialize()
         {
+            IsMouseVisible = true;
             spriteManager = new SpriteManager(this);
             Components.Add(spriteManager);
-
             base.Initialize();
         }
 
@@ -68,8 +68,7 @@ namespace UltraBrawl
             SoundEffectInstance introInstance = bgEffect.CreateInstance();
             introInstance.IsLooped = true;
             introInstance.Volume = 0.5f;
-            introInstance.Play();
-
+            //introInstance.Play();
 
         }
 
@@ -115,14 +114,6 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            //GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //Draw background
-            //turns off music?...
-            //DrawScenery();
-
-
-
             _total_frames++;
 
             //System.Diagnostics.Debug.WriteLine("FPS =" + _fps);

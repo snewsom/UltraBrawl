@@ -110,6 +110,7 @@
     <Compile Include="AutomatedSprite.cs" />
     <Compile Include="CollisionOffset.cs" />
     <Compile Include="Characters\Goku.cs" />
+    <Compile Include="Menus\MenuMain.cs" />
     <Compile Include="Projectiles\GuileSonicBoom.cs" />
     <Compile Include="Projectiles\MegamanBuster.cs" />
     <Compile Include="PlayerCharacter.cs" />

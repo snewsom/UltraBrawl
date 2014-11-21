@@ -31,6 +31,8 @@ namespace UltraBrawl
         PlayerCharacterState currentState;
         AbstractState[] states;
 
+        public bool update = false;
+
         //sprite/sound variables
         static Point pcFrameSize;
         public List<Point> pcSegmentEndings = new List<Point>();
@@ -321,21 +323,36 @@ namespace UltraBrawl
         /* Update */
         public override void Update(GameTime gameTime, Rectangle clientBounds)
         {
-            // call Update for the current state
-            states[(Int32)currentState].Update(gameTime, clientBounds);
-
-            //turn off SS effect if SS is off
-            if (cancelSuper)
-            {
-                isSuper = false;
-                chargeSoundInstance.Stop();
-                chargeTimer = 0;
-                superLoopInstance.Pause();
-                cancelSuper = false;
+            if(!update){
+                if (isSuper)
+                {
+                    superLoopInstance.Pause();
+                }
             }
+            else
+            {
+                // call Update for the current state
+                states[(Int32)currentState].Update(gameTime, clientBounds);
 
-            // Update the sprite (base class)
-            base.Update(gameTime, clientBounds);
+                //turn off SS effect if SS is off
+                if (cancelSuper)
+                {
+                    isSuper = false;
+                    chargeSoundInstance.Stop();
+                    chargeTimer = 0;
+                    superLoopInstance.Pause();
+                    cancelSuper = false;
+                }
+                if (isSuper)
+                {
+                    if (superLoopInstance.State.Equals(SoundState.Paused))
+                    {
+                        superLoopInstance.Play();
+                    }
+                }
+                // Update the sprite (base class)
+                base.Update(gameTime, clientBounds);
+            }
         }
 
 
