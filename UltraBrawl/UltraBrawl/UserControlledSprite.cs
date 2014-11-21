@@ -14,7 +14,7 @@ namespace UltraBrawl
         protected Vector2 velocity;
         Vector2 friction;
         Vector2 speed;
-        protected readonly Vector2 gravity = new Vector2(0, 9.8f * 64);
+        protected readonly Vector2 gravity = new Vector2(0, 9.8f * 100);
 
         // used to tell if the sprite is in free fall or not
         protected bool onGround = false;

@@ -108,7 +108,7 @@ namespace UltraBrawl
         {
             playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
             players.Add(playerOne);
-            playerTwo = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
+            playerTwo = new Megaman(Game.Content.Load<Texture2D>(@"Images/Megaman"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
             players.Add(playerTwo);
         }
 
@@ -244,7 +244,7 @@ namespace UltraBrawl
         {
             spriteBatch.Draw(background, new Rectangle(0, 0, 1280, 800), Color.White);
             spriteBatch.DrawString(font, playerOne.CHARACTER_NAME + " " + playerOne.currentHealth, new Vector2(100, 100), Color.Black);
-            spriteBatch.DrawString(font, playerTwo.currentHealth + " " + playerOne.CHARACTER_NAME, new Vector2(1080, 100), Color.Black);
+            spriteBatch.DrawString(font, playerTwo.currentHealth + " " + playerTwo.CHARACTER_NAME, new Vector2(1080, 100), Color.Black);
             playerOne.Draw(gameTime, spriteBatch);
             playerTwo.Draw(gameTime, spriteBatch);
             foreach (Sprite sprite in spriteList)
