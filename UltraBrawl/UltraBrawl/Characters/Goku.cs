@@ -42,19 +42,19 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(3, 4)); //punch
             base.pcSegmentEndings.Add(new Point(6, 5)); //kick
             base.pcSegmentEndings.Add(new Point(0, 6)); //block
-            base.pcSegmentEndings.Add(new Point(2, 6)); //blockhit
-            base.pcSegmentEndings.Add(new Point(2, 7)); //hit
-            base.pcSegmentEndings.Add(new Point(13, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(18, 9)); //charging
-            base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
-            base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
-            base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
-            base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
-            base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKick
-            base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
+            base.pcSegmentEndings.Add(new Point(1, 7)); //blockhit
+            base.pcSegmentEndings.Add(new Point(1, 8)); //hit
+            base.pcSegmentEndings.Add(new Point(13, 9)); //knockdown
+            base.pcSegmentEndings.Add(new Point(18, 10)); //charging
+            base.pcSegmentEndings.Add(new Point(4, 11)); //superIdle
+            base.pcSegmentEndings.Add(new Point(5, 12)); //superRunning
+            base.pcSegmentEndings.Add(new Point(9, 13)); //superJumping
+            base.pcSegmentEndings.Add(new Point(13, 14)); //superJumpkicking
+            base.pcSegmentEndings.Add(new Point(3, 15)); //superPunch
+            base.pcSegmentEndings.Add(new Point(6, 16)); //superKick
+            base.pcSegmentEndings.Add(new Point(0, 17)); //superBlock
+            base.pcSegmentEndings.Add(new Point(1, 18)); //superBlockhit
+            base.pcSegmentEndings.Add(new Point(1, 19)); //superHit
             base.knockDownEndFrame = 6;
     
             base.pcSegmentTimings.Add(50); //idle

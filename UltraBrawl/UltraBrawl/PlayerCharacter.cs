@@ -110,31 +110,31 @@ namespace UltraBrawl
             //block
             spriteSheet.addSegment(pcFrameSize, new Point(0, 6), pcSegmentEndings.ElementAt(6), pcSegmentTimings.ElementAt(6));
             //blockhit
-            spriteSheet.addSegment(pcFrameSize, new Point(1, 6), pcSegmentEndings.ElementAt(7), pcSegmentTimings.ElementAt(7));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 7), pcSegmentEndings.ElementAt(7), pcSegmentTimings.ElementAt(7));
             //hit
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 7), pcSegmentEndings.ElementAt(8), pcSegmentTimings.ElementAt(8));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 8), pcSegmentEndings.ElementAt(8), pcSegmentTimings.ElementAt(8));
             //knockdown
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 8), pcSegmentEndings.ElementAt(9), pcSegmentTimings.ElementAt(9));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 9), pcSegmentEndings.ElementAt(9), pcSegmentTimings.ElementAt(9));
             //charging
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 9), pcSegmentEndings.ElementAt(10), pcSegmentTimings.ElementAt(10));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 10), pcSegmentEndings.ElementAt(10), pcSegmentTimings.ElementAt(10));
             //superIdle
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 10), pcSegmentEndings.ElementAt(11), pcSegmentTimings.ElementAt(11));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 11), pcSegmentEndings.ElementAt(11), pcSegmentTimings.ElementAt(11));
             //superRunning
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 11), pcSegmentEndings.ElementAt(12), pcSegmentTimings.ElementAt(12));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 12), pcSegmentEndings.ElementAt(12), pcSegmentTimings.ElementAt(12));
             //superJumping
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 12), pcSegmentEndings.ElementAt(13), pcSegmentTimings.ElementAt(13));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 13), pcSegmentEndings.ElementAt(13), pcSegmentTimings.ElementAt(13));
             //superJumpKick
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 13), pcSegmentEndings.ElementAt(14), pcSegmentTimings.ElementAt(14));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 14), pcSegmentEndings.ElementAt(14), pcSegmentTimings.ElementAt(14));
             //superPunch
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 14), pcSegmentEndings.ElementAt(15), pcSegmentTimings.ElementAt(15));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 15), pcSegmentEndings.ElementAt(15), pcSegmentTimings.ElementAt(15));
             //superKick
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 15), pcSegmentEndings.ElementAt(16), pcSegmentTimings.ElementAt(16));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 16), pcSegmentEndings.ElementAt(16), pcSegmentTimings.ElementAt(16));
             //superBlock
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 16), pcSegmentEndings.ElementAt(17), pcSegmentTimings.ElementAt(17));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 17), pcSegmentEndings.ElementAt(17), pcSegmentTimings.ElementAt(17));
             //superBlockhit
-            spriteSheet.addSegment(pcFrameSize, new Point(1, 16), pcSegmentEndings.ElementAt(18), pcSegmentTimings.ElementAt(18));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 18), pcSegmentEndings.ElementAt(18), pcSegmentTimings.ElementAt(18));
             //superHit
-            spriteSheet.addSegment(pcFrameSize, new Point(0, 17), pcSegmentEndings.ElementAt(19), pcSegmentTimings.ElementAt(19));
+            spriteSheet.addSegment(pcFrameSize, new Point(0, 19), pcSegmentEndings.ElementAt(19), pcSegmentTimings.ElementAt(19));
 
             // define the states
             states = new AbstractState[NUM_STATES];
@@ -832,7 +832,7 @@ namespace UltraBrawl
 
                 if ((player.chargeTimer + 500) > chargeMax)
                 {
-                    player.chargedOne();
+                    player.chargedOne(); 
                 }
                 if (!player.canSuper)
                 {
