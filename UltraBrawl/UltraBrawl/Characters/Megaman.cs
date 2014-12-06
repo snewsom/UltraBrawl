@@ -18,6 +18,8 @@ namespace UltraBrawl
     class Megaman : PlayerCharacter
     {
         // constants for this particular sprite
+       // static List<Texture2D> particleList;
+        //static ParticleEngine2D particleEngine;
         static Point megamanNumberOfFrames = new Point(30, 20);
         static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 20, 100);
@@ -39,6 +41,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 megamanHitboxOffset = megamanHitboxOffsetFlipped;
             }
+           // particleEngine = new ParticleEngine2D(particleList, spawnLoc);
             base.pcSegmentEndings.Add(new Point(4, 0)); //idle
             base.pcSegmentEndings.Add(new Point(8, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping

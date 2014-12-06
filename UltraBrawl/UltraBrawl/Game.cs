@@ -24,6 +24,7 @@ namespace UltraBrawl
         int _total_frames = 0;
         float _elapsed_time = 0.0f;
         int _fps = 0;
+        //ParticleEngine2D particleEngine;
 
         public Game()
         {
@@ -70,6 +71,13 @@ namespace UltraBrawl
             introInstance.Volume = 0.5f;
             //introInstance.Play();
 
+            // particle stuff
+            //List<Texture2D> textures = new List<Texture2D>();
+           // textures.Add(Content.Load<Texture2D>("Images/circle"));
+           // textures.Add(Content.Load<Texture2D>("Images/star"));
+           // textures.Add(Content.Load<Texture2D>("Images/diamond"));
+           // particleEngine = new ParticleEngine2D(textures, new Vector2(400, 240));
+
         }
 
         /// <summary>
@@ -104,6 +112,9 @@ namespace UltraBrawl
                 this.Exit();
 
             // TODO: Add your update logic here
+            //i did dat ^ ^ right dat for particalz
+           // particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+           // particleEngine.Update();
 
             base.Update(gameTime);
         }
@@ -117,6 +128,9 @@ namespace UltraBrawl
             _total_frames++;
 
             //System.Diagnostics.Debug.WriteLine("FPS =" + _fps);
+
+            //particleEngine.Draw(spriteBatch);
+ 
 
             base.Draw(gameTime);
         }

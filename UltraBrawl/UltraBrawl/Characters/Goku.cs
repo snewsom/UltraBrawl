@@ -18,6 +18,8 @@ namespace UltraBrawl
     class Goku : PlayerCharacter
     {
         // constants for this particular sprite
+        //static List<Texture2D> particleList;
+        //static ParticleEngine2D particleEngine;
         static Point gokuNumberOfFrames = new Point(20, 20);
         static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
@@ -39,6 +41,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = gokuHitboxOffsetFlipped;
             }
+            
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping

@@ -63,6 +63,11 @@ namespace UltraBrawl
             return isCharacter;
         }
 
+        public Vector2 getPosition()
+        {
+            return position;
+        }
+
         public virtual void Draw(GameTime gameTime, SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(spriteSheet.texture,

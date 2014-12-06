@@ -112,6 +112,8 @@
     <Compile Include="CollisionOffset.cs" />
     <Compile Include="Characters\Goku.cs" />
     <Compile Include="Menus\MenuMain.cs" />
+    <Compile Include="Particle.cs" />
+    <Compile Include="ParticleEngine2D.cs" />
     <Compile Include="Projectiles\GuileSonicBoom.cs" />
     <Compile Include="Projectiles\MegamanBuster.cs" />
     <Compile Include="PlayerCharacter.cs" />
