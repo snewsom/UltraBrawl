@@ -18,7 +18,8 @@ namespace UltraBrawl
     /// </summary>
     public class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
-
+        protected GamePadState oldGamePadState;
+        protected KeyboardState oldKeyboardState;
         SpriteBatch spriteBatch;
         PlayerController controllerOne;
         PlayerController controllerTwo;
@@ -55,6 +56,7 @@ namespace UltraBrawl
         public enum GameState
         {
             StartMenu,
+            CharSelect,
             Playing,
             Paused
         }
@@ -116,10 +118,6 @@ namespace UltraBrawl
 
         protected void spawnCharacters()
         {
-            List<Texture2D> textures = new List<Texture2D>();
-            textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
-            textures.Add(Game.Content.Load<Texture2D>("Images/star"));
-            textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
             playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
             players.Add(playerOne);
             playerTwo = new Megaman(Game.Content.Load<Texture2D>(@"Images/Megaman"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
@@ -144,14 +142,38 @@ namespace UltraBrawl
                 }
                 previousMouseState = mouseState;
             }
-            if (gameState == GameState.Paused)
+
+            if (gameState == GameState.CharSelect)
             {
                 foreach (PlayerCharacter player in players)
+                {
                     player.Update(gameTime, Game.Window.ClientBounds);
+                }
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     foreach (PlayerCharacter player in players)
+                    {
                         player.update = true;
+                    }
+                    gameState = GameState.Playing;
+                }
+            }
+
+
+            if (gameState == GameState.Paused)
+            {
+                foreach (PlayerCharacter player in players)
+                {
+                    player.Update(gameTime, Game.Window.ClientBounds);
+                }
+
+                if (((oldGamePadState.Buttons.Start == ButtonState.Released && GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed)) || (oldKeyboardState.IsKeyUp(Keys.Escape) && Keyboard.GetState().IsKeyDown(Keys.Escape)))
+                {
+                    Debug.WriteLine("made it");
+                    foreach (PlayerCharacter player in players)
+                    {
+                        player.update = true;
+                    }
                     gameState = GameState.Playing;
                 }
             }
@@ -165,16 +187,20 @@ namespace UltraBrawl
                     player.Update(gameTime, Game.Window.ClientBounds);
                 }
 
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                if (((oldGamePadState.Buttons.Start == ButtonState.Released && GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed)) || (oldKeyboardState.IsKeyUp(Keys.Escape) && Keyboard.GetState().IsKeyDown(Keys.Escape)))
                 {
                     foreach (PlayerCharacter player in players)
+                    {
                         player.update = false;
+                    }
                     gameState = GameState.Paused;
                 }
 
                 // update each automated sprite
                 foreach (Sprite sprite in spriteList)
+                {
                     sprite.Update(gameTime, Game.Window.ClientBounds);
+                }
 
                 if (playerOne.currentHealth <= 0 || playerTwo.currentHealth <= 0)
                 {
@@ -213,6 +239,8 @@ namespace UltraBrawl
                     //}
                 }
             }
+            oldGamePadState = GamePad.GetState(PlayerIndex.One);
+            oldKeyboardState = Keyboard.GetState();
             base.Update(gameTime);
         }
 
@@ -296,7 +324,9 @@ namespace UltraBrawl
                 if (mouseClickRect.Intersects(resumeButtonRect))
                 {
                     foreach (PlayerCharacter player in players)
+                    {
                         player.update = true;
+                    }
                     gameState = GameState.Playing;
                 }
                 else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
