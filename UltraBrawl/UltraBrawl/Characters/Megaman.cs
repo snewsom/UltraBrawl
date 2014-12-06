@@ -33,15 +33,9 @@ namespace UltraBrawl
 
 
         // constructor
-        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc)
-            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), spawnLoc, megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize, playerIndex, playerController)
+        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize)
         {
-            if (playerIndex.ToString().Equals("Two") || playerIndex.ToString().Equals("Four"))
-            {
-                effects = SpriteEffects.FlipHorizontally;
-                megamanHitboxOffset = megamanHitboxOffsetFlipped;
-            }
-           // particleEngine = new ParticleEngine2D(particleList, spawnLoc);
             base.pcSegmentEndings.Add(new Point(4, 0)); //idle
             base.pcSegmentEndings.Add(new Point(8, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping
@@ -90,6 +84,20 @@ namespace UltraBrawl
             CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 1;
             CHARACTER_NAME = "Megaman";
+        }
+
+        public override void spawn(PlayerPreset preset)
+        {
+            position = preset.spawn;
+            pcPlayerNum = preset.index;
+            controller = preset.controller;
+
+            if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
+            {
+                effects = SpriteEffects.FlipHorizontally;
+                hitboxOffset = megamanHitboxOffsetFlipped;
+            }
+            update = true;
         }
 
         public override void charging()

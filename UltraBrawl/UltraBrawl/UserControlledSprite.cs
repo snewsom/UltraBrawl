@@ -25,9 +25,8 @@ namespace UltraBrawl
         /*
          * Constructor
          */
-        public UserControlledSprite(SpriteSheet spriteSheet, Vector2 position,
-            CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped, Vector2 speed, Vector2 friction)
-            : base(spriteSheet, position, collisionOffset)
+        public UserControlledSprite(SpriteSheet spriteSheet, CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped, Vector2 speed, Vector2 friction)
+            : base(spriteSheet, collisionOffset)
         {
             this.speed = speed;
             this.friction = friction;

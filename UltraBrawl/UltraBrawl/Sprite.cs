@@ -20,10 +20,15 @@ namespace UltraBrawl
         int timeSinceLastFrame = 0;
         protected Vector2 position;
 
-        public Sprite(SpriteSheet spriteSheet, Vector2 position, CollisionOffset collisionOffset)
+        public Sprite(SpriteSheet spriteSheet, CollisionOffset collisionOffset)
         {
             this.spriteSheet = spriteSheet;
+            this.collisionOffset = collisionOffset;
+        }
+        public Sprite(SpriteSheet spriteSheet, Vector2 position, CollisionOffset collisionOffset)
+        {
             this.position = position;
+            this.spriteSheet = spriteSheet;
             this.collisionOffset = collisionOffset;
         }
 

@@ -33,14 +33,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc)
-            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), spawnLoc, gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize, playerIndex, playerController)
+        public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize)
         {
-            if (playerIndex.ToString().Equals("Two") || playerIndex.ToString().Equals("Four"))
-            {
-                effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = gokuHitboxOffsetFlipped;
-            }
+
             
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
@@ -90,6 +86,20 @@ namespace UltraBrawl
             CHARACTER_ID = 0;
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;
+        }
+
+        public override void spawn(PlayerPreset preset)
+        {
+            position = preset.spawn;
+            pcPlayerNum = preset.index;
+            controller = preset.controller;
+
+            if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
+            {
+                effects = SpriteEffects.FlipHorizontally;
+                hitboxOffset = gokuHitboxOffsetFlipped;
+            }
+            update = true;
         }
 
         public override void charging()

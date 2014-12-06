@@ -40,14 +40,12 @@ namespace UltraBrawl
         public List<int> pcSegmentTimings = new List<int>();
         static SoundEffect chargeSound;
         static SoundEffect superLoop;
-        static public ParticleEngine2D particleEngine;
-        public List<Texture2D> particleList;
         public SoundEffectInstance chargeSoundInstance;
         public SoundEffectInstance superLoopInstance;
 
         //player variables
         public PlayerIndex pcPlayerNum;
-        private PlayerController controller;
+        public PlayerController controller;
         private GamePadState oldGamePadState;
         public List<Keys> pcPlayerKeys = new List<Keys>();
 
@@ -79,18 +77,18 @@ namespace UltraBrawl
 
 
         // constructor
-        public PlayerCharacter(SpriteSheet spriteSheet, Vector2 position, CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped, Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
-            : base(spriteSheet, position, collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction)
+        public PlayerCharacter(SpriteSheet spriteSheet, CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped,
+            Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize)
+            //Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
+            : base(spriteSheet, collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction)
         {
-            particleEngine = new ParticleEngine2D(particleList, position);
-            pcPlayerNum = playerIndex;
+            update = false;
             pcFrameSize = frameSize;
             chargeSound = sound1;
             superLoop = sound2;
             chargeSoundInstance = chargeSound.CreateInstance();
             superLoopInstance = superLoop.CreateInstance();
             superLoopInstance.IsLooped = true;
-            controller = playerController;
             isCharacter = true;
         }
 
@@ -160,6 +158,9 @@ namespace UltraBrawl
         }
 
         //defined by individual characters
+        public virtual void spawn(PlayerPreset preset)
+        {
+        }
         public virtual void charging()
         {
         }

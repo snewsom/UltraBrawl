@@ -23,6 +23,9 @@ namespace UltraBrawl
         PlayerController controllerOne;
         PlayerController controllerTwo;
         List<PlayerCharacter> players = new List<PlayerCharacter>();
+
+        PlayerPreset[] presets = new PlayerPreset[4];
+        
         PlayerCharacter playerOne;
         PlayerCharacter playerTwo;
 
@@ -30,8 +33,6 @@ namespace UltraBrawl
         Vector2 spawnLoc2 = new Vector2(800, 0);
         Vector2 spawnLoc3 = new Vector2(600, 0);
         Vector2 spawnLoc4 = new Vector2(600, 0);
-
-        Sprite platform;
 
         Texture2D background;
 
@@ -41,13 +42,31 @@ namespace UltraBrawl
 
         private Game game;
 
+        FighterFactory factory;
+
         ParticleEngine2D particleEngine;
 
         private Texture2D startButton;
         private Texture2D exitButton;
         private Texture2D resumeButton;
+
         private Vector2 startButtonPosition;
         private Vector2 exitButtonPosition;
+        private Vector2 CharSelectButtonOnePosition;
+        private Vector2 CharSelectButtonTwoPosition;
+
+        private Texture2D p1Cursor;
+        private Texture2D p2Cursor;
+        private Texture2D p3Cursor;
+        private Texture2D p4Cursor;
+        List<Texture2D> cursors = new List<Texture2D>();
+
+        Vector2[] cursorPositions = new Vector2[4];
+
+        PlayerIndex[] gamepads = new PlayerIndex[4];
+
+        GamePadState[] previousGamePadState = new GamePadState[4];
+
         private Vector2 resumeButtonPosition;
         MouseState mouseState;
         MouseState previousMouseState;
@@ -55,6 +74,7 @@ namespace UltraBrawl
         public enum GameState
         {
             StartMenu,
+            CharSelect,
             Playing,
             Paused
         }
@@ -65,7 +85,22 @@ namespace UltraBrawl
             : base(game)
         {
             this.game = game;
+
+            factory = new FighterFactory(game);
+            
             gameState = GameState.StartMenu;
+            gamepads[0] = PlayerIndex.One;
+            gamepads[1] = PlayerIndex.Two;
+            gamepads[2] = PlayerIndex.Three;
+            gamepads[3] = PlayerIndex.Four;
+
+            
+
+
+            cursors.Add(p1Cursor);
+            cursors.Add(p2Cursor);
+            cursors.Add(p3Cursor);
+            cursors.Add(p4Cursor);
         }
 
         /// <summary>
@@ -74,8 +109,6 @@ namespace UltraBrawl
         /// </summary>
         public override void Initialize()
         {
-            // TODO: Add your initialization code here
-
             base.Initialize();
         }
 
@@ -85,11 +118,23 @@ namespace UltraBrawl
 
             controllerOne = new PlayerController(PlayerIndex.One);
             controllerTwo = new PlayerController(PlayerIndex.Two);
+            presets[0] = new PlayerPreset(PlayerIndex.One, controllerOne, spawnLoc1);
+            presets[1] = new PlayerPreset(PlayerIndex.Two, controllerTwo, spawnLoc2);
+            //presets[2] = new PlayerPreset(PlayerIndex.Three, controllerThree, spawnLoc3);
+            //presets[3] = new PlayerPreset(PlayerIndex.Four, controllerFour, spawnLoc4);
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
 
 
             startButton = Game.Content.Load<Texture2D>(@"Images/start");
             exitButton = Game.Content.Load<Texture2D>(@"Images/exit");
+            p1Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
+            p2Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
+            p3Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
+            p4Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
+
+
+
+            cursorPositions[0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
 
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
 
@@ -120,11 +165,20 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
+            //hardcoded for now
+            //
+            //
+            //
+            //
+            //
+            // This will eventually go into the character selection menu. param 1 will be set per character/button, param 2 will be set per cursor/player.
+            playerOne = factory.selectCharacter(1, presets[0]);
+            playerTwo = factory.selectCharacter(0, presets[1]);
             players.Add(playerOne);
-            playerTwo = new Megaman(Game.Content.Load<Texture2D>(@"Images/Megaman"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
             players.Add(playerTwo);
         }
+
+        
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -134,6 +188,56 @@ namespace UltraBrawl
         {
             
             if (gameState == GameState.StartMenu || gameState == GameState.Paused)
+            {
+                particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                particleEngine.Update();
+                mouseState = Mouse.GetState();
+                if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+                {
+                    MouseClicked(mouseState.X, mouseState.Y);
+                }
+
+
+                //gamepad controls
+                for (int i = 0; i < 4; i++)
+                {
+
+                    if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
+                    {
+                        cursorPositions[i].Y += 100;
+                    }
+
+
+                    if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
+                    {
+                        cursorPositions[i].X -= 100;
+                       
+
+                    }
+
+
+                    if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
+                    {
+                        cursorPositions[i].X += 100;
+                        
+
+                    }
+
+
+                    if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
+                    {
+                        cursorPositions[i].Y -= 100;
+                        
+
+                    }
+                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
+                }
+
+
+
+                previousMouseState = mouseState;
+            }
+            if (gameState == GameState.CharSelect)
             {
                 particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                 particleEngine.Update();
@@ -174,8 +278,9 @@ namespace UltraBrawl
 
                 // update each automated sprite
                 foreach (Sprite sprite in spriteList)
+                {
                     sprite.Update(gameTime, Game.Window.ClientBounds);
-
+                }
                 if (playerOne.currentHealth <= 0 || playerTwo.currentHealth <= 0)
                 {
                     Game.Exit();
@@ -203,14 +308,6 @@ namespace UltraBrawl
                         playerTwo.Collision(sprite);
                         sprite.Collision(playerTwo);
                     }
-                    //foreach (Sprite sprite2 in spriteList)
-                    //{
-                    //    if (sprite.collisionRect.Intersects(sprite2.collisionRect))
-                    //    {
-                    //        sprite2.Collision(sprite);
-                    //        sprite.Collision(sprite2);
-                    //    }
-                    //}
                 }
             }
             base.Update(gameTime);
@@ -226,6 +323,16 @@ namespace UltraBrawl
                 exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
                 spriteBatch.Draw(startButton, startButtonPosition, Color.White);
                 spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+                spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.Red);
+                particleEngine.Draw(spriteBatch);
+            }
+            if (gameState == GameState.CharSelect)
+            {
+                game.IsMouseVisible = true;
+                CharSelectButtonOnePosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 600);
+                CharSelectButtonTwoPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 650);
+                spriteBatch.Draw(startButton, CharSelectButtonOnePosition, Color.White);
+                spriteBatch.Draw(exitButton, CharSelectButtonTwoPosition, Color.White);
                 particleEngine.Draw(spriteBatch);
             }
             if (gameState == GameState.Paused)
@@ -235,6 +342,7 @@ namespace UltraBrawl
                 exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
                 spriteBatch.Draw(resumeButton, resumeButtonPosition, Color.White);
                 spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+                particleEngine.Draw(spriteBatch);
             }
             if (gameState == GameState.Playing)
             {
@@ -275,13 +383,31 @@ namespace UltraBrawl
             {
                 Rectangle startButtonRect = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 100, 20);
                 Rectangle exitButtonRect = new Rectangle((int)exitButtonPosition.X, (int)exitButtonPosition.Y, 100, 20);
+                Rectangle playerOneCursor = new Rectangle((int)startButtonPosition.X, (int)startButtonPosition.Y, 100, 20);
+
 
                 if (mouseClickRect.Intersects(startButtonRect)) //player clicked start button
                 {
-                    spawnCharacters();
-                    foreach (PlayerCharacter player in players)
-                        player.update = true;
-                    gameState = GameState.Playing;
+                    gameState = GameState.CharSelect;
+                }
+                else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
+                {
+                    game.Exit();
+                }
+            }
+            if (gameState == GameState.CharSelect)
+            {
+                Rectangle startButtonRect = new Rectangle((int)CharSelectButtonOnePosition.X, (int)CharSelectButtonOnePosition.Y, 100, 20);
+                Rectangle exitButtonRect = new Rectangle((int)CharSelectButtonTwoPosition.X, (int)CharSelectButtonTwoPosition.Y, 100, 20);
+
+                if (mouseClickRect.Intersects(startButtonRect)) //player clicked start button
+                {
+                   spawnCharacters();
+                       for (int i = 0; i < players.Count; i++)
+                       {
+                           players.ElementAt(i).spawn(presets[i]);
+                       }
+                   gameState = GameState.Playing;
                 }
                 else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
                 {
