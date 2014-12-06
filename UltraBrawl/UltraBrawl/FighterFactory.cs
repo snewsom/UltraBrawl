@@ -15,23 +15,25 @@ namespace UltraBrawl
     class FighterFactory
     {
        
-        private  List<PlayerCharacter> playableCharacters = new List<PlayerCharacter>();
         private Game game;
         public FighterFactory(Game game)
         {
             this.game = game;
-            playableCharacters.Add(new Goku(game.Content.Load<Texture2D>(@"Images/Goku"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop")));
-            playableCharacters.Add(new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop")));
         }
 
-        public PlayerCharacter selectCharacter(int CharID, PlayerPreset playerNum)
+        public PlayerCharacter selectCharacter(int CharID)
         {
-            foreach (PlayerCharacter character in playableCharacters)
+            if (CharID == 0)
             {
-                if (CharID == character.CHARACTER_ID)
-                {                    
-                    return character;
-                }
+                return new Goku(game.Content.Load<Texture2D>(@"Images/Goku"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+            }
+            else if (CharID == 1)
+            {
+                return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+            }
+            else if (CharID == 2)
+            {
+                return new Ryu(game.Content.Load<Texture2D>(@"Images/Ryu"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }

@@ -898,7 +898,5 @@ namespace UltraBrawl
         {
             return currentState.ToString();
         }
-
-
     }
 }

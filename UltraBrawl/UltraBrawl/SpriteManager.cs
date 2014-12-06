@@ -37,6 +37,10 @@ namespace UltraBrawl
         List<PlayerController> controllers = new List<PlayerController>();
         List<PlayerCharacter> players = new List<PlayerCharacter>();
 
+        Boolean p3playing = false;
+        Boolean p4playing = false;
+        Boolean[] ready = {false, false, false, false};
+
         PlayerPreset[] presets = new PlayerPreset[4];
         
         PlayerCharacter playerOne;
@@ -125,19 +129,12 @@ namespace UltraBrawl
                 controllers.Add(new PlayerController(gamepads[i]));
                 presets[i] = new PlayerPreset(gamepads[i], controllers.ElementAt(i), spawnLocs[i]);
             }
-            //controllerOne = new PlayerController(PlayerIndex.One);
-            //controllerTwo = new PlayerController(PlayerIndex.Two);
-            //controllerThree = new PlayerController(PlayerIndex.Three);
-            //controllerFour = new PlayerController(PlayerIndex.Four);
-            //presets[0] = new PlayerPreset(PlayerIndex.One, controllerOne, spawnLoc1);
-            //presets[1] = new PlayerPreset(PlayerIndex.Two, controllerTwo, spawnLoc2);
-            //presets[2] = new PlayerPreset(PlayerIndex.Three, controllerThree, spawnLoc3);
-            //presets[3] = new PlayerPreset(PlayerIndex.Four, controllerFour, spawnLoc4);
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
 
 
             startButton = Game.Content.Load<Texture2D>(@"Images/start");
             exitButton = Game.Content.Load<Texture2D>(@"Images/exit");
+            resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
             p2Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
             p3Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
@@ -157,10 +154,6 @@ namespace UltraBrawl
             pauseMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
 
             switchMenu(startMenu);
-
-            cursorPositions[0] = currentMenu[0,0];
-
-            resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
 
             // particle stuff
             List<Texture2D> textures = new List<Texture2D>();
@@ -189,17 +182,20 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            //hardcoded for now
-            //
-            //
-            //
-            //
-            //
-            // This will eventually go into the character selection menu. param 1 will be set per character/button, param 2 will be set per cursor/player.
-            playerOne = factory.selectCharacter(1, presets[0]);
+
+            //////////////////////////////////////
+            //////////////////////////////////////
+            // This will eventually go into the character selection menu.
+            playerOne = factory.selectCharacter(0);
             players.Add(playerOne);
-            playerTwo = factory.selectCharacter(0, presets[1]);
+            playerTwo = factory.selectCharacter(2);
             players.Add(playerTwo);
+            //////////////////////////////////////
+            //////////////////////////////////////
+            for (int i = 0; i < players.Count; i++)
+            {
+                players.ElementAt(i).spawn(presets[i]);
+            }
         }
 
         
@@ -211,27 +207,15 @@ namespace UltraBrawl
         public override void Update(GameTime gameTime)
         {
             
-            if (gameState == GameState.StartMenu || gameState == GameState.Paused)
-            {
-                navigateMenu();
-            }
-            if (gameState == GameState.CharSelect)
+            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect)
             {
                 navigateMenu();
             }
             if (gameState == GameState.Paused)
             {
-                foreach (PlayerCharacter player in players)
-                    player.Update(gameTime, Game.Window.ClientBounds);
                 for (int i = 0; i < 4; i++)
                 {
-                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
-                    {
-                        foreach (PlayerCharacter player in players)
-                            player.update = true;
-                        gameState = GameState.Playing;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) || (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released))
                     {
                         foreach (PlayerCharacter player in players)
                             player.update = true;
@@ -242,7 +226,7 @@ namespace UltraBrawl
                 navigateMenu();
             }
 
-            if (gameState == GameState.Playing)
+            else if (gameState == GameState.Playing)
             {
                 particleEngine.EmitterLocation = new Vector2(playerOne.collisionRect.Center.X, playerOne.collisionRect.Center.Y);
                 particleEngine.Update();
@@ -468,10 +452,6 @@ namespace UltraBrawl
                 if (mouseClickRect.Intersects(startButtonRect)) //player clicked start button
                 {
                    spawnCharacters();
-                       for (int i = 0; i < players.Count; i++)
-                       {
-                           players.ElementAt(i).spawn(presets[i]);
-                       }
                    gameState = GameState.Playing;
                 }
                 else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button

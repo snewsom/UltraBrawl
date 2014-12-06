@@ -108,6 +108,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AutomatedSprite.cs" />
+    <Compile Include="Characters\Ryu.cs" />
     <Compile Include="Characters\Megaman.cs" />
     <Compile Include="CollisionOffset.cs" />
     <Compile Include="Characters\Goku.cs" />
