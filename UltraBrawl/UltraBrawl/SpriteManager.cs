@@ -158,7 +158,8 @@ namespace UltraBrawl
 
             if (gameState == GameState.Playing)
             {
-
+                particleEngine.EmitterLocation = new Vector2(playerOne.collisionRect.Center.X, playerOne.collisionRect.Center.Y);
+                particleEngine.Update();
                 foreach (PlayerCharacter player in players)
                 {
                     player.Update(gameTime, Game.Window.ClientBounds);
