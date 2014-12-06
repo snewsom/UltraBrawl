@@ -17,6 +17,7 @@ namespace UltraBrawl
         //constants for all player characters
         public PlayerIndex pcPlayerNum;
         public List<Keys> pcPlayerKeys = new List<Keys>();
+        public GamePadState gamepad;
 
         // constructor
         public PlayerController(PlayerIndex playerIndex)
@@ -46,7 +47,7 @@ namespace UltraBrawl
                 pcPlayerKeys.Add(Keys.F);
                 pcPlayerKeys.Add(Keys.R);
             }
-            GamePadState gamepadState = GamePad.GetState(pcPlayerNum);
+            gamepad = GamePad.GetState(pcPlayerNum);
         }
     }
 }

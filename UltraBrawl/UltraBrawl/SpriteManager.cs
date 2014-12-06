@@ -19,21 +19,31 @@ namespace UltraBrawl
     public class SpriteManager : Microsoft.Xna.Framework.DrawableGameComponent
     {
 
+        //menu variables
+        Vector2[,] currentMenu;
+        Vector2[,] startMenu;
+        Vector2[,] charSelectMenu;
+        Vector2[,] pauseMenu;
+        int currentItemX = 0;
+        int currentItemY = 0;
+
+
+
         SpriteBatch spriteBatch;
         PlayerController controllerOne;
         PlayerController controllerTwo;
+        PlayerController controllerThree;
+        PlayerController controllerFour;
+        List<PlayerController> controllers = new List<PlayerController>();
         List<PlayerCharacter> players = new List<PlayerCharacter>();
 
         PlayerPreset[] presets = new PlayerPreset[4];
         
         PlayerCharacter playerOne;
         PlayerCharacter playerTwo;
-
-        Vector2 spawnLoc1 = new Vector2(300, 0);
-        Vector2 spawnLoc2 = new Vector2(800, 0);
-        Vector2 spawnLoc3 = new Vector2(600, 0);
-        Vector2 spawnLoc4 = new Vector2(600, 0);
-
+        PlayerCharacter playerThree;
+        PlayerCharacter playerFour;
+        Vector2[] spawnLocs = {new Vector2(300, 0), new Vector2(800, 0), new Vector2(600, 0), new Vector2(600, 0)};
         Texture2D background;
 
         List<Sprite> spriteList = new List<Sprite>();
@@ -87,16 +97,11 @@ namespace UltraBrawl
             this.game = game;
 
             factory = new FighterFactory(game);
-            
             gameState = GameState.StartMenu;
             gamepads[0] = PlayerIndex.One;
             gamepads[1] = PlayerIndex.Two;
             gamepads[2] = PlayerIndex.Three;
             gamepads[3] = PlayerIndex.Four;
-
-            
-
-
             cursors.Add(p1Cursor);
             cursors.Add(p2Cursor);
             cursors.Add(p3Cursor);
@@ -115,11 +120,17 @@ namespace UltraBrawl
         protected override void LoadContent()
         {
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
-
-            controllerOne = new PlayerController(PlayerIndex.One);
-            controllerTwo = new PlayerController(PlayerIndex.Two);
-            presets[0] = new PlayerPreset(PlayerIndex.One, controllerOne, spawnLoc1);
-            presets[1] = new PlayerPreset(PlayerIndex.Two, controllerTwo, spawnLoc2);
+            for (int i = 0; i < 4; i++)
+            {
+                controllers.Add(new PlayerController(gamepads[i]));
+                presets[i] = new PlayerPreset(gamepads[i], controllers.ElementAt(i), spawnLocs[i]);
+            }
+            //controllerOne = new PlayerController(PlayerIndex.One);
+            //controllerTwo = new PlayerController(PlayerIndex.Two);
+            //controllerThree = new PlayerController(PlayerIndex.Three);
+            //controllerFour = new PlayerController(PlayerIndex.Four);
+            //presets[0] = new PlayerPreset(PlayerIndex.One, controllerOne, spawnLoc1);
+            //presets[1] = new PlayerPreset(PlayerIndex.Two, controllerTwo, spawnLoc2);
             //presets[2] = new PlayerPreset(PlayerIndex.Three, controllerThree, spawnLoc3);
             //presets[3] = new PlayerPreset(PlayerIndex.Four, controllerFour, spawnLoc4);
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
@@ -133,8 +144,21 @@ namespace UltraBrawl
             p4Cursor = Game.Content.Load<Texture2D>(@"Images/CharSelectCursor");
 
 
+            startMenu = new Vector2[1, 2];
+            startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
+            startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
 
-            cursorPositions[0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
+            charSelectMenu = new Vector2[1, 2];
+            charSelectMenu[0,0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 600);
+            charSelectMenu[0,1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 650);
+
+            pauseMenu = new Vector2[1, 2];
+            pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
+            pauseMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
+
+            switchMenu(startMenu);
+
+            cursorPositions[0] = currentMenu[0,0];
 
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
 
@@ -173,8 +197,8 @@ namespace UltraBrawl
             //
             // This will eventually go into the character selection menu. param 1 will be set per character/button, param 2 will be set per cursor/player.
             playerOne = factory.selectCharacter(1, presets[0]);
-            playerTwo = factory.selectCharacter(0, presets[1]);
             players.Add(playerOne);
+            playerTwo = factory.selectCharacter(0, presets[1]);
             players.Add(playerTwo);
         }
 
@@ -189,75 +213,33 @@ namespace UltraBrawl
             
             if (gameState == GameState.StartMenu || gameState == GameState.Paused)
             {
-                particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                particleEngine.Update();
-                mouseState = Mouse.GetState();
-                if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                {
-                    MouseClicked(mouseState.X, mouseState.Y);
-                }
-
-
-                //gamepad controls
-                for (int i = 0; i < 4; i++)
-                {
-
-                    if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
-                    {
-                        cursorPositions[i].Y += 100;
-                    }
-
-
-                    if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
-                    {
-                        cursorPositions[i].X -= 100;
-                       
-
-                    }
-
-
-                    if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
-                    {
-                        cursorPositions[i].X += 100;
-                        
-
-                    }
-
-
-                    if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
-                    {
-                        cursorPositions[i].Y -= 100;
-                        
-
-                    }
-                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
-                }
-
-
-
-                previousMouseState = mouseState;
+                navigateMenu();
             }
             if (gameState == GameState.CharSelect)
             {
-                particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                particleEngine.Update();
-                mouseState = Mouse.GetState();
-                if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
-                {
-                    MouseClicked(mouseState.X, mouseState.Y);
-                }
-                previousMouseState = mouseState;
+                navigateMenu();
             }
             if (gameState == GameState.Paused)
             {
                 foreach (PlayerCharacter player in players)
                     player.Update(gameTime, Game.Window.ClientBounds);
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                for (int i = 0; i < 4; i++)
                 {
-                    foreach (PlayerCharacter player in players)
-                        player.update = true;
-                    gameState = GameState.Playing;
+                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
+                    {
+                        foreach (PlayerCharacter player in players)
+                            player.update = true;
+                        gameState = GameState.Playing;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    {
+                        foreach (PlayerCharacter player in players)
+                            player.update = true;
+                        gameState = GameState.Playing;
+                    }
+                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
+                navigateMenu();
             }
 
             if (gameState == GameState.Playing)
@@ -268,14 +250,24 @@ namespace UltraBrawl
                 {
                     player.Update(gameTime, Game.Window.ClientBounds);
                 }
-
-                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                for (int i = 0; i < 4; i++)
                 {
-                    foreach (PlayerCharacter player in players)
-                        player.update = false;
-                    gameState = GameState.Paused;
+                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
+                    {
+                        foreach (PlayerCharacter player in players)
+                            player.update = false;
+                        switchMenu(pauseMenu);
+                        gameState = GameState.Paused;
+                    }
+                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                    {
+                        foreach (PlayerCharacter player in players)
+                            player.update = false;
+                        switchMenu(pauseMenu);
+                        gameState = GameState.Paused;
+                    }
+                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
-
                 // update each automated sprite
                 foreach (Sprite sprite in spriteList)
                 {
@@ -319,8 +311,8 @@ namespace UltraBrawl
             if (gameState == GameState.StartMenu)
             {
                 game.IsMouseVisible = true;
-                startButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
-                exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
+                startButtonPosition = startMenu[0, 0];
+                exitButtonPosition = startMenu[0, 1];
                 spriteBatch.Draw(startButton, startButtonPosition, Color.White);
                 spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.Red);
@@ -329,19 +321,22 @@ namespace UltraBrawl
             if (gameState == GameState.CharSelect)
             {
                 game.IsMouseVisible = true;
-                CharSelectButtonOnePosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 600);
-                CharSelectButtonTwoPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 650);
+                CharSelectButtonOnePosition = charSelectMenu[0, 0];
+                CharSelectButtonTwoPosition = charSelectMenu[0, 1];
                 spriteBatch.Draw(startButton, CharSelectButtonOnePosition, Color.White);
                 spriteBatch.Draw(exitButton, CharSelectButtonTwoPosition, Color.White);
+                spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.Red);
+                spriteBatch.Draw(p2Cursor, cursorPositions[1], Color.Blue);
                 particleEngine.Draw(spriteBatch);
             }
             if (gameState == GameState.Paused)
             {
                 game.IsMouseVisible = true;
-                resumeButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
-                exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
+                resumeButtonPosition = pauseMenu[0, 0];
+                exitButtonPosition = pauseMenu[0, 1];
                 spriteBatch.Draw(resumeButton, resumeButtonPosition, Color.White);
                 spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+                spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.Red);
                 particleEngine.Draw(spriteBatch);
             }
             if (gameState == GameState.Playing)
@@ -372,6 +367,75 @@ namespace UltraBrawl
             foreach (Sprite sprite in platformList)
                 sprite.Draw(gameTime, spriteBatch);
         }
+        void switchMenu(Vector2[,] menu)
+        {
+            currentItemX = 0;
+            currentItemY = 0;
+            currentMenu = menu;
+            cursorPositions[0] = currentMenu[0, 0];
+            cursorPositions[1] = currentMenu[0, 1];
+        }
+        void navigateMenu()
+        {
+            
+            //mouse controls
+            mouseState = Mouse.GetState();
+            particleEngine.EmitterLocation = new Vector2(mouseState.X, mouseState.Y);
+            particleEngine.Update();
+            if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
+            {
+                MouseClicked(mouseState.X, mouseState.Y);
+            }
+            previousMouseState = mouseState;
+
+            //gamepad controls
+            for (int i = 0; i < 4; i++)
+            {
+                if (currentItemY + 1 < currentMenu.GetLength(1))
+                {
+                    if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
+                    {
+                        currentItemY++;
+                        cursorPositions[i] = currentMenu[currentItemX, currentItemY];
+                    }
+                }
+                if (currentItemX - 1 >= 0)
+                {
+                    if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
+                    {
+                        currentItemX--;
+                        cursorPositions[i] = currentMenu[currentItemX, currentItemY];
+                    }
+                }
+
+                if (currentItemX + 1 < currentMenu.GetLength(0))
+                {
+                    if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
+                    {
+                        currentItemX++;
+                        cursorPositions[i] = currentMenu[currentItemX, currentItemY];
+                    }
+                }
+                if (currentItemY - 1 >= 0)
+                {
+                    if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
+                    {
+                        currentItemY--;
+                        cursorPositions[i] = currentMenu[currentItemX, currentItemY];
+                    }
+                }
+                if (GamePad.GetState(gamepads[i]).Buttons.A == ButtonState.Pressed && previousGamePadState[i].Buttons.A == ButtonState.Released)
+                {
+                    menuSelect(gamepads[i], cursorPositions[i]);
+                }
+                previousGamePadState[i] = GamePad.GetState(gamepads[i]);
+            }
+        }
+
+        private void menuSelect(PlayerIndex playerIndex, Vector2 vector2)
+        {
+            MouseClicked((int) vector2.X, (int) vector2.Y);
+        }
 
         void MouseClicked(int x, int y)
         {
@@ -388,6 +452,7 @@ namespace UltraBrawl
 
                 if (mouseClickRect.Intersects(startButtonRect)) //player clicked start button
                 {
+                    switchMenu(charSelectMenu);
                     gameState = GameState.CharSelect;
                 }
                 else if (mouseClickRect.Intersects(exitButtonRect)) //player clicked exit button
