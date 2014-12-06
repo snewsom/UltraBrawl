@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace UltraBrawl
 {
@@ -58,6 +59,7 @@ namespace UltraBrawl
         public int knockDownEndFrame;
         public int chargeTimer = 0;
         public int currentHealth = 100;
+        public bool flipped = false;
 
         //attack variables
         private bool isBlock = false;
@@ -76,8 +78,8 @@ namespace UltraBrawl
 
         // constructor
         public PlayerCharacter(SpriteSheet spriteSheet, Vector2 position,
-            CollisionOffset collisionOffset, Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
-            : base(spriteSheet, position, collisionOffset, speed, friction)
+            CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped, Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
+            : base(spriteSheet, position, collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction)
         {
             pcPlayerNum = playerIndex;
             pcFrameSize = frameSize;
@@ -277,9 +279,16 @@ namespace UltraBrawl
                 }
                 /* do we need to flip the image? */
                 if (inputDirection.X < 0)
+                {
                     effects = SpriteEffects.FlipHorizontally;
+                    hitboxOffset = hitboxOffsetFlipped;
+                }
+
                 else if (inputDirection.X > 0)
+                {
                     effects = SpriteEffects.None;
+                    hitboxOffset = hitboxOffsetNotFlipped;
+                }
 
                 return inputDirection;
             }
@@ -288,8 +297,6 @@ namespace UltraBrawl
         /* Collision */
         public override void Collision(Sprite otherSprite)
         {
-
-
             // Platform platform = (Platform)otherSprite;
             System.Type type = otherSprite.GetType();
             if (type.ToString().Equals("UltraBrawl.Platform"))
@@ -306,7 +313,6 @@ namespace UltraBrawl
 
             else if (otherSprite.checkChar())
             {
-                
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (isJumpKick)
                 {
@@ -387,6 +393,8 @@ namespace UltraBrawl
         /**        **/
         /** STATES **/
         /**        **/
+
+
         protected abstract class AbstractState
         {
             protected readonly PlayerCharacter player;
@@ -562,7 +570,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X)
                 {
                     player.currentFrame.X = player.pcSegmentEndings.ElementAt(2).X - 1;
                 }
@@ -634,7 +642,7 @@ namespace UltraBrawl
                     player.currentFrame.X = player.knockDownEndFrame - 1;
                 }
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame)
+                if (player.currentFrame.X >= player.spriteSheet.currentSegment.endFrame.X)
                 {
 
                     player.velocity.X = 0f;
@@ -659,7 +667,7 @@ namespace UltraBrawl
                 player.canMove = false;
                 player.canJump = false;
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X)
                 {
                     player.velocity.X = 0f;
                     player.canMove = true;
@@ -684,7 +692,7 @@ namespace UltraBrawl
                 player.canMove = false;
                 player.canJump = false;
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X)
                 {
                     player.velocity.X = 0f;
                     player.canMove = true;
@@ -707,7 +715,7 @@ namespace UltraBrawl
             {
                 player.canMove = false;
                 Point ssEndFrame = new Point(8, 8);
-                if (player.currentFrame == player.spriteSheet.currentSegment.endFrame || player.currentFrame == ssEndFrame)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X || player.currentFrame.X == ssEndFrame.X)
                 {
                     player.canMove = true;
                     player.isKick = false;

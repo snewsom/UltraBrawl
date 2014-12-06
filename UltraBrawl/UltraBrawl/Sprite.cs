@@ -15,6 +15,7 @@ namespace UltraBrawl
         protected SpriteEffects effects = SpriteEffects.None;
         public static bool isCharacter = false;
         protected CollisionOffset collisionOffset;
+        public CollisionOffset hitboxOffset;
 
         int timeSinceLastFrame = 0;
         protected Vector2 position;
@@ -111,6 +112,27 @@ namespace UltraBrawl
             }
         }
 
-       
+        public Rectangle hitbox
+        {
+            get
+            {
+                return new Rectangle(
+                    (int)(position.X + (hitboxOffset.east * spriteSheet.scale)),
+                    (int)(position.Y + (hitboxOffset.north * spriteSheet.scale)),
+                    (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - (hitboxOffset.east + hitboxOffset.west))),
+                    (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.Y - (hitboxOffset.north + hitboxOffset.south))));
+            }
+        }
+        public Rectangle newHitbox;
+
+        public void regenHitbox()
+        {
+            newHitbox = hitbox;
+            newHitbox = new Rectangle(
+                    (int)(position.X + (hitboxOffset.east * spriteSheet.scale)),
+                    (int)(position.Y + (hitboxOffset.north * spriteSheet.scale)),
+                    (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - (hitboxOffset.east + hitboxOffset.west))),
+                    (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.Y - (hitboxOffset.north + hitboxOffset.south))));
+        }
     }
 }

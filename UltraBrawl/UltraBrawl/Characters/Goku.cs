@@ -20,6 +20,9 @@ namespace UltraBrawl
         // constants for this particular sprite
         static Point gokuNumberOfFrames = new Point(20, 20);
         static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
+        static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
+        static CollisionOffset gokuHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
         static Vector2 gokuSpeed = new Vector2(128, 32);
         static Vector2 gokuFriction = new Vector2(0.8f, 1f);
         static Point gokuFrameSize = new Point(170, 170);
@@ -29,11 +32,12 @@ namespace UltraBrawl
 
         // constructor
         public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc)
-            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), spawnLoc, gokuCollisionOffset, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize, playerIndex, playerController)
+            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), spawnLoc, gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize, playerIndex, playerController)
         {
             if (playerIndex.ToString().Equals("Two") || playerIndex.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
+                hitboxOffset = gokuHitboxOffsetFlipped;
             }
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running

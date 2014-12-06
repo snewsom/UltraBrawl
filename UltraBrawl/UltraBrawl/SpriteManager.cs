@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using System.Diagnostics;
 
 
 namespace UltraBrawl
@@ -142,8 +143,11 @@ namespace UltraBrawl
 
             if (gameState == GameState.Playing)
             {
-                foreach(PlayerCharacter player in players)
+                foreach (PlayerCharacter player in players)
+                {
                     player.Update(gameTime, Game.Window.ClientBounds);
+                }
+
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                 {
                     foreach (PlayerCharacter player in players)
@@ -159,26 +163,15 @@ namespace UltraBrawl
                     Game.Exit();
                 }
 
-                // collision
-                foreach (Sprite sprite in spriteList)
-                {
-                    if (sprite.collisionRect.Intersects(playerOne.collisionRect))
-                    {
-                        playerOne.Collision(sprite);
-                        sprite.Collision(playerOne);
-                    }
-                    if (sprite.collisionRect.Intersects(playerTwo.collisionRect))
-                    {
-                        playerTwo.Collision(sprite);
-                        sprite.Collision(playerTwo);
-                    }
-                    if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
+                    System.Diagnostics.Debug.WriteLine(playerOne.hitbox.Top);
+                    if (playerTwo.newHitbox.Intersects(playerOne.collisionRect))
                     {
                         playerTwo.Collision(playerOne);
+                    }
+                    if (playerOne.newHitbox.Intersects(playerTwo.collisionRect))
+                    {
                         playerOne.Collision(playerTwo);
                     }
-
-                }
 
                 foreach (Sprite sprite in platformList)
                 {
@@ -192,21 +185,14 @@ namespace UltraBrawl
                         playerTwo.Collision(sprite);
                         sprite.Collision(playerTwo);
                     }
-                    if (playerTwo.collisionRect.Intersects(playerOne.collisionRect))
-                    {
-                        playerTwo.Collision(playerOne);
-                        playerOne.Collision(playerTwo);
-                    }
-                    foreach (Sprite sprite2 in spriteList)
-                    {
-                        if (sprite.collisionRect.Intersects(sprite2.collisionRect))
-                        {
-                            sprite2.Collision(sprite);
-                            sprite.Collision(sprite2);
-                        }
-                    }
-
-
+                    //foreach (Sprite sprite2 in spriteList)
+                    //{
+                    //    if (sprite.collisionRect.Intersects(sprite2.collisionRect))
+                    //    {
+                    //        sprite2.Collision(sprite);
+                    //        sprite.Collision(sprite2);
+                    //    }
+                    //}
                 }
             }
             base.Update(gameTime);

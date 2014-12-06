@@ -15,6 +15,8 @@ namespace UltraBrawl
         Vector2 friction;
         Vector2 speed;
         protected readonly Vector2 gravity = new Vector2(0, 9.8f * 100);
+        protected CollisionOffset hitboxOffsetFlipped;
+        protected CollisionOffset hitboxOffsetNotFlipped;
 
         // used to tell if the sprite is in free fall or not
         protected bool onGround = false;
@@ -23,12 +25,15 @@ namespace UltraBrawl
         /*
          * Constructor
          */
-        public UserControlledSprite(SpriteSheet spriteSheet, Vector2 position, 
-            CollisionOffset collisionOffset, Vector2 speed, Vector2 friction)
+        public UserControlledSprite(SpriteSheet spriteSheet, Vector2 position,
+            CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped, Vector2 speed, Vector2 friction)
             : base(spriteSheet, position, collisionOffset)
         {
             this.speed = speed;
             this.friction = friction;
+            this.hitboxOffset = hitboxOffset;
+            this.hitboxOffsetFlipped = hitboxOffsetFlipped;
+            this.hitboxOffsetNotFlipped =hitboxOffsetNotFlipped;
         }
 
         /*
@@ -54,11 +59,12 @@ namespace UltraBrawl
                     inputDirection.Y -= gamepadState.ThumbSticks.Left.Y;
 
                 /* do we need to flip the image? */
-                if (inputDirection.X < 0)
+                if (inputDirection.X < 0){
                     effects = SpriteEffects.FlipHorizontally;
-                else if (inputDirection.X > 0)
+                }
+                else if (inputDirection.X > 0){
                     effects = SpriteEffects.None;
-
+                }
                 return inputDirection;
             }
         }
@@ -73,7 +79,7 @@ namespace UltraBrawl
             velocity += gravity * (float)gameTime.ElapsedGameTime.TotalSeconds;
             velocity *= friction;
             position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-
+            regenHitbox();
             /* If sprite is off the screen, move it back within the game window */
             if (position.X < -collisionOffset.east * spriteSheet.scale)
                 position.X = -collisionOffset.east * spriteSheet.scale;
