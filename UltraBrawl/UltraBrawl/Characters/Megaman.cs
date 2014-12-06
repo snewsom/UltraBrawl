@@ -18,6 +18,8 @@ namespace UltraBrawl
     class Megaman : PlayerCharacter
     {
         // constants for this particular sprite
+       // static List<Texture2D> particleList;
+        //static ParticleEngine2D particleEngine;
         static Point megamanNumberOfFrames = new Point(30, 20);
         static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static Vector2 megamanSpeed = new Vector2(160, 32);
@@ -28,13 +30,14 @@ namespace UltraBrawl
 
 
         // constructor
-        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc)
-            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), spawnLoc, megamanCollisionOffset, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize, playerIndex, playerController)
+        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc,List<Texture2D> particleList)
+            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), spawnLoc, megamanCollisionOffset, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize, playerIndex, playerController, particleList)
         {
             if (playerIndex.ToString().Equals("Two") || playerIndex.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
+           // particleEngine = new ParticleEngine2D(particleList, spawnLoc);
             base.pcSegmentEndings.Add(new Point(4, 0)); //idle
             base.pcSegmentEndings.Add(new Point(8, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping

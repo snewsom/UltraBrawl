@@ -39,6 +39,8 @@ namespace UltraBrawl
         public List<int> pcSegmentTimings = new List<int>();
         static SoundEffect chargeSound;
         static SoundEffect superLoop;
+        static public ParticleEngine2D particleEngine;
+        public List<Texture2D> particleList;
         public SoundEffectInstance chargeSoundInstance;
         public SoundEffectInstance superLoopInstance;
 
@@ -76,9 +78,11 @@ namespace UltraBrawl
 
         // constructor
         public PlayerCharacter(SpriteSheet spriteSheet, Vector2 position,
-            CollisionOffset collisionOffset, Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
+            CollisionOffset collisionOffset, Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController,List<Texture2D> myparticleList)
             : base(spriteSheet, position, collisionOffset, speed, friction)
         {
+            particleList = myparticleList;
+            particleEngine = new ParticleEngine2D(particleList, position);
             pcPlayerNum = playerIndex;
             pcFrameSize = frameSize;
             chargeSound = sound1;
@@ -799,8 +803,6 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
-
-
                 if (player.chargeSoundInstance.State == SoundState.Stopped)
                 {
                     player.chargeSoundInstance.Play();

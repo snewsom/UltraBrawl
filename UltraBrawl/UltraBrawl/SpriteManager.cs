@@ -40,6 +40,8 @@ namespace UltraBrawl
 
         private Game game;
 
+        ParticleEngine2D particleEngine;
+
         private Texture2D startButton;
         private Texture2D exitButton;
         private Texture2D resumeButton;
@@ -90,6 +92,13 @@ namespace UltraBrawl
 
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
 
+            // particle stuff
+            List<Texture2D> textures = new List<Texture2D>();
+            textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
+            textures.Add(Game.Content.Load<Texture2D>("Images/star"));
+            textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
+            particleEngine = new ParticleEngine2D(textures, new Vector2(400, 240));
+
             loadLevel();
         }
 
@@ -106,9 +115,13 @@ namespace UltraBrawl
 
         protected void spawnCharacters()
         {
-            playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1);
+            List<Texture2D> textures = new List<Texture2D>();
+            textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
+            textures.Add(Game.Content.Load<Texture2D>("Images/star"));
+            textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
+            playerOne = new Goku(Game.Content.Load<Texture2D>(@"Images/Goku"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.One, controllerOne, spawnLoc1,textures);
             players.Add(playerOne);
-            playerTwo = new Megaman(Game.Content.Load<Texture2D>(@"Images/Megaman"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2);
+            playerTwo = new Megaman(Game.Content.Load<Texture2D>(@"Images/Megaman"), Game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), Game.Content.Load<SoundEffect>(@"Sound/SSloop"), PlayerIndex.Two, controllerTwo, spawnLoc2,textures);
             players.Add(playerTwo);
         }
 
@@ -121,6 +134,8 @@ namespace UltraBrawl
             
             if (gameState == GameState.StartMenu || gameState == GameState.Paused)
             {
+                particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                particleEngine.Update();
                 mouseState = Mouse.GetState();
                 if (previousMouseState.LeftButton == ButtonState.Pressed && mouseState.LeftButton == ButtonState.Released)
                 {
@@ -142,6 +157,10 @@ namespace UltraBrawl
 
             if (gameState == GameState.Playing)
             {
+                /////////////////////////////////////////////////////////////////////////////////////////////////
+                particleEngine.EmitterLocation = new Vector2(playerOne.collisionRect.Center.X,playerOne.collisionRect.Center.Y);
+                particleEngine.Update();
+                ////////////////////////////////////////////////////////////////////////////////////
                 foreach(PlayerCharacter player in players)
                     player.Update(gameTime, Game.Window.ClientBounds);
                 if (Keyboard.GetState().IsKeyDown(Keys.Escape))
@@ -150,6 +169,7 @@ namespace UltraBrawl
                         player.update = false;
                     gameState = GameState.Paused;
                 }
+
                 // update each automated sprite
                 foreach (Sprite sprite in spriteList)
                     sprite.Update(gameTime, Game.Window.ClientBounds);
@@ -222,6 +242,7 @@ namespace UltraBrawl
                 exitButtonPosition = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 250);
                 spriteBatch.Draw(startButton, startButtonPosition, Color.White);
                 spriteBatch.Draw(exitButton, exitButtonPosition, Color.White);
+                particleEngine.Draw(spriteBatch);
             }
             if (gameState == GameState.Paused)
             {
@@ -233,9 +254,12 @@ namespace UltraBrawl
             }
             if (gameState == GameState.Playing)
             {
+          
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
+               
             }
+          
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -245,6 +269,10 @@ namespace UltraBrawl
             spriteBatch.Draw(background, new Rectangle(0, 0, 1280, 800), Color.White);
             spriteBatch.DrawString(font, playerOne.CHARACTER_NAME + " " + playerOne.currentHealth, new Vector2(100, 100), Color.Black);
             spriteBatch.DrawString(font, playerTwo.currentHealth + " " + playerTwo.CHARACTER_NAME, new Vector2(1080, 100), Color.Black);
+            if (playerOne.isSuper)
+            {
+                particleEngine.Draw(spriteBatch);
+            }
             playerOne.Draw(gameTime, spriteBatch);
             playerTwo.Draw(gameTime, spriteBatch);
             foreach (Sprite sprite in spriteList)

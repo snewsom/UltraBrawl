@@ -18,6 +18,8 @@ namespace UltraBrawl
     class Goku : PlayerCharacter
     {
         // constants for this particular sprite
+        //static List<Texture2D> particleList;
+        //static ParticleEngine2D particleEngine;
         static Point gokuNumberOfFrames = new Point(20, 20);
         static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static Vector2 gokuSpeed = new Vector2(128, 32);
@@ -28,13 +30,14 @@ namespace UltraBrawl
 
 
         // constructor
-        public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc)
-            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), spawnLoc, gokuCollisionOffset, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize, playerIndex, playerController)
+        public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2, PlayerIndex playerIndex, PlayerController playerController, Vector2 spawnLoc, List<Texture2D> particleList)
+            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), spawnLoc, gokuCollisionOffset, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize, playerIndex, playerController, particleList)
         {
             if (playerIndex.ToString().Equals("Two") || playerIndex.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
             }
+            
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping
