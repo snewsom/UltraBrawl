@@ -86,25 +86,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\exit.jpg">
-      <Name>exit</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-    <Compile Include="Images\start.jpg">
-      <Name>start</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Images\resume.jpg">
-      <Name>resume</Name>
-      <Importer>TextureImporter</Importer>
-      <Processor>TextureProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\Megaman.png">
       <Name>Megaman</Name>
       <Importer>TextureImporter</Importer>
@@ -173,6 +154,62 @@
   <ItemGroup>
     <Compile Include="Images\p2Cursor.png">
       <Name>p2Cursor</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\gokuButton.png">
+      <Name>gokuButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\megamanButton.png">
+      <Name>megamanButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\ryuButton.png">
+      <Name>ryuButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\start.png">
+      <Name>start</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\exit.png">
+      <Name>exit</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\resume.png">
+      <Name>resume</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\mainmenu.png">
+      <Name>mainmenu</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\megamanBuster.png">
+      <Name>megamanBuster</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

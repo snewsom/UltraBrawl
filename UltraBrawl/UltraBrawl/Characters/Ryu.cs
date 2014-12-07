@@ -65,8 +65,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
-            base.pcSegmentTimings.Add(100); //blockhit
-            base.pcSegmentTimings.Add(200); //hit
+            base.pcSegmentTimings.Add(50); //blockhit
+            base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(60); //charging
             base.pcSegmentTimings.Add(50); //superIdle
@@ -82,7 +82,7 @@ namespace UltraBrawl
 
             base.canSuper = false;
             CHARACTER_DAMAGE = 1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 2;
             CHARACTER_NAME = "Ryu";
         }
 

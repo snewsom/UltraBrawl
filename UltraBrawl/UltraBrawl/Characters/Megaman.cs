@@ -25,7 +25,7 @@ namespace UltraBrawl
         static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 40, 100);
         static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
         static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
-        static Vector2 megamanSpeed = new Vector2(160, 32);
+        static Vector2 megamanSpeed = new Vector2(200, 32);
         static Vector2 megamanFriction = new Vector2(0.8f, 1f);
         static Point megamanFrameSize = new Point(170, 170);
         
@@ -59,7 +59,7 @@ namespace UltraBrawl
             base.knockDownEndFrame = 7;
 
             base.pcSegmentTimings.Add(70); //idle
-            base.pcSegmentTimings.Add(80); //running
+            base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
             base.pcSegmentTimings.Add(50); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
@@ -80,7 +80,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            base.canSuper = false;
+            canSuper = false;
             CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 1;
             CHARACTER_NAME = "Megaman";
@@ -91,6 +91,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
+            chargeMax = 800;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -111,6 +112,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            fire = true;
         }
 
     }

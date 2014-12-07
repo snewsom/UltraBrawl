@@ -112,6 +112,7 @@
     <Compile Include="Characters\Megaman.cs" />
     <Compile Include="CollisionOffset.cs" />
     <Compile Include="Characters\Goku.cs" />
+    <Compile Include="CursorLoc.cs" />
     <Compile Include="FighterFactory.cs" />
     <Compile Include="Menus\MenuMain.cs" />
     <Compile Include="Particle.cs" />

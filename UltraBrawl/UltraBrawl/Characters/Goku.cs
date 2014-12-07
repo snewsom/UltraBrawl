@@ -25,7 +25,7 @@ namespace UltraBrawl
         static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
         static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
         static CollisionOffset gokuHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
-        static Vector2 gokuSpeed = new Vector2(128, 32);
+        static Vector2 gokuSpeed = new Vector2(180, 32);
         static Vector2 gokuFriction = new Vector2(0.8f, 1f);
         static Point gokuFrameSize = new Point(170, 170);
         
