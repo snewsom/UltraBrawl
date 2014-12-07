@@ -36,8 +36,6 @@ namespace UltraBrawl
         public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2)
             : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize)
         {
-
-            
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping

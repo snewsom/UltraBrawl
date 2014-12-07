@@ -21,10 +21,10 @@ namespace UltraBrawl
        // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
         static Point megamanNumberOfFrames = new Point(30, 20);
-        static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 50, 50);
-        static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 40, 100);
+        static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
+        static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
         static Vector2 megamanSpeed = new Vector2(160, 32);
         static Vector2 megamanFriction = new Vector2(0.8f, 1f);
         static Point megamanFrameSize = new Point(170, 170);
