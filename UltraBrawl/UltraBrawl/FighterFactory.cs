@@ -37,7 +37,7 @@ namespace UltraBrawl
             }
             else if (CharID == 3)
             {
-                return new Ryu(game.Content.Load<Texture2D>(@"Images/Guile"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Guile(game.Content.Load<Texture2D>(@"Images/Guile"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }
