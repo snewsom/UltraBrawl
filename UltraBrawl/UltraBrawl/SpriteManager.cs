@@ -64,6 +64,7 @@ namespace UltraBrawl
         private Texture2D gokuButton;
         private Texture2D megamanButton;
         private Texture2D ryuButton;
+        private Texture2D guileButton;
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -155,6 +156,7 @@ namespace UltraBrawl
             gokuButton = Game.Content.Load<Texture2D>(@"Images/gokuButton");
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
             ryuButton = Game.Content.Load<Texture2D>(@"Images/ryuButton");
+            guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
 
             defaultCursor = Game.Content.Load<Texture2D>(@"Images/DefaultCursor");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/p1Cursor");
@@ -167,10 +169,11 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[1, 3];
-            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
-            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 400);
-            charSelectMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 600);
+            charSelectMenu = new Vector2[2, 2];
+            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 150, 200);
+            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 150, 400);
+            charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 150, 200);
+            charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 150, 400);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
@@ -412,7 +415,8 @@ namespace UltraBrawl
                 game.IsMouseVisible = true;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
-                spriteBatch.Draw(ryuButton, charSelectMenu[0, 2], Color.White);
+                spriteBatch.Draw(ryuButton, charSelectMenu[1, 0], Color.White);
+                spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 spriteBatch.Draw(p2Cursor, cursorPositions[1], Color.White);
                 if(p3playing)
@@ -430,10 +434,8 @@ namespace UltraBrawl
                 
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
-
-                if (players[0].currentHealth <= 0 || players[1].currentHealth <= 0)
+                for (int i = 0; i < numPlayers; i++)
                 {
-                    resetGame();
                 }
             } 
             if (gameState == GameState.Paused)
@@ -561,6 +563,25 @@ namespace UltraBrawl
                     {
                         players[playerNum] = factory.selectCharacter(1);
                         selectedChars[playerNum] = megamanButton;
+                        ready[playerNum] = true;
+                    }
+                    else if (cursorLocs[playerNum].currentItemY == 2)
+                    {
+                        
+                    }
+                } 
+                if (cursorLocs[playerNum].currentItemX == 1)
+                {
+                    if (cursorLocs[playerNum].currentItemY == 0)
+                    {
+                        players[playerNum] = factory.selectCharacter(2);
+                        selectedChars[playerNum] = ryuButton;
+                        ready[playerNum] = true;
+                    }
+                    else if (cursorLocs[playerNum].currentItemY == 1)
+                    {
+                        players[playerNum] = factory.selectCharacter(3);
+                        selectedChars[playerNum] = guileButton;
                         ready[playerNum] = true;
                     }
                     else if (cursorLocs[playerNum].currentItemY == 2)

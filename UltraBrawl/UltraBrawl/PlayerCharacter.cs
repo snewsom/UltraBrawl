@@ -296,6 +296,11 @@ namespace UltraBrawl
                     currentHealth -= (int)(1 * oppDamage);
                 }
             }
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+                switchState(PlayerCharacterState.Knockdown);
+            }
         }
 
         /* Direction */
@@ -671,7 +676,7 @@ namespace UltraBrawl
                     player.velocity.X = 0;
                     player.velocity.Y = 0;
                 }
-                if (player.currentFrame.X < player.knockDownEndFrame - 2 && player.effects == SpriteEffects.None)
+                if ((player.currentFrame.X < player.knockDownEndFrame - 2 && player.effects == SpriteEffects.None))
                 {
                     player.velocity.X = -1700;
                 }
@@ -691,8 +696,14 @@ namespace UltraBrawl
                     }
                     player.currentFrame.X = player.knockDownEndFrame - 1;
                 }
+
+                if (player.currentHealth <= 0 && player.currentFrame.X == player.knockDownEndFrame && player.onGround)
+                {
+                    player.currentFrame.X = player.knockDownEndFrame;
+                    player.update = false;
+                }
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame.X >= player.spriteSheet.currentSegment.endFrame.X)
+                if (player.currentFrame.X >= player.spriteSheet.currentSegment.endFrame.X && player.currentHealth > 0)
                 {
 
                     player.velocity.X = 0f;
