@@ -55,10 +55,18 @@ namespace UltraBrawl
         private Texture2D mainmenuButton;
         private Texture2D title;
 
+        //player readies
+        private Texture2D[] notReadyTexs;
+        private Texture2D[] readyTexs;
+
+
         //character buttons
         private Texture2D gokuButton;
         private Texture2D megamanButton;
         private Texture2D ryuButton;
+
+
+        private Texture2D[] selectedChars = new Texture2D[4];
 
         private Texture2D defaultCursor;
         private CursorLoc defaultCursorLoc;
@@ -134,6 +142,15 @@ namespace UltraBrawl
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
             mainmenuButton = Game.Content.Load<Texture2D>(@"Images/mainmenu");
             title = Game.Content.Load<Texture2D>(@"Images/title");
+
+            readyTexs = new Texture2D[4];
+            notReadyTexs = new Texture2D[4];
+            for (int i = 0; i < 4; i++)
+            {
+                readyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "R");
+                notReadyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "NR");
+            }
+
 
             gokuButton = Game.Content.Load<Texture2D>(@"Images/gokuButton");
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
@@ -217,8 +234,13 @@ namespace UltraBrawl
             }
             if (gameState == GameState.CharSelect)
             {
-                cam.Zoom = 2;
-                cam.Pos = cursorPositions[0];
+                for (int i = 0; i < 4; i++)
+                {
+                    if (GamePad.GetState(gamepads[i]).Buttons.B == ButtonState.Pressed)
+                    {
+                        resetGame();
+                    }
+                }
                 //p3 press start if playing (not implemented)
                 //if (GamePad.GetState(gamepads[2]).Buttons.Start == ButtonState.Pressed && previousGamePadState[2].Buttons.Start == ButtonState.Released)
                 if(GamePad.GetState(gamepads[2]).IsConnected && !p3playing)
@@ -293,8 +315,6 @@ namespace UltraBrawl
                     previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
 
-                // update each automated sprite
-                //foreach (AutomatedSprite sprite in spriteList)
                 for (int i = 0; i < spriteList.Count; i++)
                 {
                     for (int j = 0; j < numPlayers; j++)
@@ -364,6 +384,31 @@ namespace UltraBrawl
             }
             if (gameState == GameState.CharSelect)
             {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (ready[i])
+                    {
+                        spriteBatch.Draw(readyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
+                        spriteBatch.Draw(selectedChars[i], new Vector2((i % 2 == 0 ? 10 : 1760), (i < 2 ? 110 : 390)), Color.White);
+                    }
+                    else
+                    {
+                        if (i == 2)
+                        {
+                            if (p3playing)
+                                spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
+                        }
+                        else if (i == 3)
+                        {
+                            if (p4playing)
+                                spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
+                        }
+                        else
+                        {
+                            spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
+                        }
+                    }
+                }
                 game.IsMouseVisible = true;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
@@ -380,15 +425,6 @@ namespace UltraBrawl
                 }
                 particleEngine.Draw(spriteBatch);
             }
-            if (gameState == GameState.Paused)
-            {
-                game.IsMouseVisible = true;
-                spriteBatch.Draw(resumeButton, pauseMenu[0, 0], Color.White);
-                spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
-                spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
-                spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
-                particleEngine.Draw(spriteBatch);
-            }
             if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
                 
@@ -397,15 +433,17 @@ namespace UltraBrawl
 
                 if (players[0].currentHealth <= 0 || players[1].currentHealth <= 0)
                 {
-                    for (int j = 0; j < numPlayers; j++)
-                    {
-                        ready[j] = false;
-                        players[j].update = false;
-                    }
-                    defaultCursorLoc.resetLoc();
-                    switchMenu(startMenu);
-                    gameState = GameState.StartMenu;
+                    resetGame();
                 }
+            } 
+            if (gameState == GameState.Paused)
+            {
+                game.IsMouseVisible = true;
+                spriteBatch.Draw(resumeButton, pauseMenu[0, 0], Color.White);
+                spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
+                spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
+                spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
+                particleEngine.Draw(spriteBatch);
             }
           
             spriteBatch.End();
@@ -419,11 +457,11 @@ namespace UltraBrawl
             spriteBatch.DrawString(font, players[1].currentHealth + " " + players[1].CHARACTER_NAME, new Vector2(1720, 100), Color.Blue);
             if (p3playing)
             {
-                spriteBatch.DrawString(font, players[2].CHARACTER_NAME + " " + players[2].currentHealth, new Vector2(500, 100), Color.Green);
+                spriteBatch.DrawString(font, players[2].CHARACTER_NAME + " " + players[2].currentHealth, new Vector2(100, 300), Color.Green);
             }
             if (p4playing)
             {
-                spriteBatch.DrawString(font, players[3].currentHealth + " " + players[3].CHARACTER_NAME, new Vector2(900, 100), Color.Orange);
+                spriteBatch.DrawString(font, players[3].currentHealth + " " + players[3].CHARACTER_NAME, new Vector2(1720, 300), Color.Orange);
             }
             for (int i = 0; i < numPlayers; i++)
             {
@@ -516,16 +554,19 @@ namespace UltraBrawl
                 {
                     if(cursorLocs[playerNum].currentItemY == 0){
                         players[playerNum] = factory.selectCharacter(0);
+                        selectedChars[playerNum] = gokuButton;
                         ready[playerNum] = true;
                     }
                     else if (cursorLocs[playerNum].currentItemY == 1)
                     {
                         players[playerNum] = factory.selectCharacter(1);
+                        selectedChars[playerNum] = megamanButton;
                         ready[playerNum] = true;
                     }
                     else if (cursorLocs[playerNum].currentItemY == 2)
                     {
                         players[playerNum] = factory.selectCharacter(2);
+                        selectedChars[playerNum] = ryuButton;
                         ready[playerNum] = true;
                     }
                 }
@@ -555,14 +596,7 @@ namespace UltraBrawl
                 }
                 else if (cursorLocs[playerNum].currentItemY == 1)
                 {
-                    for (int j = 0; j < numPlayers; j++)
-                    {
-                        ready[j] = false;
-                        players[j].update = false;
-                    }
-                    defaultCursorLoc.resetLoc();
-                    switchMenu(startMenu);
-                    gameState = GameState.StartMenu;
+                    resetGame();
 
                 }
                 else if (cursorLocs[playerNum].currentItemY == 2)
@@ -570,6 +604,25 @@ namespace UltraBrawl
                     game.Exit();
                 }
             }
+        }
+        private void resetGame()
+        {
+            for (int j = 0; j < numPlayers; j++)
+            {
+                ready[j] = false;
+                try{
+                    players[j].update = false;
+                }
+                catch (Exception e)
+                {
+                    //There may or may not be a nullpointer on the characters when resetting the game.
+                    //It's okay because we're resetting the game. Yay!
+                }
+            }
+            numPlayers = 2;
+            defaultCursorLoc.resetLoc();
+            switchMenu(startMenu);
+            gameState = GameState.StartMenu;
         }
     }
 }

@@ -207,7 +207,7 @@ namespace UltraBrawl
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
                     velocity.Y = -100f;
-                    currentHealth -= (int) (10 * oppDamage);
+                    currentHealth -= (int) (5 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
                         flipped = true;
@@ -267,7 +267,7 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
-                    currentHealth -= (int)(3 * oppDamage);
+                    currentHealth -= (int)(2 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
                         velocity.X += 100;
@@ -298,7 +298,7 @@ namespace UltraBrawl
             }
         }
 
-        /* Direction (Do not modify)*/
+        /* Direction */
         public override Vector2 direction
         {
             get
@@ -359,6 +359,8 @@ namespace UltraBrawl
                     velocity.X = 0f;
                     otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE);
                     isJumpKick = false;
+                    canJump = true;
+                    jumpCount = 2;
                 }
                 else if (isKick)
                 {
