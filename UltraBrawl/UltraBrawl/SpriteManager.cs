@@ -37,7 +37,7 @@ namespace UltraBrawl
         PlayerPreset[] presets = new PlayerPreset[4];
 
         PlayerCharacter[] players;
-        Vector2[] spawnLocs = {new Vector2(200, 0), new Vector2(800, 0), new Vector2(200, 600), new Vector2(800, 600)};
+        Vector2[] spawnLocs = {new Vector2(200, 0), new Vector2(800, 0), new Vector2(200, 0), new Vector2(800, 0)};
         Texture2D background;
 
         List<Sprite> spriteList = new List<Sprite>();
@@ -203,13 +203,17 @@ namespace UltraBrawl
             }
             if (gameState == GameState.CharSelect)
             {
-                if (GamePad.GetState(gamepads[2]).Buttons.Start == ButtonState.Pressed && previousGamePadState[2].Buttons.Start == ButtonState.Released)
+                //if (GamePad.GetState(gamepads[2]).Buttons.Start == ButtonState.Pressed && previousGamePadState[2].Buttons.Start == ButtonState.Released)
+                if(GamePad.GetState(gamepads[2]).IsConnected && !p3playing)
                 {
+                    Debug.WriteLine("PLAYER 3 PLAYING");
                     p3playing = true;
                     cursorPositions[2] = charSelectMenu[0, 0];
                 }
-                if (GamePad.GetState(gamepads[3]).Buttons.Start == ButtonState.Pressed && previousGamePadState[3].Buttons.Start == ButtonState.Released)
+                //if (GamePad.GetState(gamepads[3]).Buttons.Start == ButtonState.Pressed && previousGamePadState[3].Buttons.Start == ButtonState.Released)
+                if(GamePad.GetState(gamepads[3]).IsConnected && !p4playing)
                 {
+                    Debug.WriteLine("PLAYER 4 PLAYING");
                     p4playing = true;
                     cursorPositions[3] = charSelectMenu[0, 0];
                 }
@@ -277,28 +281,29 @@ namespace UltraBrawl
                     switchMenu(startMenu);
                     gameState = GameState.StartMenu;
                 }
-
-                    System.Diagnostics.Debug.WriteLine(players[0].hitbox.Top);
-                    if (players[1].newHitbox.Intersects(players[0].collisionRect))
+                for (int i = 0; i < numPlayers; i++)
+                {
+                    for (int j = 0; j < numPlayers; j++)
                     {
-                        players[1].Collision(players[0]);
+                        if (i != j)
+                        {
+                            if (players[i].newHitbox.Intersects(players[j].collisionRect))
+                            {
+                                players[i].Collision(players[j]);
+                            }
+                        }
                     }
-                    if (players[0].newHitbox.Intersects(players[1].collisionRect))
-                    {
-                        players[0].Collision(players[1]);
-                    }
+                }
 
                 foreach (Sprite sprite in platformList)
                 {
-                    if (sprite.collisionRect.Intersects(players[0].collisionRect))
+                    for (int i = 0; i < numPlayers; i++)
                     {
-                        players[0].Collision(sprite);
-                        sprite.Collision(players[0]);
-                    }
-                    if (sprite.collisionRect.Intersects(players[1].collisionRect))
-                    {
-                        players[1].Collision(sprite);
-                        sprite.Collision(players[1]);
+                        if (sprite.collisionRect.Intersects(players[i].collisionRect))
+                        {
+                            players[i].Collision(sprite);
+                            sprite.Collision(players[i]);
+                        }
                     }
                 }
             }
@@ -329,7 +334,6 @@ namespace UltraBrawl
                 spriteBatch.Draw(p2Cursor, cursorPositions[1], Color.White);
                 if(p3playing)
                 {
-                    Debug.WriteLine("PLAYER 3 PLAYING");
                     spriteBatch.Draw(p3Cursor, cursorPositions[2], Color.Green);
                 }
                 if(p4playing)
@@ -369,8 +373,10 @@ namespace UltraBrawl
             {
                 particleEngine.Draw(spriteBatch);
             }
-            players[0].Draw(gameTime, spriteBatch);
-            players[1].Draw(gameTime, spriteBatch);
+            for (int i = 0; i < numPlayers; i++)
+            {
+                players[i].Draw(gameTime, spriteBatch);
+            }
             foreach (Sprite sprite in spriteList)
                 sprite.Draw(gameTime, spriteBatch);
             foreach (Sprite sprite in platformList)

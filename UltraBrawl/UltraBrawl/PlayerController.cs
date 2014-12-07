@@ -35,7 +35,7 @@ namespace UltraBrawl
                 pcPlayerKeys.Add(Keys.OemSemicolon);
                 pcPlayerKeys.Add(Keys.P);
             }
-            else if (playerIndex.Equals(PlayerIndex.One))
+            else
             {
                 pcPlayerKeys.Add(Keys.W);
                 pcPlayerKeys.Add(Keys.S);
