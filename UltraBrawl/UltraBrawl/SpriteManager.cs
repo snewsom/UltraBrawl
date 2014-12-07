@@ -52,6 +52,7 @@ namespace UltraBrawl
         private Texture2D exitButton;
         private Texture2D resumeButton;
         private Texture2D mainmenuButton;
+        private Texture2D title;
 
         //character buttons
         private Texture2D gokuButton;
@@ -131,6 +132,7 @@ namespace UltraBrawl
             exitButton = Game.Content.Load<Texture2D>(@"Images/exit");
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
             mainmenuButton = Game.Content.Load<Texture2D>(@"Images/mainmenu");
+            title = Game.Content.Load<Texture2D>(@"Images/title");
 
             gokuButton = Game.Content.Load<Texture2D>(@"Images/gokuButton");
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
@@ -144,8 +146,8 @@ namespace UltraBrawl
 
 
             startMenu = new Vector2[1, 2];
-            startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
-            startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
+            startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
+            startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
             charSelectMenu = new Vector2[1, 3];
             charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 50, 200);
@@ -340,10 +342,21 @@ namespace UltraBrawl
 
         public override void Draw(GameTime gameTime)
         {
-            spriteBatch.Begin();
+            Camera2d cam = new Camera2d();
+            cam.Pos = new Vector2(960.0f, 540.0f);
+            //spriteBatch.Begin();
+            spriteBatch.Begin(SpriteSortMode.Deferred,
+                        BlendState.AlphaBlend,
+                        null,
+                        null,
+                        null,
+                        null,
+                        cam.get_transformation(GraphicsDevice));
             if (gameState == GameState.StartMenu)
             {
+                cam.Zoom = 2.0f;
                 game.IsMouseVisible = true;
+                spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 200), Color.White);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
@@ -376,9 +389,9 @@ namespace UltraBrawl
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
                 particleEngine.Draw(spriteBatch);
             }
-            if (gameState == GameState.Playing)
+            if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
-          
+                
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
 
