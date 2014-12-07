@@ -26,6 +26,7 @@ namespace UltraBrawl
         Vector2[,] pauseMenu;
 
 
+        Camera2d cam;
 
         SpriteBatch spriteBatch;
         Boolean p3playing = false;
@@ -90,7 +91,7 @@ namespace UltraBrawl
             : base(game)
         {
             this.game = game;
-
+            cam = new Camera2d();
             factory = new FighterFactory(game);
             gameState = GameState.StartMenu;
             gamepads[0] = PlayerIndex.One;
@@ -210,24 +211,25 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            
             if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect)
             {
                 navigateMenu();
             }
             if (gameState == GameState.CharSelect)
             {
+                cam.Zoom = 2;
+                cam.Pos = cursorPositions[0];
+                //p3 press start if playing (not implemented)
                 //if (GamePad.GetState(gamepads[2]).Buttons.Start == ButtonState.Pressed && previousGamePadState[2].Buttons.Start == ButtonState.Released)
                 if(GamePad.GetState(gamepads[2]).IsConnected && !p3playing)
                 {
-                    Debug.WriteLine("PLAYER 3 PLAYING");
                     p3playing = true;
                     cursorPositions[2] = charSelectMenu[0, 0];
                 }
+                //p4 press start if playing (not implemented)
                 //if (GamePad.GetState(gamepads[3]).Buttons.Start == ButtonState.Pressed && previousGamePadState[3].Buttons.Start == ButtonState.Released)
                 if(GamePad.GetState(gamepads[3]).IsConnected && !p4playing)
                 {
-                    Debug.WriteLine("PLAYER 4 PLAYING");
                     p4playing = true;
                     cursorPositions[3] = charSelectMenu[0, 0];
                 }
@@ -342,7 +344,6 @@ namespace UltraBrawl
 
         public override void Draw(GameTime gameTime)
         {
-            Camera2d cam = new Camera2d();
             cam.Pos = new Vector2(960.0f, 540.0f);
             //spriteBatch.Begin();
             spriteBatch.Begin(SpriteSortMode.Deferred,
@@ -354,7 +355,6 @@ namespace UltraBrawl
                         cam.get_transformation(GraphicsDevice));
             if (gameState == GameState.StartMenu)
             {
-                cam.Zoom = 2.0f;
                 game.IsMouseVisible = true;
                 spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 200), Color.White);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
@@ -445,15 +445,13 @@ namespace UltraBrawl
         }
         void switchMenu(Vector2[,] menu)
         {
+            currentMenu = menu;
             for (int i = 0; i < 4; i++)
             {
-                cursorLocs[i] = new CursorLoc();
+                cursorPositions[i] = currentMenu[0, 0];
+                cursorLocs[i].resetLoc();
+                //cursorLocs[i] = new CursorLoc();
             }
-            currentMenu = menu;
-            cursorPositions[0] = currentMenu[0, 0];
-            cursorPositions[1] = currentMenu[0, 0];
-            cursorPositions[2] = currentMenu[0, 0];
-            cursorPositions[3] = currentMenu[0, 0];
         }
         void navigateMenu()
         {
