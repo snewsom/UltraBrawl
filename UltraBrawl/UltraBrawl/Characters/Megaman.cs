@@ -80,7 +80,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            canSuper = false;
+            canJumpKick = true;
+            canFire = true;
             CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 1;
             CHARACTER_NAME = "Megaman";

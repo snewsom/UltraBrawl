@@ -21,11 +21,12 @@ namespace UltraBrawl
         // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
         static Point venomNumberOfFrames = new Point(30, 20);
-        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 10, 60, 60);
+        static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
         static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 40, 100);
         static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
         static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
-        static Vector2 venomSpeed = new Vector2(80, 32);
+        static Vector2 venomSpeed = new Vector2(90, 32);
         static Vector2 venomFriction = new Vector2(0.8f, 1f);
         static Point venomFrameSize = new Point(170, 170);
 
@@ -42,7 +43,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(6, 3)); //jumpkick
             base.pcSegmentEndings.Add(new Point(6, 4)); //punch
             base.pcSegmentEndings.Add(new Point(2, 5)); //kick
-            base.pcSegmentEndings.Add(new Point(7, 6)); //block
+            base.pcSegmentEndings.Add(new Point(6, 6)); //block
             base.pcSegmentEndings.Add(new Point(7, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(2, 7)); //hit
             base.pcSegmentEndings.Add(new Point(11, 8)); //knockdown
@@ -80,8 +81,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            canSuper = false;
-            CHARACTER_DAMAGE = 1;
+            canAOE = true;
+            CHARACTER_DAMAGE = 2;
             CHARACTER_ID = 1;
             CHARACTER_NAME = "Venom";
         }
@@ -91,7 +92,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
-            chargeMax = 800;
+            chargeMax = 1100;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -103,7 +104,11 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
+            AOE = true;
+            velocity.Y = 0;
+            gravity = noGravity;
+            hitboxOffset = AOEHitboxOffset;
+            regenHitbox();
         }
 
 
@@ -112,7 +117,17 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            fire = true;
+            if (effects == SpriteEffects.FlipHorizontally)
+            {
+                hitboxOffset = venomHitboxOffsetFlipped;
+            }
+            else
+            {
+                hitboxOffset = venomHitboxOffsetNotFlipped;
+            } 
+            gravity = defaultGravity;
+            regenHitbox();
+            AOE = false;
         }
 
     }

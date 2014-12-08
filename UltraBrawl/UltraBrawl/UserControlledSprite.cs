@@ -14,7 +14,9 @@ namespace UltraBrawl
         protected Vector2 velocity;
         Vector2 friction;
         Vector2 speed;
-        protected readonly Vector2 gravity = new Vector2(0, 9.8f * 100);
+        public Vector2 noGravity = new Vector2(0, 0);
+        public Vector2 defaultGravity = new Vector2(0, 9.8f * 100);
+        public Vector2 gravity = new Vector2(0, 9.8f * 100);
         protected CollisionOffset hitboxOffsetFlipped;
         protected CollisionOffset hitboxOffsetNotFlipped;
 

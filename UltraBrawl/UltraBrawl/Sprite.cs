@@ -137,7 +137,6 @@ namespace UltraBrawl
 
         public void regenHitbox()
         {
-            newHitbox = hitbox;
             newHitbox = new Rectangle(
                     (int)(position.X + (hitboxOffset.east * spriteSheet.scale)),
                     (int)(position.Y + (hitboxOffset.north * spriteSheet.scale)),

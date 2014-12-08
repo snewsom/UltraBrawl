@@ -80,7 +80,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            base.canSuper = true;
+            canJumpKick = true;
+            canSuper = true;
             CHARACTER_ID = 0;
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;

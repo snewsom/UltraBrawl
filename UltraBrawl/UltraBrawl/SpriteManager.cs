@@ -50,6 +50,8 @@ namespace UltraBrawl
         private SoundEffect menuMusic;
         private SoundEffectInstance menuMusicInstance;
 
+        private Boolean guilePlaying;
+        private Boolean onGuile;
         private int deadCount = 0;
 
         private SoundEffect inGameMusic;
@@ -140,6 +142,8 @@ namespace UltraBrawl
             {
                 cursorLocs[i] = new CursorLoc();
             }
+            guilePlaying = false;
+            onGuile = false;
             startGame = false;
         }
 
@@ -273,7 +277,7 @@ namespace UltraBrawl
                     //its guile!
                     if (players[i].CHARACTER_ID == 3)
                     {
-                        inGameMusic = inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
                     }
                     players[i].spawn(presets[i]);
                 }
@@ -374,7 +378,7 @@ namespace UltraBrawl
                 {
                     for (int j = 0; j < numPlayers; j++)
                     {
-                        if (ready[i] && ready[j])
+                        if (ready[j])
                         {
                             if (spriteList.ElementAt(i).collisionRect.Intersects(players[j].collisionRect))
                             {
@@ -674,6 +678,29 @@ namespace UltraBrawl
                     {
                         startGame = true;
                     }
+                    if (onGuile && !guilePlaying)
+                    {
+                        guilePlaying = true;
+                        menuMusicInstance.Pause();
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
+                        inGameMusicInstance = inGameMusic.CreateInstance();
+                        inGameMusicInstance.IsLooped = true;
+                        inGameMusicInstance.Play();
+                    }
+                    onGuile = false;
+                    for (int j = 0; j < 4; j++)
+                    {
+                        if (cursorLocs[j].currentItemX == 1 && cursorLocs[j].currentItemY == 1)
+                        {
+                            onGuile = true;
+                        }
+                    }
+                    if (!onGuile && guilePlaying)
+                    {
+                        guilePlaying = false;
+                        inGameMusicInstance.Stop();
+                        menuMusicInstance.Resume();
+                    }
                 }
                 if (currentMenu == bgSelectMenu)
                 {
@@ -852,6 +879,12 @@ namespace UltraBrawl
                 }
                 spawnCharacters();
                 //music under spawn characters as spawnCharacters checks if guile is there.
+                if(guilePlaying)
+                {
+                    guilePlaying = false;
+                    inGameMusicInstance.Stop();
+                    menuMusicInstance.Resume();
+                }
                 inGameMusicInstance = inGameMusic.CreateInstance();
                 inGameMusicInstance.IsLooped = true;
                 menuMusicInstance.Stop();
