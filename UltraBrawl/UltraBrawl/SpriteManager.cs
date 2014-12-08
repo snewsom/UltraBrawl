@@ -449,17 +449,21 @@ namespace UltraBrawl
         {
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
             spriteBatch.DrawString(font, players[0].CHARACTER_NAME + " " + players[0].currentHealth, new Vector2(100, 100), Color.Red);
+            spriteBatch.DrawString(font, "p1", new Vector2(players[0].collisionRect.Center.X, players[0].hitbox.Top - 60), Color.Red);
             if (playing[1])
             {
                 spriteBatch.DrawString(font, players[1].currentHealth + " " + players[1].CHARACTER_NAME, new Vector2(1720, 100), Color.Blue);
+                spriteBatch.DrawString(font, "p2", new Vector2(players[1].collisionRect.Center.X, players[1].hitbox.Top - 60), Color.Blue);
             }
             if (playing[2])
             {
                 spriteBatch.DrawString(font, players[2].CHARACTER_NAME + " " + players[2].currentHealth, new Vector2(100, 300), Color.Green);
+                spriteBatch.DrawString(font, "p3", new Vector2(players[2].collisionRect.Center.X, players[2].hitbox.Top - 60), Color.Green);
             }
             if (playing[3])
             {
                 spriteBatch.DrawString(font, players[3].currentHealth + " " + players[3].CHARACTER_NAME, new Vector2(1720, 300), Color.Orange);
+                spriteBatch.DrawString(font, "p4", new Vector2(players[3].collisionRect.Center.X, players[3].hitbox.Top - 60), Color.Orange);
             }
             for (int i = 0; i < numPlayers; i++)
             {
