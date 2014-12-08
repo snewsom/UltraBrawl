@@ -39,14 +39,14 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(4, 0)); //idle
             base.pcSegmentEndings.Add(new Point(11, 1)); //running
             base.pcSegmentEndings.Add(new Point(10, 2)); //jumping
-            base.pcSegmentEndings.Add(new Point(8, 3)); //jumpkick
+            base.pcSegmentEndings.Add(new Point(16, 3)); //jumpkick
             base.pcSegmentEndings.Add(new Point(16, 4)); //punch
             base.pcSegmentEndings.Add(new Point(16, 5)); //kick
             base.pcSegmentEndings.Add(new Point(0, 6)); //block
             base.pcSegmentEndings.Add(new Point(1, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(3, 7)); //hit
             base.pcSegmentEndings.Add(new Point(2, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(16, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(4, 0)); //"charging"
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
@@ -61,14 +61,14 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(50); //jumpkick
+            base.pcSegmentTimings.Add(25); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(200); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(60); //charging
+            base.pcSegmentTimings.Add(70); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -112,7 +112,6 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            fire = true;
         }
 
     }
