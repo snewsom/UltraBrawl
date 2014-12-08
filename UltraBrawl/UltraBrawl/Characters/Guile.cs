@@ -18,8 +18,8 @@ namespace UltraBrawl
     class Guile : PlayerCharacter
     {
         // constants for this particular sprite
-       // static List<Texture2D> particleList;
-        //static ParticleEngine2D particleEngine;
+        // static List<Texture2D> particleList;
+        // static ParticleEngine2D particleEngine;
         static Point guileNumberOfFrames = new Point(30, 20);
         static CollisionOffset guileCollisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset guileHitboxOffset = new CollisionOffset(100, 10, 40, 100);
@@ -82,7 +82,7 @@ namespace UltraBrawl
 
             canSuper = false;
             CHARACTER_DAMAGE = 1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 3;
             CHARACTER_NAME = "Guile";
         }
 

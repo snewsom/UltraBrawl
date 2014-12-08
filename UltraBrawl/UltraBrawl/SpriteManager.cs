@@ -29,9 +29,8 @@ namespace UltraBrawl
         Camera2d cam;
 
         SpriteBatch spriteBatch;
-        Boolean p3playing = false;
-        Boolean p4playing = false;
-        Boolean[] ready = {false, false, false, false};
+        Boolean[] ready = { false, false, false, false };
+        Boolean[] playing = { true, true, false, false };
 
         PlayerPreset[] presets = new PlayerPreset[4];
 
@@ -209,11 +208,11 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            if (p3playing)
+            if (playing[2])
             {
                 numPlayers++;
             }
-            if (p4playing)
+            if (playing[3])
             {
                 numPlayers++;
             }
@@ -243,36 +242,38 @@ namespace UltraBrawl
                     {
                         resetGame();
                     }
+                    //if(GamePad.GetState(gamepads[3]).IsConnected && !p4playing)
+                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && !playing[i])
+                    {
+                        playing[i] = true;
+                        cursorPositions[i] = charSelectMenu[0, 0];
+                    }
                 }
-                //p3 press start if playing (not implemented)
-                //if (GamePad.GetState(gamepads[2]).Buttons.Start == ButtonState.Pressed && previousGamePadState[2].Buttons.Start == ButtonState.Released)
-                if(GamePad.GetState(gamepads[2]).IsConnected && !p3playing)
+                Boolean startGame = true;
+                for (int i = 0; i < 4; i++)
                 {
-                    p3playing = true;
-                    cursorPositions[2] = charSelectMenu[0, 0];
+                    if (playing[i] && !ready[i])
+                    {
+                        startGame = false;
+                    }
                 }
-                //p4 press start if playing (not implemented)
-                //if (GamePad.GetState(gamepads[3]).Buttons.Start == ButtonState.Pressed && previousGamePadState[3].Buttons.Start == ButtonState.Released)
-                if(GamePad.GetState(gamepads[3]).IsConnected && !p4playing)
+                if (startGame)
                 {
-                    p4playing = true;
-                    cursorPositions[3] = charSelectMenu[0, 0];
-                }
-                if ((ready[0] && ready[1]) && ((p3playing && !p4playing && ready[2])||(p4playing && !p3playing && ready[3])||(p3playing && p4playing && ready[2] && ready[3])||(!p3playing && !p4playing)))
-                {
-                        spawnCharacters();
-                        gameState = GameState.Playing;
+                    spawnCharacters();
+                    gameState = GameState.Playing;
                 }
             }
             if (gameState == GameState.Paused)
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape) || (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Released && previousGamePadState[i].Buttons.Start == ButtonState.Pressed))
+
+                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
                     {
                         for (int j = 0; j < numPlayers; j++)
                         {
                             players[j].update = true;
+
                         }
                         gameState = GameState.Playing;
                     }
@@ -394,22 +395,9 @@ namespace UltraBrawl
                         spriteBatch.Draw(readyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                         spriteBatch.Draw(selectedChars[i], new Vector2((i % 2 == 0 ? 10 : 1760), (i < 2 ? 110 : 390)), Color.White);
                     }
-                    else
+                    else if (playing[i])
                     {
-                        if (i == 2)
-                        {
-                            if (p3playing)
-                                spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
-                        }
-                        else if (i == 3)
-                        {
-                            if (p4playing)
-                                spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
-                        }
-                        else
-                        {
-                            spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
-                        }
+                        spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                     }
                 }
                 game.IsMouseVisible = true;
@@ -419,11 +407,11 @@ namespace UltraBrawl
                 spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 spriteBatch.Draw(p2Cursor, cursorPositions[1], Color.White);
-                if(p3playing)
+                if(playing[2])
                 {
                     spriteBatch.Draw(p3Cursor, cursorPositions[2], Color.White);
                 }
-                if(p4playing)
+                if (playing[3])
                 {
                     spriteBatch.Draw(p4Cursor, cursorPositions[3], Color.White);
                 }
@@ -457,11 +445,11 @@ namespace UltraBrawl
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
             spriteBatch.DrawString(font, players[0].CHARACTER_NAME + " " + players[0].currentHealth, new Vector2(100, 100), Color.Red);
             spriteBatch.DrawString(font, players[1].currentHealth + " " + players[1].CHARACTER_NAME, new Vector2(1720, 100), Color.Blue);
-            if (p3playing)
+            if (playing[2])
             {
                 spriteBatch.DrawString(font, players[2].CHARACTER_NAME + " " + players[2].currentHealth, new Vector2(100, 300), Color.Green);
             }
-            if (p4playing)
+            if (playing[3])
             {
                 spriteBatch.DrawString(font, players[3].currentHealth + " " + players[3].CHARACTER_NAME, new Vector2(1720, 300), Color.Orange);
             }
