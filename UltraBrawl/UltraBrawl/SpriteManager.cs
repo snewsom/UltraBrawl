@@ -24,6 +24,7 @@ namespace UltraBrawl
         Vector2[,] startMenu;
         Vector2[,] charSelectMenu;
         Vector2[,] pauseMenu;
+        Vector2[,] bgSelectMenu;
 
 
         Camera2d cam;
@@ -65,12 +66,22 @@ namespace UltraBrawl
         private Texture2D[] notReadyTexs;
         private Texture2D[] readyTexs;
 
+        private Boolean startGame;
+        private Boolean bgSelected;
 
         //character buttons
         private Texture2D gokuButton;
         private Texture2D megamanButton;
         private Texture2D ryuButton;
         private Texture2D guileButton;
+
+
+        private Texture2D bgCursor;
+        private Texture2D bgButton1;
+        private Texture2D bgButton2;
+        private Texture2D bgButton3;
+        private Texture2D bgButton4;
+        private Texture2D bgButton5;
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -97,7 +108,8 @@ namespace UltraBrawl
             StartMenu,
             CharSelect,
             Playing,
-            Paused
+            Paused,
+            BgSelect
         }
 
         SpriteFont font;
@@ -123,6 +135,8 @@ namespace UltraBrawl
             {
                 cursorLocs[i] = new CursorLoc();
             }
+            startGame = false;
+            bgSelected = false;
         }
 
         /// <summary>
@@ -171,6 +185,14 @@ namespace UltraBrawl
             ryuButton = Game.Content.Load<Texture2D>(@"Images/ryuButton");
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
 
+
+            bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
+            bgButton1 = Game.Content.Load<Texture2D>(@"Images/bgButton1");
+            bgButton2 = Game.Content.Load<Texture2D>(@"Images/bgButton2");
+            bgButton3 = Game.Content.Load<Texture2D>(@"Images/bgButton3");
+            bgButton4 = Game.Content.Load<Texture2D>(@"Images/bgButton4");
+            bgButton5 = Game.Content.Load<Texture2D>(@"Images/bgButton5");
+
             defaultCursor = Game.Content.Load<Texture2D>(@"Images/DefaultCursor");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/p1Cursor");
             p2Cursor = Game.Content.Load<Texture2D>(@"Images/p2Cursor");
@@ -192,6 +214,14 @@ namespace UltraBrawl
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
             pauseMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             pauseMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
+
+            bgSelectMenu = new Vector2[1, 5];
+            bgSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 100);
+            bgSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 300);
+            bgSelectMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 500);
+            bgSelectMenu[0, 3] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 700);
+            bgSelectMenu[0, 4] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 900);
+
             menuMusicInstance.Play();
             switchMenu(startMenu);
 
@@ -207,10 +237,6 @@ namespace UltraBrawl
 
         protected void loadLevel()
         {
-            platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
-            platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
-            platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
-            platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
 
             background = Game.Content.Load<Texture2D>(@"Images/background");
             base.LoadContent();
@@ -243,9 +269,8 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect)
+            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
             {
-              
                 navigateMenu();
             }
             if (gameState == GameState.CharSelect)
@@ -262,7 +287,6 @@ namespace UltraBrawl
                         cursorPositions[i] = charSelectMenu[0, 0];
                     }
                 }
-                Boolean startGame = true;
                 for (int i = 0; i < 4; i++)
                 {
                     if (playing[i] && !ready[i])
@@ -272,14 +296,10 @@ namespace UltraBrawl
                 }
                 if (startGame)
                 {
-                    spawnCharacters();
-                   
-                        menuMusicInstance.Stop();
+                    menuMusicInstance.Stop();
+                    switchMenu(bgSelectMenu);
+                    gameState = GameState.BgSelect;
                     
-                   
-                        inGameMusicInstance.Play();
-                    
-                    gameState = GameState.Playing;
                 }
             }
             else if (gameState == GameState.Playing)
@@ -421,6 +441,21 @@ namespace UltraBrawl
                 }
                 particleEngine.Draw(spriteBatch);
             }
+            if (gameState == GameState.BgSelect)
+            {
+                game.IsMouseVisible = true;
+                if (bgSelected)
+                {
+                    spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
+                }
+                spriteBatch.Draw(bgButton1, bgSelectMenu[0, 0], Color.White);
+                spriteBatch.Draw(bgButton2, bgSelectMenu[0, 1], Color.White);
+                spriteBatch.Draw(bgButton3, bgSelectMenu[0, 2], Color.White);
+                spriteBatch.Draw(bgButton4, bgSelectMenu[0, 3], Color.White);
+                spriteBatch.Draw(bgButton5, bgSelectMenu[0, 4], Color.White);
+                spriteBatch.Draw(bgCursor, cursorPositions[0], Color.White);
+                particleEngine.Draw(spriteBatch);
+            }
             if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
                 if (menuMusicInstance.State == SoundState.Playing)
@@ -555,6 +590,45 @@ namespace UltraBrawl
                         menuSelect(i, cursorPositions[i]);
                     }
                 }
+
+                if (currentMenu == charSelectMenu)
+                {
+                    if (GamePad.GetState(gamepads[0]).Buttons.Start == ButtonState.Pressed && previousGamePadState[0].Buttons.Start == ButtonState.Released)
+                    {
+                        startGame = true;
+                    }
+                }
+                if (currentMenu == bgSelectMenu)
+                {
+                    if (cursorLocs[0].currentItemX == 0)
+                    {
+                        if (cursorLocs[0].currentItemY == 0)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background1");
+                        }
+                        else if (cursorLocs[0].currentItemY == 1)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background2");
+                        }
+                        else if (cursorLocs[0].currentItemY == 2)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background3");
+                        }
+                        else if (cursorLocs[0].currentItemY == 3)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background4");
+                        }
+                        else if (cursorLocs[0].currentItemY == 4)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background5");
+                        }
+                    }
+                    if (cursorLocs[0].currentItemX == 1)
+                    {
+                        
+                    }
+                    bgSelected = true;
+                }
                 if (currentMenu == pauseMenu)
                 {
                     if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
@@ -563,12 +637,8 @@ namespace UltraBrawl
                         {
                             players[j].update = true;
                         }
-                       
-                            menuMusicInstance.Stop();
-                        
-                       
-                            inGameMusicInstance.Play();
-                        
+                        menuMusicInstance.Stop();
+                        inGameMusicInstance.Play();
                         gameState = GameState.Playing;
                     }
                 }
@@ -621,6 +691,55 @@ namespace UltraBrawl
                     }
                 }
 
+            }
+            else if (gameState == GameState.BgSelect)
+            {
+                if (cursorLocs[0].currentItemY == 0)
+                {
+                    platformList = new List<Sprite>();
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                }
+                else if (cursorLocs[0].currentItemY == 1)
+                {
+                    platformList = new List<Sprite>();
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1100, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 460)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 900)));
+                }
+                else if (cursorLocs[0].currentItemY == 2)
+                {
+                    platformList = new List<Sprite>();
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                }
+                else if (cursorLocs[0].currentItemY == 3)
+                {
+                    platformList = new List<Sprite>();
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                }
+                else if (cursorLocs[0].currentItemY == 4)
+                {
+                    platformList = new List<Sprite>();
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                }
+                spawnCharacters();
+                inGameMusicInstance.Play();
+                gameState = GameState.Playing;
+
             } 
             else if (gameState == GameState.StartMenu)
             {
@@ -642,12 +761,9 @@ namespace UltraBrawl
                     {
                         players[j].update = true;
                     }
-                  
-                        menuMusicInstance.Stop();
-                   
-                    
-                        inGameMusicInstance.Play();
-                    
+                    menuMusicInstance.Stop();
+                    inGameMusicInstance.Play();
+
                     gameState = GameState.Playing;
                 }
                 else if (cursorLocs[playerNum].currentItemY == 1)
