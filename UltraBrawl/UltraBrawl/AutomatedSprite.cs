@@ -11,8 +11,8 @@ namespace UltraBrawl
     {
         protected Vector2 speed;
         protected Vector2 velocity;
-        public Vector2 gravity = new Vector2(0, 0.8f);
-        Vector2 friction = new Vector2(0.8f, 1f);
+        public Vector2 gravity = new Vector2(0.1f, 0.8f);
+        Vector2 friction = new Vector2(1f, 1f);
         public bool disable = false;
         Vector2 oldPosition = new Vector2(-1, -1);
 
