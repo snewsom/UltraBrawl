@@ -588,6 +588,7 @@ namespace UltraBrawl
                 //run->fall
                 if (player.velocity.Y > 0)
                 {
+                    player.jumpCount = 2;
                     player.switchState(PlayerCharacterState.Jumping);
                     player.currentFrame.X = player.pcSegmentEndings.ElementAt(2).X - 1;
                 }
