@@ -60,6 +60,7 @@ namespace UltraBrawl
         public int knockDownEndFrame;
         public int chargeTimer = 0;
         public int currentHealth = 100;
+        public int visibleHealth = 100;
         public bool flipped = false;
         public bool fire = false;
 
@@ -406,6 +407,10 @@ namespace UltraBrawl
             }
             else
             {
+                if (currentHealth < visibleHealth)
+                {
+                    visibleHealth--;
+                }
                 if (effects == SpriteEffects.FlipHorizontally)
                 {
                     flipped = true;
