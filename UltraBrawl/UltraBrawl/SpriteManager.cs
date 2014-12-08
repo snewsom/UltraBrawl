@@ -360,19 +360,7 @@ namespace UltraBrawl
                             {
                                 if (ready[j])
                                 {
-                                    players[j].update = false;
-                                }
-                            }
-                            switchMenu(pauseMenu);
-                            gameState = GameState.Paused;
-                        }
-                        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                        {
-                            for (int j = 0; j < numPlayers; j++)
-                            {
-                                if (ready[j])
-                                {
-                                    players[j].update = false;
+                                    players[j].pauseChar();
                                 }
                             }
                             switchMenu(pauseMenu);
@@ -529,7 +517,6 @@ namespace UltraBrawl
                 spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
                 spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
-               
             }
 
             spriteBatch.End();
@@ -726,7 +713,7 @@ namespace UltraBrawl
                         {
                             if (ready[j])
                             {
-                                players[j].update = true;
+                                players[j].resumeChar();
                             }
                         }
                         menuMusicInstance.Stop();
@@ -892,7 +879,7 @@ namespace UltraBrawl
                     {
                         if (ready[j])
                         {
-                            players[j].update = true;
+                            players[j].resumeChar();
                         }
                     }
                     menuMusicInstance.Stop();
@@ -922,7 +909,7 @@ namespace UltraBrawl
                 }
                 try
                 {
-                    players[j].update = false;
+                    players[j].stopChar();
                 }
                 catch (Exception e)
                 {

@@ -173,7 +173,26 @@ namespace UltraBrawl
         public virtual void chargedTwo()
         {
         }
-
+        public void stopChar()
+        {
+            superLoopInstance.Stop();
+            chargeSoundInstance.Stop();
+            update = false;
+        }
+        public void pauseChar()
+        {
+            superLoopInstance.Pause();
+            chargeSoundInstance.Pause();
+            update = false;
+        }
+        public void resumeChar()
+        {
+            if(isSuper)
+            superLoopInstance.Resume();
+            if(currentState == PlayerCharacterState.Charging)
+            chargeSoundInstance.Resume();
+            update = true;
+        }
 
         //get hit by other character
         public void getHit(SpriteEffects direction, int hitType, double oppDamage)
