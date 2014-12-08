@@ -170,11 +170,13 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[3, 2];
+            charSelectMenu = new Vector2[2, 3];
             charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 200);
             charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 400);
+            charSelectMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 600);
             charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 200);
             charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 400);
+            charSelectMenu[1, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 600);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
@@ -384,9 +386,10 @@ namespace UltraBrawl
                 game.IsMouseVisible = true;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
+                spriteBatch.Draw(megamanButton, charSelectMenu[0, 2], Color.White);
                 spriteBatch.Draw(ryuButton, charSelectMenu[1, 0], Color.White);
                 spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
-                spriteBatch.Draw(venomButton, charSelectMenu[2, 0], Color.White);
+                spriteBatch.Draw(venomButton, charSelectMenu[1, 2], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -598,8 +601,8 @@ namespace UltraBrawl
                     }
                     else if (cursorLocs[playerNum].currentItemY == 2)
                     {
-                        players[playerNum] = factory.selectCharacter(2);
-                        selectedChars[playerNum] = ryuButton;
+                        players[playerNum] = factory.selectCharacter(4);
+                        selectedChars[playerNum] = venomButton;
                         ready[playerNum] = true;
                     }
 
