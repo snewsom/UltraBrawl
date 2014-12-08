@@ -319,6 +319,10 @@ namespace UltraBrawl
 
                     /* gamepad input */
                     GamePadState gamepadState = GamePad.GetState(pcPlayerNum);
+                    if (gamepadState.DPad.Left == ButtonState.Pressed)
+                        inputDirection.X -= 1;
+                    if (gamepadState.DPad.Right == ButtonState.Pressed)
+                        inputDirection.X += 1;
                     if (gamepadState.ThumbSticks.Left.X != 0)
                         inputDirection.X += gamepadState.ThumbSticks.Left.X;
                 }
