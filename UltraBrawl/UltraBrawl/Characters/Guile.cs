@@ -82,7 +82,7 @@ namespace UltraBrawl
 
             canSuper = false;
             CHARACTER_DAMAGE = 1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 3;
             CHARACTER_NAME = "Guile";
         }
 

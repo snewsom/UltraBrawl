@@ -83,7 +83,6 @@ namespace UltraBrawl
         // constructor
         public PlayerCharacter(SpriteSheet spriteSheet, CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped,
             Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize)
-            //Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize, PlayerIndex playerIndex, PlayerController playerController)
             : base(spriteSheet, collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction)
         {
             update = false;
@@ -182,7 +181,7 @@ namespace UltraBrawl
             //if you aren't blocking or hit OR if you're facing the same direction(your back is to the other player)
             if ((canMove && !isBlock) || direction.Equals(effects))
             {
-                if (currentState.Equals(PlayerCharacterState.Charging) || isSuper)
+                if (currentState.Equals(PlayerCharacterState.Charging))
                 {
                     isSuper = false;
                     cancelSuper = true;
@@ -203,7 +202,10 @@ namespace UltraBrawl
                         effects = SpriteEffects.None;
                         velocity.X = -1000f;
                     }
-                    switchState(PlayerCharacterState.Knockdown);
+                    if (!isSuper)
+                        switchState(PlayerCharacterState.Knockdown);
+                    else
+                        switchState(PlayerCharacterState.Hit);
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
@@ -222,7 +224,10 @@ namespace UltraBrawl
                         velocity.X = -1000f;
                     }
                     jumpCount = 4;
-                    switchState(PlayerCharacterState.Knockdown);
+                    if (!isSuper)
+                        switchState(PlayerCharacterState.Knockdown);
+                    else
+                        switchState(PlayerCharacterState.Hit);
                 }
                 if (hitType == HIT_TYPE_KICK)
                 {
@@ -301,6 +306,11 @@ namespace UltraBrawl
             if (currentHealth <= 0)
             {
                 currentHealth = 0;
+                if (isSuper)
+                {
+                    isSuper = false;
+                    cancelSuper = true;
+                }
                 switchState(PlayerCharacterState.Knockdown);
             }
         }

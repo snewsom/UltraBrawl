@@ -345,7 +345,7 @@ namespace UltraBrawl
                         deadCount++;
                     }
                 }
-                if (deadCount == numPlayers - 1)
+                if (deadCount == numPlayers - 1 && numPlayers > 1)
                 {
                     resetGame();
                 }
@@ -818,7 +818,7 @@ namespace UltraBrawl
             {
                 if (cursorLocs[0].currentItemY == 0)
                 {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Roller Mobster Menu Loop");
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Le Perv Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -915,12 +915,11 @@ namespace UltraBrawl
         {
             for (int j = 0; j < 4; j++)
             {
+                ready[j] = false;
                 if (j > 0)
                 {
                     playing[j] = false;
                 }
-                ready[j] = false;
-                players[j] = null;
                 try
                 {
                     players[j].update = false;
@@ -930,8 +929,16 @@ namespace UltraBrawl
                     //There may or may not be a nullpointer on the characters when resetting the game.
                     //It's okay because we're resetting the game. Yay!
                 }
+                players[j] = null;
+            } 
+            try
+            {
+                inGameMusicInstance.Stop();
             }
-            inGameMusicInstance.Stop();
+            catch (Exception e)
+            {
+                //same thing pretty much
+            }
             menuMusicInstance.Play();
             numPlayers = 1;
             defaultCursorLoc.resetLoc();
