@@ -351,7 +351,7 @@ namespace UltraBrawl
             if (type.ToString().Equals("UltraBrawl.Platform"))
             {
                 Platform platform = (Platform)otherSprite;
-                if (velocity.Y > 0 && position.Y + this.spriteSheet.scale * (this.spriteSheet.currentSegment.frameSize.Y - this.collisionOffset.south) > platform.collisionRect.Top && this.collisionRect.Bottom + platform.collisionRect.Top > 2 && this.collisionRect.Bottom - 10 <= platform.collisionRect.Top)
+                if (velocity.Y > 0 && position.Y + this.spriteSheet.scale * (this.spriteSheet.currentSegment.frameSize.Y - this.collisionOffset.south) > platform.collisionRect.Top && this.collisionRect.Bottom + platform.collisionRect.Top > 2 && this.collisionRect.Bottom - 15 <= platform.collisionRect.Top)
                 {
                     velocity.Y = -1;
                     onGround = true;
