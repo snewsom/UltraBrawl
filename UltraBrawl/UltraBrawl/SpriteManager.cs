@@ -48,6 +48,13 @@ namespace UltraBrawl
 
         ParticleEngine2D particleEngine;
 
+        // background music
+        private SoundEffect menuMusic;
+        private SoundEffectInstance menuMusicInstance;
+
+        private SoundEffect inGameMusic;
+        private SoundEffectInstance inGameMusicInstance;
+
         private Texture2D startButton;
         private Texture2D exitButton;
         private Texture2D resumeButton;
@@ -142,6 +149,13 @@ namespace UltraBrawl
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
             mainmenuButton = Game.Content.Load<Texture2D>(@"Images/mainmenu");
             title = Game.Content.Load<Texture2D>(@"Images/title");
+            menuMusic = game.Content.Load<SoundEffect>("Sound/Menu Loop");
+            menuMusicInstance = menuMusic.CreateInstance();
+            menuMusicInstance.IsLooped = true;
+
+            inGameMusic = game.Content.Load<SoundEffect>("Sound/inGame Loop");
+            inGameMusicInstance = inGameMusic.CreateInstance();
+            inGameMusicInstance.IsLooped = true;
 
             readyTexs = new Texture2D[4];
             notReadyTexs = new Texture2D[4];
@@ -178,7 +192,7 @@ namespace UltraBrawl
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
             pauseMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             pauseMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
-
+            menuMusicInstance.Play();
             switchMenu(startMenu);
 
             // particle stuff
@@ -187,7 +201,7 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
             particleEngine = new ParticleEngine2D(textures, new Vector2(400, 240));
-
+            
             loadLevel();
         }
 
@@ -231,6 +245,7 @@ namespace UltraBrawl
         {
             if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect)
             {
+              
                 navigateMenu();
             }
             if (gameState == GameState.CharSelect)
@@ -258,6 +273,12 @@ namespace UltraBrawl
                 if (startGame)
                 {
                     spawnCharacters();
+                   
+                        menuMusicInstance.Stop();
+                    
+                   
+                        inGameMusicInstance.Play();
+                    
                     gameState = GameState.Playing;
                 }
             }
@@ -402,12 +423,13 @@ namespace UltraBrawl
             }
             if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
-                
+                if (menuMusicInstance.State == SoundState.Playing)
+                {
+                    menuMusicInstance.Stop();
+                }
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
-                for (int i = 0; i < numPlayers; i++)
-                {
-                }
+                
             } 
             if (gameState == GameState.Paused)
             {
@@ -541,6 +563,12 @@ namespace UltraBrawl
                         {
                             players[j].update = true;
                         }
+                       
+                            menuMusicInstance.Stop();
+                        
+                       
+                            inGameMusicInstance.Play();
+                        
                         gameState = GameState.Playing;
                     }
                 }
@@ -614,6 +642,12 @@ namespace UltraBrawl
                     {
                         players[j].update = true;
                     }
+                  
+                        menuMusicInstance.Stop();
+                   
+                    
+                        inGameMusicInstance.Play();
+                    
                     gameState = GameState.Playing;
                 }
                 else if (cursorLocs[playerNum].currentItemY == 1)
@@ -644,6 +678,12 @@ namespace UltraBrawl
             numPlayers = 1;
             defaultCursorLoc.resetLoc();
             switchMenu(startMenu);
+          
+                inGameMusicInstance.Stop();
+          
+         
+                menuMusicInstance.Play();
+            
             gameState = GameState.StartMenu;
         }
     }
