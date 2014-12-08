@@ -43,6 +43,10 @@ namespace UltraBrawl
             {
                 return new Venom(game.Content.Load<Texture2D>(@"Images/Venom"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
+            else if (CharID == 5)
+            {
+                return new Zero(game.Content.Load<Texture2D>(@"Images/Zero"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+            }
             return null;
         }
     }

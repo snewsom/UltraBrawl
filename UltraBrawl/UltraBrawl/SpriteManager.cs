@@ -65,6 +65,7 @@ namespace UltraBrawl
         private Texture2D ryuButton;
         private Texture2D guileButton;
         private Texture2D venomButton;
+        private Texture2D zeroButton;
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -158,6 +159,7 @@ namespace UltraBrawl
             ryuButton = Game.Content.Load<Texture2D>(@"Images/ryuButton");
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
             venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
+            zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
 
             defaultCursor = Game.Content.Load<Texture2D>(@"Images/DefaultCursor");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/p1Cursor");
