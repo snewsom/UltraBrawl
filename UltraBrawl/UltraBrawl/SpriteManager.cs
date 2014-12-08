@@ -35,7 +35,7 @@ namespace UltraBrawl
         PlayerPreset[] presets = new PlayerPreset[4];
 
         PlayerCharacter[] players;
-        Vector2[] spawnLocs = {new Vector2(100, 200), new Vector2(800, 0), new Vector2(200, 0), new Vector2(800, 0)};
+        Vector2[] spawnLocs = { new Vector2(200, 0), new Vector2(800, 0), new Vector2(200, 0), new Vector2(800, 0) };
         Texture2D background;
 
         List<AutomatedSprite> spriteList = new List<AutomatedSprite>();
@@ -47,13 +47,6 @@ namespace UltraBrawl
         FighterFactory factory;
 
         ParticleEngine2D particleEngine;
-
-        // background music
-        private SoundEffect menuMusic;
-        private SoundEffectInstance menuMusicInstance;
-
-        private SoundEffect inGameMusic;
-        private SoundEffectInstance inGameMusicInstance;
 
         private Texture2D startButton;
         private Texture2D exitButton;
@@ -71,6 +64,7 @@ namespace UltraBrawl
         private Texture2D megamanButton;
         private Texture2D ryuButton;
         private Texture2D guileButton;
+        private Texture2D venomButton;
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -149,13 +143,6 @@ namespace UltraBrawl
             resumeButton = Game.Content.Load<Texture2D>(@"Images/resume");
             mainmenuButton = Game.Content.Load<Texture2D>(@"Images/mainmenu");
             title = Game.Content.Load<Texture2D>(@"Images/title");
-            menuMusic = game.Content.Load<SoundEffect>("Sound/Menu Loop");
-            menuMusicInstance = menuMusic.CreateInstance();
-            menuMusicInstance.IsLooped = true;
-
-            inGameMusic = game.Content.Load<SoundEffect>("Sound/inGame Loop");
-            inGameMusicInstance = inGameMusic.CreateInstance();
-            inGameMusicInstance.IsLooped = true;
 
             readyTexs = new Texture2D[4];
             notReadyTexs = new Texture2D[4];
@@ -170,6 +157,7 @@ namespace UltraBrawl
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
             ryuButton = Game.Content.Load<Texture2D>(@"Images/ryuButton");
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
+            venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
 
             defaultCursor = Game.Content.Load<Texture2D>(@"Images/DefaultCursor");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/p1Cursor");
@@ -182,7 +170,7 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[2, 2];
+            charSelectMenu = new Vector2[3, 2];
             charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 200);
             charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 400);
             charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 200);
@@ -192,7 +180,7 @@ namespace UltraBrawl
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
             pauseMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
             pauseMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
-            menuMusicInstance.Play();
+
             switchMenu(startMenu);
 
             // particle stuff
@@ -201,7 +189,7 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
             particleEngine = new ParticleEngine2D(textures, new Vector2(400, 240));
-            
+
             loadLevel();
         }
 
@@ -235,7 +223,7 @@ namespace UltraBrawl
             }
         }
 
-        
+
 
         /// <summary>
         /// Allows the game component to update itself.
@@ -245,7 +233,6 @@ namespace UltraBrawl
         {
             if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect)
             {
-              
                 navigateMenu();
             }
             if (gameState == GameState.CharSelect)
@@ -273,19 +260,13 @@ namespace UltraBrawl
                 if (startGame)
                 {
                     spawnCharacters();
-                   
-                        menuMusicInstance.Stop();
-                    
-                   
-                        inGameMusicInstance.Play();
-                    
                     gameState = GameState.Playing;
                 }
             }
             else if (gameState == GameState.Playing)
             {
-                
-                for (int i = 0; i<numPlayers; i++)
+
+                for (int i = 0; i < numPlayers; i++)
                 {
                     players[i].Update(gameTime, Game.Window.ClientBounds);
 
@@ -405,7 +386,8 @@ namespace UltraBrawl
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
                 spriteBatch.Draw(ryuButton, charSelectMenu[1, 0], Color.White);
                 spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
-                
+                spriteBatch.Draw(venomButton, charSelectMenu[2, 0], Color.White);
+
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
                 {
@@ -423,14 +405,13 @@ namespace UltraBrawl
             }
             if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
-                if (menuMusicInstance.State == SoundState.Playing)
-                {
-                    menuMusicInstance.Stop();
-                }
+
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
-                
-            } 
+                for (int i = 0; i < numPlayers; i++)
+                {
+                }
+            }
             if (gameState == GameState.Paused)
             {
                 game.IsMouseVisible = true;
@@ -440,7 +421,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
                 particleEngine.Draw(spriteBatch);
             }
-          
+
             spriteBatch.End();
             base.Draw(gameTime);
         }
@@ -473,9 +454,9 @@ namespace UltraBrawl
                     particleEngine.Update();
                     particleEngine.Draw(spriteBatch);
                 }
-               
+
                 players[i].Draw(gameTime, spriteBatch);
-            
+
             }
 
             foreach (Sprite sprite in spriteList)
@@ -495,7 +476,7 @@ namespace UltraBrawl
         }
         void navigateMenu()
         {
-            
+
             //mouse controls
             mouseState = Mouse.GetState();
             particleEngine.EmitterLocation = new Vector2(mouseState.X, mouseState.Y);
@@ -554,7 +535,8 @@ namespace UltraBrawl
                     if (i == 0)
                     {
                         menuSelect(i, cursorPositions[i]);
-                    } else if (currentMenu == charSelectMenu)
+                    }
+                    else if (currentMenu == charSelectMenu)
                     {
                         menuSelect(i, cursorPositions[i]);
                     }
@@ -567,12 +549,6 @@ namespace UltraBrawl
                         {
                             players[j].update = true;
                         }
-                       
-                            menuMusicInstance.Stop();
-                        
-                       
-                            inGameMusicInstance.Play();
-                        
                         gameState = GameState.Playing;
                     }
                 }
@@ -587,7 +563,8 @@ namespace UltraBrawl
             {
                 if (cursorLocs[playerNum].currentItemX == 0)
                 {
-                    if(cursorLocs[playerNum].currentItemY == 0){
+                    if (cursorLocs[playerNum].currentItemY == 0)
+                    {
                         players[playerNum] = factory.selectCharacter(0);
                         selectedChars[playerNum] = gokuButton;
                         ready[playerNum] = true;
@@ -600,9 +577,11 @@ namespace UltraBrawl
                     }
                     else if (cursorLocs[playerNum].currentItemY == 2)
                     {
-                        
+
                     }
-                } 
+
+                }
+
                 if (cursorLocs[playerNum].currentItemX == 1)
                 {
                     if (cursorLocs[playerNum].currentItemY == 0)
@@ -623,9 +602,29 @@ namespace UltraBrawl
                         selectedChars[playerNum] = ryuButton;
                         ready[playerNum] = true;
                     }
+
+                }
+                if (cursorLocs[playerNum].currentItemX == 2)
+                {
+                    if (cursorLocs[playerNum].currentItemY == 0)
+                    {
+                        players[playerNum] = factory.selectCharacter(4);
+                        selectedChars[playerNum] = venomButton;
+                        ready[playerNum] = true;
+                    }
+                    else if (cursorLocs[playerNum].currentItemY == 1)
+                    {
+                        players[playerNum] = factory.selectCharacter(1);
+                        selectedChars[playerNum] = megamanButton;
+                        ready[playerNum] = true;
+                    }
+                    else if (cursorLocs[playerNum].currentItemY == 2)
+                    {
+
+                    }
                 }
 
-            } 
+            }
             else if (gameState == GameState.StartMenu)
             {
                 if (cursorLocs[playerNum].currentItemY == 0)
@@ -646,12 +645,6 @@ namespace UltraBrawl
                     {
                         players[j].update = true;
                     }
-                  
-                        menuMusicInstance.Stop();
-                   
-                    
-                        inGameMusicInstance.Play();
-                    
                     gameState = GameState.Playing;
                 }
                 else if (cursorLocs[playerNum].currentItemY == 1)
@@ -670,7 +663,8 @@ namespace UltraBrawl
             for (int j = 0; j < numPlayers; j++)
             {
                 ready[j] = false;
-                try{
+                try
+                {
                     players[j].update = false;
                 }
                 catch (Exception e)
@@ -682,12 +676,6 @@ namespace UltraBrawl
             numPlayers = 1;
             defaultCursorLoc.resetLoc();
             switchMenu(startMenu);
-          
-                inGameMusicInstance.Stop();
-          
-         
-                menuMusicInstance.Play();
-            
             gameState = GameState.StartMenu;
         }
     }

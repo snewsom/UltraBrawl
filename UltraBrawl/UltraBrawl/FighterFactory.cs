@@ -14,7 +14,7 @@ namespace UltraBrawl
 {
     class FighterFactory
     {
-       
+
         private Game game;
         public FighterFactory(Game game)
         {
@@ -38,6 +38,10 @@ namespace UltraBrawl
             else if (CharID == 3)
             {
                 return new Guile(game.Content.Load<Texture2D>(@"Images/Guile"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+            }
+            else if (CharID == 4)
+            {
+                return new Venom(game.Content.Load<Texture2D>(@"Images/Venom"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }
