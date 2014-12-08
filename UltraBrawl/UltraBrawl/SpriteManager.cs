@@ -211,7 +211,7 @@ namespace UltraBrawl
 
 
             startMenu = new Vector2[1, 2];
-            startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 400);
+            startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 500);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
             charSelectMenu = new Vector2[2, 3];
@@ -408,10 +408,11 @@ namespace UltraBrawl
                         null,
                         null,
                         cam.get_transformation(GraphicsDevice));
+            spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
             if (gameState == GameState.StartMenu)
             {
                 game.IsMouseVisible = true;
-                spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 200), Color.White);
+                spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
@@ -457,10 +458,6 @@ namespace UltraBrawl
             if (gameState == GameState.BgSelect)
             {
                 game.IsMouseVisible = true;
-                if (bgSelected)
-                {
-                    spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
-                }
                 spriteBatch.Draw(bgButton1, bgSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(bgButton2, bgSelectMenu[0, 1], Color.White);
                 spriteBatch.Draw(bgButton3, bgSelectMenu[0, 2], Color.White);
