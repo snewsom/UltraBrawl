@@ -76,8 +76,6 @@ namespace UltraBrawl
         private Texture2D guileButton;
         private Texture2D venomButton;
         private Texture2D zeroButton;
-<<<<<<< HEAD
-=======
 
 
         private Texture2D bgCursor;
@@ -86,7 +84,7 @@ namespace UltraBrawl
         private Texture2D bgButton3;
         private Texture2D bgButton4;
         private Texture2D bgButton5;
->>>>>>> origin/master
+
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -191,8 +189,6 @@ namespace UltraBrawl
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
             venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
-<<<<<<< HEAD
-=======
 
 
             bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
@@ -201,7 +197,6 @@ namespace UltraBrawl
             bgButton3 = Game.Content.Load<Texture2D>(@"Images/bgButton3");
             bgButton4 = Game.Content.Load<Texture2D>(@"Images/bgButton4");
             bgButton5 = Game.Content.Load<Texture2D>(@"Images/bgButton5");
->>>>>>> origin/master
 
             defaultCursor = Game.Content.Load<Texture2D>(@"Images/DefaultCursor");
             p1Cursor = Game.Content.Load<Texture2D>(@"Images/p1Cursor");
@@ -681,7 +676,11 @@ namespace UltraBrawl
                     }
                     else if (cursorLocs[playerNum].currentItemY == 2)
                     {
-
+                        
+                            players[playerNum] = factory.selectCharacter(5);
+                            selectedChars[playerNum] = zeroButton;
+                            ready[playerNum] = true;
+                        
                     }
 
                 }
