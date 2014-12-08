@@ -363,23 +363,26 @@ namespace UltraBrawl
             else if (otherSprite.checkChar())
             {
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
-                if (isJumpKick)
+                if (otherPlayer.currentHealth > 0)
                 {
-                    velocity.X = 0f;
-                    otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE);
-                    isJumpKick = false;
-                    canJump = true;
-                    jumpCount = 2;
-                }
-                else if (isKick)
-                {
-                    otherPlayer.getHit(effects, HIT_TYPE_KICK, CHARACTER_DAMAGE);
-                    isKick = false;
-                }
-                else if (isPunch)
-                {
-                    otherPlayer.getHit(effects, HIT_TYPE_PUNCH, CHARACTER_DAMAGE);
-                    isPunch = false;
+                    if (isJumpKick)
+                    {
+                        velocity.X = 0f;
+                        otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE);
+                        isJumpKick = false;
+                        canJump = true;
+                        jumpCount = 2;
+                    }
+                    else if (isKick)
+                    {
+                        otherPlayer.getHit(effects, HIT_TYPE_KICK, CHARACTER_DAMAGE);
+                        isKick = false;
+                    }
+                    else if (isPunch)
+                    {
+                        otherPlayer.getHit(effects, HIT_TYPE_PUNCH, CHARACTER_DAMAGE);
+                        isPunch = false;
+                    }
                 }
             }
         }

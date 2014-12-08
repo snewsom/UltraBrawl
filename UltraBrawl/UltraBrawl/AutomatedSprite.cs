@@ -38,9 +38,12 @@ namespace UltraBrawl
         {
             if (otherSprite.checkChar())
             {
-                PlayerCharacter otherPlayer = (PlayerCharacter) otherSprite;
-                otherPlayer.getHit(effects, 3, 1.5);
-                disable = true;
+                PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
+                if (otherPlayer.currentHealth > 0)
+                {
+                    otherPlayer.getHit(effects, 3, 1.5);
+                    disable = true;
+                }
             }
         }
 
