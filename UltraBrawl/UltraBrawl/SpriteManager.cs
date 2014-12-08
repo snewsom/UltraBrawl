@@ -20,7 +20,6 @@ namespace UltraBrawl
     {
 
         //menu variables
-        Vector2 something;
         Vector2[,] currentMenu;
         Vector2[,] startMenu;
         Vector2[,] charSelectMenu;
@@ -47,13 +46,6 @@ namespace UltraBrawl
         private Game game;
 
         FighterFactory factory;
-
-        ParticleEngine2D particleEngine;
-
-        private Vector2 glitterPos;
-        private bool glitterChangeX;
-        private float glitterSpeedX = 1;
-        private float glitterSpeedY = 1;
 
         private SoundEffect menuMusic;
         private SoundEffectInstance menuMusicInstance;
@@ -249,14 +241,6 @@ namespace UltraBrawl
             menuMusicInstance.Play();
             switchMenu(startMenu);
 
-            // particle stuff
-            List<Texture2D> textures = new List<Texture2D>();
-            textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
-            textures.Add(Game.Content.Load<Texture2D>("Images/star"));
-            textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            glitterPos = new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150);
-            particleEngine = new ParticleEngine2D(textures, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150));
-
             loadLevel();
         }
 
@@ -267,43 +251,7 @@ namespace UltraBrawl
             base.LoadContent();
         }
 
-        private void glitterTitle() {
-            // If sprite is off the screen, move it back within the game window
-            Debug.WriteLine("Glitter!");
-            if (glitterChangeX)
-            {
-                glitterPos.X += glitterSpeedX;
-                Debug.WriteLine("Glitter! Move X " + glitterPos.X);
-                Debug.WriteLine("Glitter! Move X The Y" + glitterPos.Y);
-            } else {
-                glitterPos.Y += glitterSpeedY;
-                Debug.WriteLine("Glitter! Move Y " + glitterPos.Y);
-                Debug.WriteLine("Glitter! Move X The X" + glitterPos.Y);
-            }
-            if (glitterPos.X < -title.Bounds.Left)
-            {
-                glitterSpeedX *= -1;
-                glitterChangeX = false;
-                glitterPos.X = -title.Bounds.Left + 10;
-            }
-            if (glitterPos.Y < -title.Bounds.Top)
-                glitterSpeedY *= -1;
-                glitterChangeX = true;
-                glitterPos.Y = -title.Bounds.Top;
-            if (glitterPos.X > title.Bounds.Right)
-            {
-                glitterSpeedX *= -1;
-                glitterChangeX = false;
-                glitterPos.X = title.Bounds.Right;
-            }
-            if (glitterPos.Y > title.Bounds.Bottom )
-            {
-                glitterSpeedY *= -1;
-                glitterChangeX = true;
-                glitterPos.Y = title.Bounds.Bottom;
-            }
-            particleEngine.EmitterLocation = glitterPos;
-        }
+
 
         protected void spawnCharacters()
         {
@@ -340,13 +288,8 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (gameState == GameState.StartMenu)
-            {
-                glitterTitle();
-                navigateMenu();
-            }
 
-            if (gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
+            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
             {
                 navigateMenu();
             }
@@ -513,7 +456,6 @@ namespace UltraBrawl
                 game.IsMouseVisible = false;
                 
                 spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
-                particleEngine.Draw(spriteBatch);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
