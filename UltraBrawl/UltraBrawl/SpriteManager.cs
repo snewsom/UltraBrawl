@@ -223,14 +223,15 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 500);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[4, 4];
-            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 200);
-            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 400);
-            charSelectMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 600);
-            charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 200);
-            charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 400);
-            charSelectMenu[1, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 600);
-            charSelectMenu[1, 3] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 800);
+            charSelectMenu = new Vector2[4, 2];
+            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 600, 600);
+            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 600, 800);
+            charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 400, 600);
+            charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 400, 800);
+            charSelectMenu[2, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 600);
+            charSelectMenu[2, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 800);
+            charSelectMenu[3, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 000, 600);
+            charSelectMenu[3, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 000, 800);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
@@ -476,11 +477,12 @@ namespace UltraBrawl
                 game.IsMouseVisible = false;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
-                spriteBatch.Draw(zeroButton, charSelectMenu[0, 2], Color.White);
-                spriteBatch.Draw(kazuyaButton, charSelectMenu[1, 3], Color.White);
-                spriteBatch.Draw(ryuButton, charSelectMenu[1, 0], Color.White);
-                spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
-                spriteBatch.Draw(venomButton, charSelectMenu[1, 2], Color.White);
+                spriteBatch.Draw(venomButton, charSelectMenu[1, 0], Color.White);
+                spriteBatch.Draw(zeroButton, charSelectMenu[1, 1], Color.White);
+                spriteBatch.Draw(ryuButton, charSelectMenu[2, 0], Color.White);
+                spriteBatch.Draw(guileButton, charSelectMenu[2, 1], Color.White);
+                spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
+                spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -605,154 +607,157 @@ namespace UltraBrawl
         }
         void navigateMenu()
         {
-
             //gamepad controls
             for (int i = 0; i < 4; i++)
             {
-                if (cursorLocs[i].currentItemY + 1 < currentMenu.GetLength(1))
+                if (playing[i])
                 {
-                    if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
+                    if (cursorLocs[i].currentItemY + 1 < currentMenu.GetLength(1))
                     {
-                        cursorLocs[i].currentItemY++;
+                        if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
+                        {
+                            cursorLocs[i].currentItemY++;
+                        }
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y < -.5f && previousGamePadState[i].ThumbSticks.Left.Y >= -.49f)
+                        {
+                            cursorLocs[i].currentItemY++;
+                        }
                     }
-                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y < -.5f && previousGamePadState[i].ThumbSticks.Left.Y >= -.49f)
+                    if (cursorLocs[i].currentItemX - 1 >= 0)
                     {
-                        cursorLocs[i].currentItemY++;
+                        if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
+                        {
+                            cursorLocs[i].currentItemX--;
+                        }
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X < -.5f && previousGamePadState[i].ThumbSticks.Left.X >= -.49f)
+                        {
+                            cursorLocs[i].currentItemX--;
+                        }
                     }
-                }
-                if (cursorLocs[i].currentItemX - 1 >= 0)
-                {
-                    if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
-                    {
-                        cursorLocs[i].currentItemX--;
-                    }
-                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X < -.5f && previousGamePadState[i].ThumbSticks.Left.X >= -.49f)
-                    {
-                        cursorLocs[i].currentItemX--;
-                    }
-                }
 
-                if (cursorLocs[i].currentItemX + 1 < currentMenu.GetLength(0))
-                {
-                    if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
+                    if (cursorLocs[i].currentItemX + 1 < currentMenu.GetLength(0))
                     {
-                        cursorLocs[i].currentItemX++;
-                    }
-                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X > .5f && previousGamePadState[i].ThumbSticks.Left.X <= .49f)
-                    {
-                        cursorLocs[i].currentItemX++;
-                    }
-                }
-                if (cursorLocs[i].currentItemY - 1 >= 0)
-                {
-                    if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
-                    {
-                        cursorLocs[i].currentItemY--;
-                    }
-                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y > .5f && previousGamePadState[i].ThumbSticks.Left.Y <= .49f)
-                    {
-                        cursorLocs[i].currentItemY--;
-                    }
-                }
-                if (GamePad.GetState(gamepads[i]).Buttons.A == ButtonState.Released && previousGamePadState[i].Buttons.A == ButtonState.Pressed)
-                {
-                    if (i == 0)
-                    {
-                        menuSelect(i, cursorPositions[i]);
-                    }
-                    else if (currentMenu == charSelectMenu)
-                    {
-                        menuSelect(i, cursorPositions[i]);
-                    }
-                } 
-                if (currentMenu == bgSelectMenu)
-                {
-                    if (GamePad.GetState(gamepads[i]).Buttons.B == ButtonState.Released && previousGamePadState[i].Buttons.B == ButtonState.Pressed)
-                    {
-                        background = Game.Content.Load<Texture2D>(@"Images/background");
-                        startGame = false;
-                        gameState = GameState.CharSelect;
-                        switchMenu(charSelectMenu);
-                    }
-                }
-                if (currentMenu == charSelectMenu)
-                {
-                    if (GamePad.GetState(gamepads[0]).Buttons.Start == ButtonState.Pressed && previousGamePadState[0].Buttons.Start == ButtonState.Released)
-                    {
-                        startGame = true;
-                    }
-                    if (onGuile && !guilePlaying)
-                    {
-                        guilePlaying = true;
-                        menuMusicInstance.Pause();
-                        inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
-                        inGameMusicInstance = inGameMusic.CreateInstance();
-                        inGameMusicInstance.IsLooped = true;
-                        inGameMusicInstance.Play();
-                    }
-                    onGuile = false;
-                    for (int j = 0; j < 4; j++)
-                    {
-                        if (cursorLocs[j].currentItemX == 1 && cursorLocs[j].currentItemY == 1)
+                        if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
                         {
-                            onGuile = true;
+                            cursorLocs[i].currentItemX++;
+                        }
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X > .5f && previousGamePadState[i].ThumbSticks.Left.X <= .49f)
+                        {
+                            cursorLocs[i].currentItemX++;
                         }
                     }
-                    if (!onGuile && guilePlaying)
+                    if (cursorLocs[i].currentItemY - 1 >= 0)
                     {
-                        guilePlaying = false;
-                        inGameMusicInstance.Stop();
-                        menuMusicInstance.Resume();
-                    }
-                }
-                if (currentMenu == bgSelectMenu)
-                {
-                    if (cursorLocs[0].currentItemX == 0)
-                    {
-                        if (cursorLocs[0].currentItemY == 0)
+                        if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
                         {
-                            background = Game.Content.Load<Texture2D>(@"Images/background1");
+                            cursorLocs[i].currentItemY--;
                         }
-                        else if (cursorLocs[0].currentItemY == 1)
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y > .5f && previousGamePadState[i].ThumbSticks.Left.Y <= .49f)
                         {
-                            background = Game.Content.Load<Texture2D>(@"Images/background2");
-                        }
-                        else if (cursorLocs[0].currentItemY == 2)
-                        {
-                            background = Game.Content.Load<Texture2D>(@"Images/background3");
-                        }
-                        else if (cursorLocs[0].currentItemY == 3)
-                        {
-                            background = Game.Content.Load<Texture2D>(@"Images/background4");
-                        }
-                        else if (cursorLocs[0].currentItemY == 4)
-                        {
-                            background = Game.Content.Load<Texture2D>(@"Images/background5");
+                            cursorLocs[i].currentItemY--;
                         }
                     }
-                    if (cursorLocs[0].currentItemX == 1)
+                    if (GamePad.GetState(gamepads[i]).Buttons.A == ButtonState.Released && previousGamePadState[i].Buttons.A == ButtonState.Pressed)
                     {
-                        
-                    }
-                }
-                if (currentMenu == pauseMenu)
-                {
-                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
-                    {
-                        for (int j = 0; j < numPlayers; j++)
+                        if (i == 0)
                         {
-                            if (ready[j])
+                            menuSelect(i, cursorPositions[i]);
+                        }
+                        else if (currentMenu == charSelectMenu)
+                        {
+                            menuSelect(i, cursorPositions[i]);
+                        }
+                    }
+                    if (currentMenu == bgSelectMenu)
+                    {
+                        if (GamePad.GetState(gamepads[i]).Buttons.B == ButtonState.Released && previousGamePadState[i].Buttons.B == ButtonState.Pressed)
+                        {
+                            background = Game.Content.Load<Texture2D>(@"Images/background");
+                            startGame = false;
+                            gameState = GameState.CharSelect;
+                            switchMenu(charSelectMenu);
+                        }
+                    }
+                    if (currentMenu == charSelectMenu)
+                    {
+                        if (GamePad.GetState(gamepads[0]).Buttons.Start == ButtonState.Pressed && previousGamePadState[0].Buttons.Start == ButtonState.Released)
+                        {
+                            startGame = true;
+                        }
+                        if (onGuile && !guilePlaying)
+                        {
+                            guilePlaying = true;
+                            menuMusicInstance.Pause();
+                            inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
+                            inGameMusicInstance = inGameMusic.CreateInstance();
+                            inGameMusicInstance.IsLooped = true;
+                            inGameMusicInstance.Play();
+                        }
+                        onGuile = false;
+                        for (int j = 0; j < 4; j++)
+                        {
+                            if (cursorLocs[j].currentItemX == 2 && cursorLocs[j].currentItemY == 1)
                             {
-                                players[j].resumeChar();
+                                onGuile = true;
                             }
                         }
-                        menuMusicInstance.Stop();
-                        inGameMusicInstance.Play();
-                        gameState = GameState.Playing;
+                        if (!onGuile && guilePlaying)
+                        {
+                            guilePlaying = false;
+                            inGameMusicInstance.Stop();
+                            menuMusicInstance.Resume();
+                        }
                     }
+                    if (currentMenu == bgSelectMenu)
+                    {
+                        if (cursorLocs[0].currentItemX == 0)
+                        {
+                            if (cursorLocs[0].currentItemY == 0)
+                            {
+                                background = Game.Content.Load<Texture2D>(@"Images/background1");
+                            }
+                            else if (cursorLocs[0].currentItemY == 1)
+                            {
+                                background = Game.Content.Load<Texture2D>(@"Images/background2");
+                            }
+                            else if (cursorLocs[0].currentItemY == 2)
+                            {
+                                background = Game.Content.Load<Texture2D>(@"Images/background3");
+                            }
+                            else if (cursorLocs[0].currentItemY == 3)
+                            {
+                                background = Game.Content.Load<Texture2D>(@"Images/background4");
+                            }
+                            else if (cursorLocs[0].currentItemY == 4)
+                            {
+                                background = Game.Content.Load<Texture2D>(@"Images/background5");
+                            }
+                        }
+                        if (cursorLocs[0].currentItemX == 1)
+                        {
+
+                        }
+
+                    }
+                    if (currentMenu == pauseMenu)
+                    {
+                        if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
+                        {
+                            for (int j = 0; j < numPlayers; j++)
+                            {
+                                if (ready[j])
+                                {
+                                    players[j].resumeChar();
+                                }
+                            }
+                            menuMusicInstance.Stop();
+                            inGameMusicInstance.Play();
+                            gameState = GameState.Playing;
+                        }
+                    }
+                    cursorPositions[i] = currentMenu[cursorLocs[i].currentItemX, cursorLocs[i].currentItemY];
+                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
-                cursorPositions[i] = currentMenu[cursorLocs[i].currentItemX, cursorLocs[i].currentItemY];
-                previousGamePadState[i] = GamePad.GetState(gamepads[i]);
             }
         }
 
@@ -776,18 +781,26 @@ namespace UltraBrawl
                             selectedChars[playerNum] = megamanButton;
                             ready[playerNum] = true;
                         }
-                        else if (cursorLocs[playerNum].currentItemY == 2)
-                        {
-
-                            players[playerNum] = factory.selectCharacter(5);
-                            selectedChars[playerNum] = zeroButton;
-                            ready[playerNum] = true;
-
-                        }
 
                     }
 
                     if (cursorLocs[playerNum].currentItemX == 1)
+                    {
+                        if (cursorLocs[playerNum].currentItemY == 0)
+                        {
+                            players[playerNum] = factory.selectCharacter(4);
+                            selectedChars[playerNum] = venomButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 1)
+                        {
+                            players[playerNum] = factory.selectCharacter(5);
+                            selectedChars[playerNum] = zeroButton;
+                            ready[playerNum] = true;
+                        }
+
+                    }
+                    if (cursorLocs[playerNum].currentItemX == 2)
                     {
                         if (cursorLocs[playerNum].currentItemY == 0)
                         {
@@ -801,37 +814,29 @@ namespace UltraBrawl
                             selectedChars[playerNum] = guileButton;
                             ready[playerNum] = true;
                         }
-                        else if (cursorLocs[playerNum].currentItemY == 2)
-                        {
-                            players[playerNum] = factory.selectCharacter(4);
-                            selectedChars[playerNum] = venomButton;
-                            ready[playerNum] = true;
-                        }
-                        else if (cursorLocs[playerNum].currentItemY == 3)
+                    } 
+                    if (cursorLocs[playerNum].currentItemX == 3)
+                    {
+                        if (cursorLocs[playerNum].currentItemY == 0)
                         {
                             players[playerNum] = factory.selectCharacter(6);
                             selectedChars[playerNum] = kazuyaButton;
                             ready[playerNum] = true;
                         }
-
+                        else if (cursorLocs[playerNum].currentItemY == 1)
+                        {
+                            players[playerNum] = factory.selectCharacter(6);
+                            selectedChars[playerNum] = kazuyaButton;
+                            ready[playerNum] = true;
+                        }
                     }
-                    if (cursorLocs[playerNum].currentItemX == 2)
+                    if (cursorLocs[playerNum].currentItemX == 4)
                     {
                         if (cursorLocs[playerNum].currentItemY == 0)
                         {
-                            players[playerNum] = factory.selectCharacter(4);
-                            selectedChars[playerNum] = venomButton;
-                            ready[playerNum] = true;
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)
                         {
-                            players[playerNum] = factory.selectCharacter(1);
-                            selectedChars[playerNum] = megamanButton;
-                            ready[playerNum] = true;
-                        }
-                        else if (cursorLocs[playerNum].currentItemY == 2)
-                        {
-
                         }
                     }
                 }
