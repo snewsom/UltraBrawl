@@ -25,7 +25,7 @@ namespace UltraBrawl
         static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 40, 100);
         static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
         static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
-        static Vector2 venomSpeed = new Vector2(30, 32);
+        static Vector2 venomSpeed = new Vector2(80, 32);
         static Vector2 venomFriction = new Vector2(0.8f, 1f);
         static Point venomFrameSize = new Point(170, 170);
 
@@ -65,8 +65,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
-            base.pcSegmentTimings.Add(100); //blockhit
-            base.pcSegmentTimings.Add(200); //hit
+            base.pcSegmentTimings.Add(60); //blockhit
+            base.pcSegmentTimings.Add(60); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(60); //charging
             base.pcSegmentTimings.Add(50); //superIdle

@@ -62,6 +62,10 @@ namespace UltraBrawl
         private Texture2D resumeButton;
         private Texture2D mainmenuButton;
         private Texture2D title;
+        private Texture2D[] healthBars;
+        private Texture2D[] healthBgs;
+        private Texture2D p12hub;
+        private Texture2D p34hub;
 
         //player readies
         private Texture2D[] notReadyTexs;
@@ -170,12 +174,21 @@ namespace UltraBrawl
             readyTexs = new Texture2D[4];
             notReadyTexs = new Texture2D[4];
             startTexs = new Texture2D[4];
+            healthBars = new Texture2D[4];
+            healthBgs = new Texture2D[4];
             for (int i = 0; i < 4; i++)
             {
                 readyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "R");
                 notReadyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "NR");
                 startTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "S");
+                healthBars[i] = Game.Content.Load<Texture2D>(@"Images/healthBar");
             }
+            healthBgs[0] = Game.Content.Load<Texture2D>(@"Images/p1healthBg");
+            healthBgs[1] = Game.Content.Load<Texture2D>(@"Images/p2healthBg");
+            healthBgs[2] = Game.Content.Load<Texture2D>(@"Images/p3healthBg");
+            healthBgs[3] = Game.Content.Load<Texture2D>(@"Images/p4healthBg");
+            p12hub = Game.Content.Load<Texture2D>(@"Images/p12hub");
+            p34hub = Game.Content.Load<Texture2D>(@"Images/p34hub");
 
             menuMusic = game.Content.Load<SoundEffect>("Sound/Menu Loop");
             inGameMusic = game.Content.Load<SoundEffect>("Sound/InGame Loop");
@@ -444,7 +457,7 @@ namespace UltraBrawl
             spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
             if (gameState == GameState.StartMenu)
             {
-                game.IsMouseVisible = true;
+                game.IsMouseVisible = false;
                 spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
@@ -469,7 +482,7 @@ namespace UltraBrawl
                         spriteBatch.Draw(startTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                     }
                 }
-                game.IsMouseVisible = true;
+                game.IsMouseVisible = false;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
                 spriteBatch.Draw(zeroButton, charSelectMenu[0, 2], Color.White);
@@ -494,7 +507,7 @@ namespace UltraBrawl
             }
             if (gameState == GameState.BgSelect)
             {
-                game.IsMouseVisible = true;
+                game.IsMouseVisible = false;
                 spriteBatch.Draw(bgButton1, bgSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(bgButton2, bgSelectMenu[0, 1], Color.White);
                 spriteBatch.Draw(bgButton3, bgSelectMenu[0, 2], Color.White);
@@ -514,7 +527,7 @@ namespace UltraBrawl
             }
             if (gameState == GameState.Paused)
             {
-                game.IsMouseVisible = true;
+                game.IsMouseVisible = false;
                 spriteBatch.Draw(resumeButton, pauseMenu[0, 0], Color.White);
                 spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
                 spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
@@ -528,23 +541,44 @@ namespace UltraBrawl
 
         private void LoadGame(GameTime gameTime)
         {
-            spriteBatch.Draw(background, new Rectangle(0, 0, 1920, 1080), Color.White);
-            spriteBatch.DrawString(font, players[0].CHARACTER_NAME + " " + players[0].currentHealth, new Vector2(100, 100), Color.Red);
-            spriteBatch.DrawString(font, "p1", new Vector2(players[0].collisionRect.Center.X, players[0].hitbox.Top - 60), Color.Red);
+            spriteBatch.Draw(p12hub, new Rectangle(625, 0, 680, 150), Color.White);
+            if (playing[2] || playing[3])
+            {
+                spriteBatch.Draw(p34hub, new Rectangle(625, 150, 680, 57), Color.White);
+            }
+            spriteBatch.Draw(healthBgs[0], new Rectangle(65, 17, 560, 65), Color.White);
+            spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].visibleHealth * 5, 78), Color.DarkRed);
+            spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].currentHealth * 5, 78), Color.LightGray);
+            spriteBatch.DrawString(font, players[0].currentHealth + "%", new Vector2(350, 36), Color.Red);
+            spriteBatch.DrawString(font, "p1", new Vector2(700, 35), Color.Red);
+            spriteBatch.Draw(selectedChars[0], new Rectangle(630, 17, 65, 65), Color.White);
+
             if (playing[1])
             {
-                spriteBatch.DrawString(font, players[1].currentHealth + " " + players[1].CHARACTER_NAME, new Vector2(1720, 100), Color.Blue);
-                spriteBatch.DrawString(font, "p2", new Vector2(players[1].collisionRect.Center.X, players[1].hitbox.Top - 60), Color.Blue);
+                spriteBatch.Draw(healthBgs[1], new Rectangle(1305, 17, 560, 65), Color.White);
+                spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].visibleHealth * 5, 10, players[1].visibleHealth * 5, 78), Color.DarkRed);
+                spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].currentHealth * 5, 10, players[1].currentHealth * 5, 78), Color.LightGray);
+                spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
+                spriteBatch.DrawString(font, "p2", new Vector2(1200, 35), Color.Blue);
+                spriteBatch.Draw(selectedChars[1], new Rectangle(1235, 17, 65, 65), Color.White);
             }
             if (playing[2])
             {
-                spriteBatch.DrawString(font, players[2].CHARACTER_NAME + " " + players[2].currentHealth, new Vector2(100, 300), Color.Green);
-                spriteBatch.DrawString(font, "p3", new Vector2(players[2].collisionRect.Center.X, players[2].hitbox.Top - 60), Color.Green);
+                spriteBatch.Draw(healthBgs[2], new Rectangle(65, 82, 560, 65), Color.White);
+                spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].visibleHealth * 5, 78), Color.DarkRed);
+                spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].currentHealth * 5, 78), Color.LightGray);
+                spriteBatch.DrawString(font, players[2].currentHealth + "%", new Vector2(350, 101), Color.Green);
+                spriteBatch.DrawString(font, "p3", new Vector2(700, 100), Color.Green);
+                spriteBatch.Draw(selectedChars[2], new Rectangle(630, 82, 65, 65), Color.White);
             }
             if (playing[3])
             {
-                spriteBatch.DrawString(font, players[3].currentHealth + " " + players[3].CHARACTER_NAME, new Vector2(1720, 300), Color.Orange);
-                spriteBatch.DrawString(font, "p4", new Vector2(players[3].collisionRect.Center.X, players[3].hitbox.Top - 60), Color.Orange);
+                spriteBatch.Draw(healthBgs[3], new Rectangle(1305, 82, 560, 65), Color.White);
+                spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, players[3].visibleHealth * 5, 78), Color.DarkRed);
+                spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].currentHealth * 5, 75, players[3].currentHealth * 5, 78), Color.LightGray);
+                spriteBatch.DrawString(font, players[3].currentHealth + "%", new Vector2(1530, 101), Color.Orange);
+                spriteBatch.DrawString(font, "p4", new Vector2(1200, 100), Color.Orange);
+                spriteBatch.Draw(selectedChars[3], new Rectangle(1235, 82, 65, 65), Color.White);
             }
             for (int i = 0; i < numPlayers; i++)
             {
@@ -566,6 +600,14 @@ namespace UltraBrawl
                 sprite.Draw(gameTime, spriteBatch);
             foreach (Sprite sprite in platformList)
                 sprite.Draw(gameTime, spriteBatch);
+            if (playing[0])
+            spriteBatch.DrawString(font, "p1", new Vector2(players[0].collisionRect.Center.X, players[0].hitbox.Top - 60), Color.Red);
+            if (playing[1])
+            spriteBatch.DrawString(font, "p2", new Vector2(players[1].collisionRect.Center.X, players[1].hitbox.Top - 60), Color.Blue);
+            if (playing[2])
+            spriteBatch.DrawString(font, "p3", new Vector2(players[2].collisionRect.Center.X, players[2].hitbox.Top - 60), Color.Green);
+            if (playing[3])
+            spriteBatch.DrawString(font, "p4", new Vector2(players[3].collisionRect.Center.X, players[3].hitbox.Top - 60), Color.Orange);
         }
         void switchMenu(Vector2[,] menu)
         {
@@ -716,70 +758,73 @@ namespace UltraBrawl
         {
             if (gameState == GameState.CharSelect)
             {
-                if (cursorLocs[playerNum].currentItemX == 0)
+                if (playing[playerNum])
                 {
-                    if (cursorLocs[playerNum].currentItemY == 0)
+                    if (cursorLocs[playerNum].currentItemX == 0)
                     {
-                        players[playerNum] = factory.selectCharacter(0);
-                        selectedChars[playerNum] = gokuButton;
-                        ready[playerNum] = true;
-                    }
-                    else if (cursorLocs[playerNum].currentItemY == 1)
-                    {
-                        players[playerNum] = factory.selectCharacter(1);
-                        selectedChars[playerNum] = megamanButton;
-                        ready[playerNum] = true;
-                    }
-                    else if (cursorLocs[playerNum].currentItemY == 2)
-                    {
-                        
+                        if (cursorLocs[playerNum].currentItemY == 0)
+                        {
+                            players[playerNum] = factory.selectCharacter(0);
+                            selectedChars[playerNum] = gokuButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 1)
+                        {
+                            players[playerNum] = factory.selectCharacter(1);
+                            selectedChars[playerNum] = megamanButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 2)
+                        {
+
                             players[playerNum] = factory.selectCharacter(5);
                             selectedChars[playerNum] = zeroButton;
                             ready[playerNum] = true;
-                        
+
+                        }
+
                     }
 
-                }
+                    if (cursorLocs[playerNum].currentItemX == 1)
+                    {
+                        if (cursorLocs[playerNum].currentItemY == 0)
+                        {
+                            players[playerNum] = factory.selectCharacter(2);
+                            selectedChars[playerNum] = ryuButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 1)
+                        {
+                            players[playerNum] = factory.selectCharacter(3);
+                            selectedChars[playerNum] = guileButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 2)
+                        {
+                            players[playerNum] = factory.selectCharacter(4);
+                            selectedChars[playerNum] = venomButton;
+                            ready[playerNum] = true;
+                        }
 
-                if (cursorLocs[playerNum].currentItemX == 1)
-                {
-                    if (cursorLocs[playerNum].currentItemY == 0)
-                    {
-                        players[playerNum] = factory.selectCharacter(2);
-                        selectedChars[playerNum] = ryuButton;
-                        ready[playerNum] = true;
                     }
-                    else if (cursorLocs[playerNum].currentItemY == 1)
+                    if (cursorLocs[playerNum].currentItemX == 2)
                     {
-                        players[playerNum] = factory.selectCharacter(3);
-                        selectedChars[playerNum] = guileButton;
-                        ready[playerNum] = true;
-                    }
-                    else if (cursorLocs[playerNum].currentItemY == 2)
-                    {
-                        players[playerNum] = factory.selectCharacter(4);
-                        selectedChars[playerNum] = venomButton;
-                        ready[playerNum] = true;
-                    }
+                        if (cursorLocs[playerNum].currentItemY == 0)
+                        {
+                            players[playerNum] = factory.selectCharacter(4);
+                            selectedChars[playerNum] = venomButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 1)
+                        {
+                            players[playerNum] = factory.selectCharacter(1);
+                            selectedChars[playerNum] = megamanButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 2)
+                        {
 
-                }
-                if (cursorLocs[playerNum].currentItemX == 2)
-                {
-                    if (cursorLocs[playerNum].currentItemY == 0)
-                    {
-                        players[playerNum] = factory.selectCharacter(4);
-                        selectedChars[playerNum] = venomButton;
-                        ready[playerNum] = true;
-                    }
-                    else if (cursorLocs[playerNum].currentItemY == 1)
-                    {
-                        players[playerNum] = factory.selectCharacter(1);
-                        selectedChars[playerNum] = megamanButton;
-                        ready[playerNum] = true;
-                    }
-                    else if (cursorLocs[playerNum].currentItemY == 2)
-                    {
-
+                        }
                     }
                 }
 
