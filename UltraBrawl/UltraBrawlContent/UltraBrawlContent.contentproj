@@ -286,18 +286,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\InGame Loop.wav">
-      <Name>InGame Loop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sound\Menu Loop.wav">
-      <Name>Menu Loop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\background1.png">
       <Name>background1</Name>
       <Importer>TextureImporter</Importer>
@@ -402,6 +390,43 @@
       <Name>4S</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\Carpenter Brut - Le Perv Loop.wav">
+      <Name>Carpenter Brut - Le Perv Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Carpenter Brut - Roller Mobster Menu Loop.wav">
+      <Name>Carpenter Brut - Roller Mobster Menu Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Guile Theme.wav">
+      <Name>Guile Theme</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Kirk Gadget &amp; Valkyrie 1984 - Ghosts Loop.wav">
+      <Name>Kirk Gadget &amp; Valkyrie 1984 - Ghosts Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\LazerHawk - King of The Streets Loop.wav">
+      <Name>LazerHawk - King of The Streets Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\SelloRekT LA Dreams - Feel The Burn Loop.wav">
+      <Name>SelloRekT LA Dreams - Feel The Burn Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\SellorektLA Dreams - LightSpeed Loop.wav">
+      <Name>SellorektLA Dreams - LightSpeed Loop</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />

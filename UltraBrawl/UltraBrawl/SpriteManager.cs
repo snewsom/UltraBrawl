@@ -49,6 +49,11 @@ namespace UltraBrawl
 
         ParticleEngine2D particleEngine;
 
+        private Vector2 glitterPos;
+        private bool glitterChangeX;
+        private float glitterSpeedX = 1;
+        private float glitterSpeedY = 1;
+
         private SoundEffect menuMusic;
         private SoundEffectInstance menuMusicInstance;
 
@@ -105,7 +110,6 @@ namespace UltraBrawl
         int numPlayers = 1;
         GamePadState[] previousGamePadState = new GamePadState[4];
 
-        MouseState mouseState;
         public GameState gameState;
         public enum GameState
         {
@@ -177,13 +181,10 @@ namespace UltraBrawl
                 startTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "S");
             }
 
-            menuMusic = game.Content.Load<SoundEffect>("Sound/Menu Loop");
-            inGameMusic = game.Content.Load<SoundEffect>("Sound/InGame Loop");
+            menuMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Roller Mobster Menu Loop");
 
             menuMusicInstance = menuMusic.CreateInstance();
             menuMusicInstance.IsLooped = true;
-            inGameMusicInstance = inGameMusic.CreateInstance();
-            inGameMusicInstance.IsLooped = true;
 
             gokuButton = Game.Content.Load<Texture2D>(@"Images/gokuButton");
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
@@ -239,7 +240,7 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            particleEngine = new ParticleEngine2D(textures, new Vector2(400, 240));
+            particleEngine = new ParticleEngine2D(textures, new Vector2(0,0));
 
             loadLevel();
         }
@@ -249,6 +250,44 @@ namespace UltraBrawl
 
             background = Game.Content.Load<Texture2D>(@"Images/background");
             base.LoadContent();
+        }
+
+        private void glitterTitle() {
+            // If sprite is off the screen, move it back within the game window
+            Debug.WriteLine("Glitter!");
+            if (glitterChangeX)
+            {
+                glitterPos.X += glitterSpeedX;
+                Debug.WriteLine("Glitter! Move X " + glitterPos.X);
+                Debug.WriteLine("Glitter! Move X The Y" + glitterPos.Y);
+            } else {
+                glitterPos.Y += glitterSpeedY;
+                Debug.WriteLine("Glitter! Move Y " + glitterPos.Y);
+                Debug.WriteLine("Glitter! Move X The X" + glitterPos.Y);
+            }
+            if (glitterPos.X < -title.Bounds.Left)
+            {
+                glitterSpeedX *= -1;
+                glitterChangeX = false;
+                glitterPos.X = -title.Bounds.Left + 10;
+            }
+            if (glitterPos.Y < -title.Bounds.Top)
+                glitterSpeedY *= -1;
+                glitterChangeX = true;
+                glitterPos.Y = -title.Bounds.Top;
+            if (glitterPos.X > title.Bounds.Right)
+            {
+                glitterSpeedX *= -1;
+                glitterChangeX = false;
+                glitterPos.X = title.Bounds.Right;
+            }
+            if (glitterPos.Y > title.Bounds.Bottom )
+            {
+                glitterSpeedY *= -1;
+                glitterChangeX = true;
+                glitterPos.Y = title.Bounds.Bottom;
+            }
+            particleEngine.EmitterLocation = glitterPos;
         }
 
         protected void spawnCharacters()
@@ -268,6 +307,11 @@ namespace UltraBrawl
             {
                 if (ready[i])
                 {
+                    //its guile!
+                    if (players[i].CHARACTER_ID == 3)
+                    {
+                        inGameMusic = inGameMusic = game.Content.Load<SoundEffect>("Sound/Guile Theme");
+                    }
                     players[i].spawn(presets[i]);
                 }
             }
@@ -281,7 +325,13 @@ namespace UltraBrawl
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         public override void Update(GameTime gameTime)
         {
-            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
+            if (gameState == GameState.StartMenu)
+            {
+                glitterTitle();
+                navigateMenu();
+            }
+
+            if (gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
             {
                 navigateMenu();
             }
@@ -445,11 +495,12 @@ namespace UltraBrawl
             if (gameState == GameState.StartMenu)
             {
                 game.IsMouseVisible = true;
+                particleEngine.Draw(spriteBatch);
                 spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
-                particleEngine.Draw(spriteBatch);
+
             }
             if (gameState == GameState.CharSelect)
             {
@@ -490,7 +541,7 @@ namespace UltraBrawl
                 {
                     spriteBatch.Draw(p4Cursor, cursorPositions[3], Color.White);
                 }
-                particleEngine.Draw(spriteBatch);
+                
             }
             if (gameState == GameState.BgSelect)
             {
@@ -501,7 +552,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(bgButton4, bgSelectMenu[0, 3], Color.White);
                 spriteBatch.Draw(bgButton5, bgSelectMenu[0, 4], Color.White);
                 spriteBatch.Draw(bgCursor, cursorPositions[0], Color.White);
-                particleEngine.Draw(spriteBatch);
+                
             }
             if (gameState == GameState.Playing || gameState == GameState.Paused)
             {
@@ -519,7 +570,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
                 spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
-                particleEngine.Draw(spriteBatch);
+               
             }
 
             spriteBatch.End();
@@ -550,13 +601,6 @@ namespace UltraBrawl
             {
                 if (ready[i])
                 {
-                    if (players[i].isSuper)
-                    {
-                        particleEngine.EmitterLocation = new Vector2(players[i].collisionRect.Center.X, players[i].collisionRect.Center.Y);
-                        particleEngine.Update();
-                        particleEngine.Draw(spriteBatch);
-                    }
-
                     players[i].Draw(gameTime, spriteBatch);
                 }
 
@@ -579,11 +623,6 @@ namespace UltraBrawl
         }
         void navigateMenu()
         {
-
-            //mouse controls
-            mouseState = Mouse.GetState();
-            particleEngine.EmitterLocation = new Vector2(mouseState.X, mouseState.Y);
-            particleEngine.Update();
 
             //gamepad controls
             for (int i = 0; i < 4; i++)
@@ -788,6 +827,7 @@ namespace UltraBrawl
             {
                 if (cursorLocs[0].currentItemY == 0)
                 {
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Roller Mobster Menu Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -796,6 +836,7 @@ namespace UltraBrawl
                 }
                 else if (cursorLocs[0].currentItemY == 1)
                 {
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Kirk Gadget & Valkyrie 1984 - Ghosts Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -806,6 +847,7 @@ namespace UltraBrawl
                 }
                 else if (cursorLocs[0].currentItemY == 2)
                 {
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/LazerHawk - King of The Streets Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -814,6 +856,7 @@ namespace UltraBrawl
                 }
                 else if (cursorLocs[0].currentItemY == 3)
                 {
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/SelloRekT LA Dreams - Feel The Burn Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -822,6 +865,7 @@ namespace UltraBrawl
                 }
                 else if (cursorLocs[0].currentItemY == 4)
                 {
+                    inGameMusic = game.Content.Load<SoundEffect>("Sound/SellorektLA Dreams - LightSpeed Loop");
                     platformList = new List<Sprite>();
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
@@ -829,6 +873,9 @@ namespace UltraBrawl
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
                 }
                 spawnCharacters();
+                //music under spawn characters as spawnCharacters checks if guile is there.
+                inGameMusicInstance = inGameMusic.CreateInstance();
+                inGameMusicInstance.IsLooped = true;
                 menuMusicInstance.Stop();
                 inGameMusicInstance.Play();
                 gameState = GameState.Playing;
