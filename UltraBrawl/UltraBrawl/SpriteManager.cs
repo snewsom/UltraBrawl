@@ -81,7 +81,7 @@ namespace UltraBrawl
         private Texture2D guileButton;
         private Texture2D venomButton;
         private Texture2D zeroButton;
-
+        private Texture2D kazuyaButton;
 
         private Texture2D bgCursor;
         private Texture2D bgButton1;
@@ -202,6 +202,7 @@ namespace UltraBrawl
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
             venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
+            kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
 
 
             bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
@@ -222,13 +223,14 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 500);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[2, 3];
+            charSelectMenu = new Vector2[4, 4];
             charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 200);
             charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 400);
             charSelectMenu[0, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 600);
             charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 200);
             charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 400);
             charSelectMenu[1, 2] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 100, 600);
+            charSelectMenu[1, 3] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 800);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
@@ -475,6 +477,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
                 spriteBatch.Draw(megamanButton, charSelectMenu[0, 1], Color.White);
                 spriteBatch.Draw(zeroButton, charSelectMenu[0, 2], Color.White);
+                spriteBatch.Draw(kazuyaButton, charSelectMenu[1, 3], Color.White);
                 spriteBatch.Draw(ryuButton, charSelectMenu[1, 0], Color.White);
                 spriteBatch.Draw(guileButton, charSelectMenu[1, 1], Color.White);
                 spriteBatch.Draw(venomButton, charSelectMenu[1, 2], Color.White);
@@ -802,6 +805,12 @@ namespace UltraBrawl
                         {
                             players[playerNum] = factory.selectCharacter(4);
                             selectedChars[playerNum] = venomButton;
+                            ready[playerNum] = true;
+                        }
+                        else if (cursorLocs[playerNum].currentItemY == 3)
+                        {
+                            players[playerNum] = factory.selectCharacter(6);
+                            selectedChars[playerNum] = kazuyaButton;
                             ready[playerNum] = true;
                         }
 
