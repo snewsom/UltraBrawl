@@ -286,18 +286,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\InGame Loop.wav">
-      <Name>InGame Loop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Sound\Menu Loop.wav">
-      <Name>Menu Loop</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Images\background1.png">
       <Name>background1</Name>
       <Importer>TextureImporter</Importer>
