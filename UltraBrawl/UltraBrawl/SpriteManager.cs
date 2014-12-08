@@ -20,6 +20,7 @@ namespace UltraBrawl
     {
 
         //menu variables
+        Vector2 something;
         Vector2[,] currentMenu;
         Vector2[,] startMenu;
         Vector2[,] charSelectMenu;
@@ -253,7 +254,8 @@ namespace UltraBrawl
             textures.Add(Game.Content.Load<Texture2D>("Images/circle"));
             textures.Add(Game.Content.Load<Texture2D>("Images/star"));
             textures.Add(Game.Content.Load<Texture2D>("Images/diamond"));
-            particleEngine = new ParticleEngine2D(textures, new Vector2(0,0));
+            glitterPos = new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150);
+            particleEngine = new ParticleEngine2D(textures, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150));
 
             loadLevel();
         }
@@ -509,8 +511,9 @@ namespace UltraBrawl
             {
 
                 game.IsMouseVisible = false;
-
+                
                 spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
+                particleEngine.Draw(spriteBatch);
                 spriteBatch.Draw(startButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(exitButton, startMenu[0, 1], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
