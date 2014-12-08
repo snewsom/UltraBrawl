@@ -40,28 +40,28 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(6, 2)); //jumping
             base.pcSegmentEndings.Add(new Point(9, 3)); //jumpkick
-            base.pcSegmentEndings.Add(new Point(8, 4)); //punch
+            base.pcSegmentEndings.Add(new Point(8, 4)); //punchl
             base.pcSegmentEndings.Add(new Point(5, 5)); //kick
             base.pcSegmentEndings.Add(new Point(0, 6)); //block
             base.pcSegmentEndings.Add(new Point(2, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(5, 7)); //hit
-            base.pcSegmentEndings.Add(new Point(7, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(4, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(9, 8)); //knockdown
+            base.pcSegmentEndings.Add(new Point(7, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
             base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
             base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKick
+            base.pcSegmentEndings.Add(new Point(6, 15)); //superKickl
             base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 5;
 
-            base.pcSegmentTimings.Add(70); //idle
-            base.pcSegmentTimings.Add(40); //running
+            base.pcSegmentTimings.Add(80); //idle
+            base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(40); //jumpkick
+            base.pcSegmentTimings.Add(60); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
@@ -81,6 +81,8 @@ namespace UltraBrawl
             base.setSegments();
 
             base.canSuper = false;
+            canFire = true;
+            canJumpKick = true;
             CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 2;
             CHARACTER_NAME = "Ryu";
@@ -113,9 +115,11 @@ namespace UltraBrawl
 
         public override void chargedOne()
         {
+            
         }
         public override void chargedTwo()
         {
+            fire = true;
         }
 
     }
