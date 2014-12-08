@@ -229,6 +229,20 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+=======
+    <Compile Include="Images\cursortemplate.psd">
+      <Name>cursortemplate</Name>
+    </Compile>
+    <Compile Include="Images\notreadytemplate.psd">
+      <Name>notreadytemplate</Name>
+    </Compile>
+    <Compile Include="Images\readytemplate.psd">
+      <Name>readytemplate</Name>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+>>>>>>> 585d915ec005513ad6304e0346c5c9543667a4f5
     <Compile Include="Images\1NR.png">
       <Name>1NR</Name>
       <Importer>TextureImporter</Importer>

@@ -484,10 +484,18 @@ namespace UltraBrawl
                     {
                         cursorLocs[i].currentItemY++;
                     }
+                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y < -.5f && previousGamePadState[i].ThumbSticks.Left.Y >= -.49f)
+                    {
+                        cursorLocs[i].currentItemY++;
+                    }
                 }
                 if (cursorLocs[i].currentItemX - 1 >= 0)
                 {
                     if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
+                    {
+                        cursorLocs[i].currentItemX--;
+                    }
+                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X < -.5f && previousGamePadState[i].ThumbSticks.Left.X >= -.49f)
                     {
                         cursorLocs[i].currentItemX--;
                     }
@@ -499,10 +507,18 @@ namespace UltraBrawl
                     {
                         cursorLocs[i].currentItemX++;
                     }
+                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X > .5f && previousGamePadState[i].ThumbSticks.Left.X <= .49f)
+                    {
+                        cursorLocs[i].currentItemX++;
+                    }
                 }
                 if (cursorLocs[i].currentItemY - 1 >= 0)
                 {
                     if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
+                    {
+                        cursorLocs[i].currentItemY--;
+                    }
+                    else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y > .5f && previousGamePadState[i].ThumbSticks.Left.Y <= .49f)
                     {
                         cursorLocs[i].currentItemY--;
                     }
