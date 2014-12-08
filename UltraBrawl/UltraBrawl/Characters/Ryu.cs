@@ -37,7 +37,7 @@ namespace UltraBrawl
             : base(new SpriteSheet(image, ryuNumberOfFrames, 2.0f), ryuCollisionOffset, ryuHitboxOffset, ryuHitboxOffsetFlipped, ryuHitboxOffsetNotFlipped, ryuSpeed, ryuFriction, sound1, sound2, ryuFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(8, 0)); //idle
-            base.pcSegmentEndings.Add(new Point(10, 1)); //running
+            base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(6, 2)); //jumping
             base.pcSegmentEndings.Add(new Point(9, 3)); //jumpkick
             base.pcSegmentEndings.Add(new Point(8, 4)); //punch
