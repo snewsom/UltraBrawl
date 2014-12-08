@@ -220,6 +220,7 @@ namespace UltraBrawl
                         effects = SpriteEffects.None;
                         velocity.X = -1000f;
                     }
+                    jumpCount = 4;
                     switchState(PlayerCharacterState.Knockdown);
                 }
                 if (hitType == HIT_TYPE_KICK)
@@ -368,10 +369,17 @@ namespace UltraBrawl
                     if (isJumpKick)
                     {
                         velocity.X = 0f;
+                        if (!otherPlayer.isBlock)
+                        {
+                            canJump = true;
+                            jumpCount = 2;
+                        }
+                        if (otherPlayer.isJumpKick)
+                        {
+                            getHit(effects, HIT_TYPE_JUMPKICK, otherPlayer.CHARACTER_DAMAGE);
+                        }
                         otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE);
                         isJumpKick = false;
-                        canJump = true;
-                        jumpCount = 2;
                     }
                     else if (isKick)
                     {
@@ -679,6 +687,7 @@ namespace UltraBrawl
             {
                 player.canMove = false;
                 player.canJump = false;
+                player.jumpCount = 4;
                 if (player.currentFrame.X > player.knockDownEndFrame - 1 & player.onGround)
                 {
                     player.velocity.X = 0;

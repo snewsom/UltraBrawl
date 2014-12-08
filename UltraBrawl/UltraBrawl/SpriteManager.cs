@@ -66,9 +66,9 @@ namespace UltraBrawl
         //player readies
         private Texture2D[] notReadyTexs;
         private Texture2D[] readyTexs;
+        private Texture2D[] startTexs;
 
         private Boolean startGame;
-        private Boolean bgSelected;
 
         //character buttons
         private Texture2D gokuButton;
@@ -140,7 +140,6 @@ namespace UltraBrawl
                 cursorLocs[i] = new CursorLoc();
             }
             startGame = false;
-            bgSelected = false;
         }
 
         /// <summary>
@@ -170,10 +169,12 @@ namespace UltraBrawl
 
             readyTexs = new Texture2D[4];
             notReadyTexs = new Texture2D[4];
+            startTexs = new Texture2D[4];
             for (int i = 0; i < 4; i++)
             {
                 readyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "R");
                 notReadyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "NR");
+                startTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "S");
             }
 
             menuMusic = game.Content.Load<SoundEffect>("Sound/Menu Loop");
@@ -260,12 +261,15 @@ namespace UltraBrawl
             {
                 if (playing[i])
                 {
-                    numPlayers++;
+                    numPlayers = i + 1;
                 }
             }
             for (int i = 0; i < numPlayers; i++)
             {
-                players[i].spawn(presets[i]);
+                if (ready[i])
+                {
+                    players[i].spawn(presets[i]);
+                }
             }
         }
 
@@ -313,15 +317,22 @@ namespace UltraBrawl
 
                 for (int i = 0; i < numPlayers; i++)
                 {
-                    players[i].Update(gameTime, Game.Window.ClientBounds);
-
-                    if (players[i].fire)
+                    if (ready[i])
                     {
-                        Debug.WriteLine(players[i].flipped);
-                        spriteList.Add(new MegamanBuster(Game.Content.Load<Texture2D>(@"Images/megamanBuster"), new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
-                        players[i].fire = false;
+                        players[i].Update(gameTime, Game.Window.ClientBounds);
+
+                        if (players[i].fire)
+                        {
+                            Debug.WriteLine(players[i].flipped);
+                            spriteList.Add(new MegamanBuster(Game.Content.Load<Texture2D>(@"Images/megamanBuster"), new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                            players[i].fire = false;
+                        }
+                        if (players[i].currentHealth <= 0)
+                        {
+                            deadCount++;
+                        }
                     }
-                    if (players[i].currentHealth <= 0)
+                    else
                     {
                         deadCount++;
                     }
@@ -333,34 +344,46 @@ namespace UltraBrawl
                 deadCount = 0;
                 for (int i = 0; i < 4; i++)
                 {
-                    if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
+                    if (ready[i])
                     {
-                        for (int j = 0; j < numPlayers; j++)
+                        if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
                         {
-                            players[j].update = false;
+                            for (int j = 0; j < numPlayers; j++)
+                            {
+                                if (ready[j])
+                                {
+                                    players[j].update = false;
+                                }
+                            }
+                            switchMenu(pauseMenu);
+                            gameState = GameState.Paused;
                         }
-                        switchMenu(pauseMenu);
-                        gameState = GameState.Paused;
-                    }
-                    if (Keyboard.GetState().IsKeyDown(Keys.Escape))
-                    {
-                        for (int j = 0; j < numPlayers; j++)
+                        if (Keyboard.GetState().IsKeyDown(Keys.Escape))
                         {
-                            players[j].update = false;
+                            for (int j = 0; j < numPlayers; j++)
+                            {
+                                if (ready[j])
+                                {
+                                    players[j].update = false;
+                                }
+                            }
+                            switchMenu(pauseMenu);
+                            gameState = GameState.Paused;
                         }
-                        switchMenu(pauseMenu);
-                        gameState = GameState.Paused;
+                        previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                     }
-                    previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
 
                 for (int i = 0; i < spriteList.Count; i++)
                 {
                     for (int j = 0; j < numPlayers; j++)
                     {
-                        if (spriteList.ElementAt(i).collisionRect.Intersects(players[j].collisionRect))
+                        if (ready[i] && ready[j])
                         {
-                            spriteList.ElementAt(i).Collision(players[j]);
+                            if (spriteList.ElementAt(i).collisionRect.Intersects(players[j].collisionRect))
+                            {
+                                spriteList.ElementAt(i).Collision(players[j]);
+                            }
                         }
                     }
                     if (spriteList.ElementAt(i).disable)
@@ -376,11 +399,14 @@ namespace UltraBrawl
                 {
                     for (int j = 0; j < numPlayers; j++)
                     {
-                        if (i != j)
+                        if (ready[i] && ready[j])
                         {
-                            if (players[i].newHitbox.Intersects(players[j].collisionRect))
+                            if (i != j)
                             {
-                                players[i].Collision(players[j]);
+                                if (players[i].newHitbox.Intersects(players[j].collisionRect))
+                                {
+                                    players[i].Collision(players[j]);
+                                }
                             }
                         }
                     }
@@ -390,10 +416,13 @@ namespace UltraBrawl
                 {
                     for (int i = 0; i < numPlayers; i++)
                     {
-                        if (sprite.collisionRect.Intersects(players[i].collisionRect))
+                        if (ready[i])
                         {
-                            players[i].Collision(sprite);
-                            sprite.Collision(players[i]);
+                            if (sprite.collisionRect.Intersects(players[i].collisionRect))
+                            {
+                                players[i].Collision(sprite);
+                                sprite.Collision(players[i]);
+                            }
                         }
                     }
                 }
@@ -434,6 +463,10 @@ namespace UltraBrawl
                     else if (playing[i])
                     {
                         spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
+                    }
+                    else
+                    {
+                        spriteBatch.Draw(startTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                     }
                 }
                 game.IsMouseVisible = true;
@@ -515,14 +548,17 @@ namespace UltraBrawl
             }
             for (int i = 0; i < numPlayers; i++)
             {
-                if (players[i].isSuper)
+                if (ready[i])
                 {
-                    particleEngine.EmitterLocation = new Vector2(players[i].collisionRect.Center.X, players[i].collisionRect.Center.Y);
-                    particleEngine.Update();
-                    particleEngine.Draw(spriteBatch);
-                }
+                    if (players[i].isSuper)
+                    {
+                        particleEngine.EmitterLocation = new Vector2(players[i].collisionRect.Center.X, players[i].collisionRect.Center.Y);
+                        particleEngine.Update();
+                        particleEngine.Draw(spriteBatch);
+                    }
 
-                players[i].Draw(gameTime, spriteBatch);
+                    players[i].Draw(gameTime, spriteBatch);
+                }
 
             }
 
@@ -654,7 +690,6 @@ namespace UltraBrawl
                     {
                         
                     }
-                    bgSelected = true;
                 }
                 if (currentMenu == pauseMenu)
                 {
@@ -662,7 +697,10 @@ namespace UltraBrawl
                     {
                         for (int j = 0; j < numPlayers; j++)
                         {
-                            players[j].update = true;
+                            if (ready[j])
+                            {
+                                players[j].update = true;
+                            }
                         }
                         menuMusicInstance.Stop();
                         inGameMusicInstance.Play();
@@ -814,7 +852,10 @@ namespace UltraBrawl
                 {
                     for (int j = 0; j < numPlayers; j++)
                     {
-                        players[j].update = true;
+                        if (ready[j])
+                        {
+                            players[j].update = true;
+                        }
                     }
                     menuMusicInstance.Stop();
                     inGameMusicInstance.Play();
@@ -834,9 +875,14 @@ namespace UltraBrawl
         }
         private void resetGame()
         {
-            for (int j = 0; j < numPlayers; j++)
+            for (int j = 0; j < 4; j++)
             {
+                if (j > 0)
+                {
+                    playing[j] = false;
+                }
                 ready[j] = false;
+                players[j] = null;
                 try
                 {
                     players[j].update = false;
