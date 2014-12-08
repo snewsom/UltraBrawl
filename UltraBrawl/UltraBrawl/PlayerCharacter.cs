@@ -203,13 +203,13 @@ namespace UltraBrawl
         public void getHit(SpriteEffects direction, int hitType, double oppDamage)
         {
             //if you aren't blocking or hit OR if you're facing the same direction(your back is to the other player)
-            if ((canMove && !isBlock) || direction.Equals(effects))
+            if ((canMove && !isBlock) || direction.Equals(effects) || currentState.Equals(PlayerCharacterState.Charging))
             {
                 if (currentState.Equals(PlayerCharacterState.Charging))
                 {
                     isSuper = false;
                     cancelSuper = true;
-                } 
+                }
                 if (hitType == HIT_TYPE_BLAST)
                 {
                     velocity.Y = -100f;
@@ -225,6 +225,10 @@ namespace UltraBrawl
                         flipped = false;
                         effects = SpriteEffects.None;
                         velocity.X = -1000f;
+                    }
+                    if (AOE)
+                    {
+                        chargedTwo();
                     }
                     if (!isSuper)
                         switchState(PlayerCharacterState.Knockdown);

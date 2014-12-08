@@ -100,6 +100,11 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = guileHitboxOffsetFlipped;
             }
+            else
+            {
+                effects = SpriteEffects.None;
+                hitboxOffset = guileHitboxOffsetNotFlipped;
+            }
             update = true;
         }
 

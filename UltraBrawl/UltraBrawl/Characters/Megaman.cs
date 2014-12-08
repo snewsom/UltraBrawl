@@ -99,6 +99,11 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = megamanHitboxOffsetFlipped;
             }
+            else
+            {
+                effects = SpriteEffects.None;
+                hitboxOffset = megamanHitboxOffsetNotFlipped;
+            }
             update = true;
         }
 

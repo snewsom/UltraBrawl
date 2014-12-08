@@ -23,9 +23,9 @@ namespace UltraBrawl
         static Point venomNumberOfFrames = new Point(30, 20);
         static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 10, 60, 60);
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
-        static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 40, 100);
-        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
-        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
+        static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
+        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
         static Vector2 venomSpeed = new Vector2(90, 32);
         static Vector2 venomFriction = new Vector2(0.8f, 1f);
         static Point venomFrameSize = new Point(170, 170);
@@ -82,6 +82,7 @@ namespace UltraBrawl
             base.setSegments();
 
             canAOE = true;
+            canSmash = true;
             CHARACTER_DAMAGE = 2;
             CHARACTER_ID = 1;
             CHARACTER_NAME = "Venom";
@@ -105,6 +106,7 @@ namespace UltraBrawl
         public override void charging()
         {
             AOE = true;
+            smash = true;
             velocity.Y = 0;
             gravity = noGravity;
             hitboxOffset = AOEHitboxOffset;
@@ -114,6 +116,7 @@ namespace UltraBrawl
 
         public override void chargedOne()
         {
+            smash = false;
         }
         public override void chargedTwo()
         {
@@ -128,6 +131,7 @@ namespace UltraBrawl
             gravity = defaultGravity;
             regenHitbox();
             AOE = false;
+            smash = false;
         }
 
     }

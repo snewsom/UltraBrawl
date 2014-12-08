@@ -424,7 +424,7 @@ namespace UltraBrawl
                             if (sprite.collisionRect.Intersects(players[i].collisionRect))
                             {
                                 players[i].Collision(sprite);
-                                sprite.Collision(players[i]);
+                                //sprite.Collision(players[i]);
                             }
                         }
                     }
