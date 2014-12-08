@@ -32,6 +32,7 @@ namespace UltraBrawl
         PlayerCharacterState currentState;
         AbstractState[] states;
         public bool AOE = false;
+        public bool smash = false;
         public bool update = false;
         protected int chargeMax = 2500;
 
@@ -54,6 +55,7 @@ namespace UltraBrawl
         public bool canAOE = false;
         public bool canFire = false;
         public bool canSuper = false;
+        public bool canSmash = false;
         public bool canJump = false;
         public bool canJumpKick = false;
         public bool cancelSuper = false;
@@ -283,16 +285,24 @@ namespace UltraBrawl
             {
                 if (hitType == HIT_TYPE_BLAST)
                 {
-                    currentHealth -= (int)(3 * oppDamage);
+                    velocity.Y = -100f;
+                    currentHealth -= (int)(10 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
-                        velocity.X += 100;
+                        flipped = true;
+                        effects = SpriteEffects.FlipHorizontally;
+                        velocity.X = 1000f;
                     }
                     else
                     {
-                        velocity.X -= 100;
+                        flipped = false;
+                        effects = SpriteEffects.None;
+                        velocity.X = -1000f;
                     }
-                    switchState(PlayerCharacterState.BlockHit);
+                    if (!isSuper)
+                        switchState(PlayerCharacterState.Knockdown);
+                    else
+                        switchState(PlayerCharacterState.Hit);
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
@@ -399,7 +409,7 @@ namespace UltraBrawl
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (otherPlayer.currentHealth > 0)
                 {
-                    if (AOE)
+                    if (AOE || smash)
                     {
                         if (otherPlayer.position.X > position.X)
                         {
@@ -695,7 +705,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if ((!player.isSuper || player.canAOE || player.canFire) && player.jumpCount < 4)
+                if (((!player.isSuper && player.canSuper)|| player.canAOE || player.canFire) && player.jumpCount < 4)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -957,7 +967,7 @@ namespace UltraBrawl
                     player.charging();
                 }
                 player.chargeSoundInstance.Volume = 0.5f;
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire)
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash)
                 {
                     player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
                     player.canMove = false;
@@ -1011,7 +1021,7 @@ namespace UltraBrawl
                         }
                     }
                 }
-                else if (player.canSuper || player.canAOE)
+                else if (player.canSuper || player.canAOE || player.canSmash)
                 {
                     if (player.chargeTimer > player.chargeMax)
                     {
