@@ -25,7 +25,7 @@ namespace UltraBrawl
         static CollisionOffset ryuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
         static CollisionOffset ryuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
         static CollisionOffset ryuHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
-        static Vector2 ryuSpeed = new Vector2(40, 32);
+        static Vector2 ryuSpeed = new Vector2(60, 32);
         static Vector2 ryuFriction = new Vector2(0.8f, 1f);
         static Point ryuFrameSize = new Point(170, 170);
         
@@ -59,7 +59,7 @@ namespace UltraBrawl
             base.knockDownEndFrame = 5;
 
             base.pcSegmentTimings.Add(70); //idle
-            base.pcSegmentTimings.Add(20); //running
+            base.pcSegmentTimings.Add(40); //running
             base.pcSegmentTimings.Add(120); //jumping
             base.pcSegmentTimings.Add(50); //jumpkick
             base.pcSegmentTimings.Add(30); //punch

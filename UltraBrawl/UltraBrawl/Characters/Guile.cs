@@ -38,7 +38,7 @@ namespace UltraBrawl
         {
             base.pcSegmentEndings.Add(new Point(7, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
-            base.pcSegmentEndings.Add(new Point(6, 2)); //jumping
+            base.pcSegmentEndings.Add(new Point(5, 2)); //jumping
             base.pcSegmentEndings.Add(new Point(5, 3)); //jumpkick
             base.pcSegmentEndings.Add(new Point(5, 4)); //punch
             base.pcSegmentEndings.Add(new Point(7, 5)); //kick
