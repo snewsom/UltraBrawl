@@ -369,7 +369,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Images\Zero.png">
       <Name>Zero</Name>
       <Importer>TextureImporter</Importer>
@@ -377,8 +376,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-=======
->>>>>>> origin/master
     <Compile Include="Images\zeroButton.png">
       <Name>zeroButton</Name>
       <Importer>TextureImporter</Importer>
