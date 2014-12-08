@@ -112,8 +112,14 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            if (canFire)
+            {
+                fire = true;
+            }
             CHARACTER_DAMAGE *= 1.2;
             base.isSuper = true;
+            canSuper = false;
+            canFire = true;
         }
     }
 }

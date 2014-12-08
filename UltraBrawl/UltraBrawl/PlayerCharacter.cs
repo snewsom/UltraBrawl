@@ -542,7 +542,7 @@ namespace UltraBrawl
                 player.canJump = true;
                 player.pauseAnimation = false;
                 //idle->charge
-                if (!player.isSuper)
+                if (!player.isSuper || player.canFire)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -620,7 +620,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //run->charge
-                if (!player.isSuper)
+                if (!player.isSuper || player.canFire)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -695,7 +695,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if (!player.isSuper && player.canAOE && player.jumpCount < 4)
+                if ((!player.isSuper || player.canAOE || player.canFire) && player.jumpCount < 4)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -957,7 +957,7 @@ namespace UltraBrawl
                     player.charging();
                 }
                 player.chargeSoundInstance.Volume = 0.5f;
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed)
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire)
                 {
                     player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
                     player.canMove = false;
@@ -981,11 +981,6 @@ namespace UltraBrawl
                     {
                         player.chargedTwo();
                     }
-                }
-                else if (player.canFire)
-                {
-                    player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
-                    player.canMove = false;
                 }
 
                 if ((player.chargeTimer + 500) > player.chargeMax)
