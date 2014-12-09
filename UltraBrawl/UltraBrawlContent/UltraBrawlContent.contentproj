@@ -485,6 +485,41 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Images\lyndisButton.png">
+      <Name>lyndisButton</Name>
+    </Compile>
+    <Compile Include="Images\1W.png">
+      <Name>1W</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\2W.png">
+      <Name>2W</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\3W.png">
+      <Name>3W</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\4W.png">
+      <Name>4W</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\Lyndis.png">
+      <Name>Lyndis</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Images\draw.png">
+      <Name>draw</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Compile Include="Sound\Lazer Sword.wav">
       <Name>Lazer Sword</Name>
       <Importer>WavImporter</Importer>

@@ -34,6 +34,8 @@ namespace UltraBrawl
         public bool AOE = false;
         public bool smash = false;
         public bool update = false;
+        public bool noSpam = false;
+        public long spamTimer = 0;
         protected int chargeMax = 2500;
 
         //sprite/sound variables
@@ -476,6 +478,16 @@ namespace UltraBrawl
             }
             else
             {
+                if (canAOE && System.Environment.TickCount < spamTimer)
+                {
+                    noSpam = true;
+                }
+                else
+                {
+                    noSpam = false;
+                }
+
+
                 if (currentHealth < visibleHealth)
                 {
                     visibleHealth--;
@@ -568,7 +580,7 @@ namespace UltraBrawl
                 player.canJump = true;
                 player.pauseAnimation = false;
                 //idle->charge
-                if (!player.isSuper || player.canFire)
+                if ((!player.isSuper || player.canFire) && !player.noSpam)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -646,7 +658,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //run->charge
-                if (!player.isSuper || player.canFire)
+                if ((!player.isSuper || player.canFire) && !player.noSpam)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -721,7 +733,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if (((!player.isSuper && player.canSuper)|| player.canAOE || player.canFire) && player.jumpCount < 4)
+                if ((((!player.isSuper && player.canSuper)|| player.canAOE || player.canFire) && player.jumpCount < 4) &&!player.noSpam)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -982,6 +994,10 @@ namespace UltraBrawl
                 {
                     player.charging();
                 }
+                else
+                {
+                    player.spamTimer = System.Environment.TickCount + 5000;
+                }
                 player.chargeSoundInstance.Volume = 0.5f;
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash || player.canAOE)
                 {
@@ -1015,10 +1031,10 @@ namespace UltraBrawl
                 }
                 if (player.canFire && !player.hasFired)
                 {
-                    if ((player.currentFrame.X > player.fireChargeFrame - 1 && (player.chargeTimer + 500) < player.chargeMax) ||
-                        (player.currentFrame.X > player.fireChargeFrame - 1 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
+                    if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 500) < player.chargeMax) ||
+                        (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
-                        player.currentFrame.X = player.pcSegmentEndings.ElementAt(player.fireChargeFrame).X - 2;
+                        player.currentFrame.X = player.fireChargeFrame - 1;
                     }
                     if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
                     {

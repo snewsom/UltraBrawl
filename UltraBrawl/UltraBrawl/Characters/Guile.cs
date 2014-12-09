@@ -124,6 +124,7 @@ namespace UltraBrawl
         public override void chargedTwo()
         {
             fire = true;
+            hasFired = true;
         }
 
     }

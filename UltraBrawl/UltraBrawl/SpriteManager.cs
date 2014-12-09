@@ -65,8 +65,11 @@ namespace UltraBrawl
         private Texture2D title;
         private Texture2D[] healthBars;
         private Texture2D[] healthBgs;
+        private Texture2D[] wins;
+        private int winner = 4;
         private Texture2D p12hub;
         private Texture2D p34hub;
+        private Texture2D[] venomBar;
 
         //player readies
         private Texture2D[] notReadyTexs;
@@ -83,6 +86,7 @@ namespace UltraBrawl
         private Texture2D venomButton;
         private Texture2D zeroButton;
         private Texture2D kazuyaButton;
+        private Texture2D lyndisButton;
 
         private Texture2D bgCursor;
         private Texture2D bgButton1;
@@ -179,13 +183,22 @@ namespace UltraBrawl
             startTexs = new Texture2D[4];
             healthBars = new Texture2D[4];
             healthBgs = new Texture2D[4];
+
+            venomBar = new Texture2D[4];
+
+
+            wins = new Texture2D[5];
+
             for (int i = 0; i < 4; i++)
             {
                 readyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "R");
                 notReadyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "NR");
                 startTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "S");
+                wins[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "W");
                 healthBars[i] = Game.Content.Load<Texture2D>(@"Images/healthBar");
+                venomBar[i] = Game.Content.Load<Texture2D>(@"Images/healthBar");
             }
+            wins[4] = Game.Content.Load<Texture2D>(@"Images/draw");
             healthBgs[0] = Game.Content.Load<Texture2D>(@"Images/p1healthBg");
             healthBgs[1] = Game.Content.Load<Texture2D>(@"Images/p2healthBg");
             healthBgs[2] = Game.Content.Load<Texture2D>(@"Images/p3healthBg");
@@ -205,6 +218,7 @@ namespace UltraBrawl
             venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
+            lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
 
 
             bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
@@ -305,6 +319,21 @@ namespace UltraBrawl
             {
                 navigateMenu();
             }
+            if (gameState == GameState.GameOver)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (playing[i])
+                    {
+                        players[i].canMove = false;
+                        if (players[i].currentHealth > 0)
+                        {
+                            winner = i;
+                        }
+                    }
+                }
+            }
+
             if (gameState == GameState.CharSelect)
             {
                 for (int i = 0; i < 4; i++)
@@ -332,7 +361,7 @@ namespace UltraBrawl
                     gameState = GameState.BgSelect;
                 }
             }
-            else if (gameState == GameState.Playing)
+            else if (gameState == GameState.Playing || gameState == GameState.GameOver)
             {
 
                 for (int i = 0; i < numPlayers; i++)
@@ -359,7 +388,6 @@ namespace UltraBrawl
                 }
                 if (deadCount == numPlayers - 1 && numPlayers > 1)
                 {
-
                     switchMenu(gameOverMenu);
                     gameState = GameState.GameOver;
                 }
@@ -489,7 +517,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(ryuButton, charSelectMenu[2, 0], Color.White);
                 spriteBatch.Draw(guileButton, charSelectMenu[2, 1], Color.White);
                 spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
-                spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 1], Color.White);
+                spriteBatch.Draw(lyndisButton, charSelectMenu[3, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -519,12 +547,8 @@ namespace UltraBrawl
             }
             if (gameState == GameState.Playing || gameState == GameState.Paused || gameState == GameState.GameOver)
             {
-
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
-                for (int i = 0; i < numPlayers; i++)
-                {
-                }
             }
             if (gameState == GameState.Paused)
             {
@@ -540,7 +564,7 @@ namespace UltraBrawl
 
                 game.IsMouseVisible = false;
 
-                spriteBatch.Draw(title, new Vector2((GraphicsDevice.Viewport.Width / 2) - 360, 150), Color.White);
+                spriteBatch.Draw(wins[winner], new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 150), Color.White);
                 spriteBatch.Draw(mainmenuButton, startMenu[0, 0], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
 
@@ -560,6 +584,11 @@ namespace UltraBrawl
             spriteBatch.Draw(healthBgs[0], new Rectangle(65, 17, 560, 65), Color.White);
             spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].visibleHealth * 5, 78), Color.DarkRed);
             spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].currentHealth * 5, 78), Color.LightGray);
+            if (players[0].CHARACTER_NAME.Equals("Venom"))
+            {
+                //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
+                spriteBatch.Draw(venomBar[0], new Rectangle(120, 65, (int)(players[0].spamTimer-System.Environment.TickCount)/10, 20), Color.Yellow);
+            }
             spriteBatch.DrawString(font, players[0].currentHealth + "%", new Vector2(350, 36), Color.Red);
             spriteBatch.DrawString(font, "p1", new Vector2(700, 35), Color.Red);
             spriteBatch.Draw(selectedChars[0], new Rectangle(630, 17, 65, 65), Color.White);
@@ -569,6 +598,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBgs[1], new Rectangle(1305, 17, 560, 65), Color.White);
                 spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].visibleHealth * 5, 10, players[1].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].currentHealth * 5, 10, players[1].currentHealth * 5, 78), Color.LightGray);
+                //VENOM COOLDOWN HERE DON'T FORGET
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
                 spriteBatch.DrawString(font, "p2", new Vector2(1200, 35), Color.Blue);
                 spriteBatch.Draw(selectedChars[1], new Rectangle(1235, 17, 65, 65), Color.White);
@@ -578,6 +608,11 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBgs[2], new Rectangle(65, 82, 560, 65), Color.White);
                 spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].currentHealth * 5, 78), Color.LightGray);
+                if (players[1].CHARACTER_NAME.Equals("Venom"))
+                {
+                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(120, 130, (int)(players[0].spamTimer - System.Environment.TickCount) / 10, 20), Color.Yellow);
+                }
                 spriteBatch.DrawString(font, players[2].currentHealth + "%", new Vector2(350, 101), Color.Green);
                 spriteBatch.DrawString(font, "p3", new Vector2(700, 100), Color.Green);
                 spriteBatch.Draw(selectedChars[2], new Rectangle(630, 82, 65, 65), Color.White);
@@ -587,6 +622,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBgs[3], new Rectangle(1305, 82, 560, 65), Color.White);
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, players[3].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].currentHealth * 5, 75, players[3].currentHealth * 5, 78), Color.LightGray);
+                //VENOM COOLDOWN HERE DON'T FORGET
                 spriteBatch.DrawString(font, players[3].currentHealth + "%", new Vector2(1530, 101), Color.Orange);
                 spriteBatch.DrawString(font, "p4", new Vector2(1200, 100), Color.Orange);
                 spriteBatch.Draw(selectedChars[3], new Rectangle(1235, 82, 65, 65), Color.White);
@@ -843,8 +879,8 @@ namespace UltraBrawl
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)
                         {
-                            players[playerNum] = factory.selectCharacter(6);
-                            selectedChars[playerNum] = kazuyaButton;
+                            players[playerNum] = factory.selectCharacter(7);
+                            selectedChars[playerNum] = lyndisButton;
                             ready[playerNum] = true;
                         }
                     }
@@ -973,6 +1009,7 @@ namespace UltraBrawl
         }
         private void resetGame()
         {
+            winner = 4;
             for (int j = 0; j < 4; j++)
             {
                 ready[j] = false;

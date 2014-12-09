@@ -12,43 +12,41 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
-using System.Diagnostics;
 
 namespace UltraBrawl
 {
-    class Venom : PlayerCharacter
+    class Lyndis : PlayerCharacter
     {
         // constants for this particular sprite
-        // static List<Texture2D> particleList;
+       // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point venomNumberOfFrames = new Point(30, 20);
-        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
-        static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 20, 120);
-        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
-        static Vector2 venomSpeed = new Vector2(90, 32);
-        static Vector2 venomFriction = new Vector2(0.8f, 1f);
-        static Point venomFrameSize = new Point(170, 170);
-
+        static Point lyndisNumberOfFrames = new Point(30, 20);
+        static CollisionOffset lyndisCollisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset lyndisHitboxOffset = new CollisionOffset(100, 10, 40, 100);
+        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
+        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
+        static Vector2 lyndisSpeed = new Vector2(200, 32);
+        static Vector2 lyndisFriction = new Vector2(0.8f, 1f);
+        static Point lyndisFrameSize = new Point(170, 170);
+        
 
 
 
         // constructor
-        public Venom(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, sound1, sound2, venomFrameSize)
+        public Lyndis(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+            : base(new SpriteSheet(image, lyndisNumberOfFrames, 2.0f), lyndisCollisionOffset, lyndisHitboxOffset, lyndisHitboxOffsetFlipped, lyndisHitboxOffsetNotFlipped, lyndisSpeed, lyndisFriction, sound1, sound2, lyndisFrameSize)
         {
-            base.pcSegmentEndings.Add(new Point(12, 0)); //idle
-            base.pcSegmentEndings.Add(new Point(9, 1)); //running
+            base.pcSegmentEndings.Add(new Point(9, 0)); //idle
+            base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(8, 2)); //jumping
-            base.pcSegmentEndings.Add(new Point(6, 3)); //jumpkick
-            base.pcSegmentEndings.Add(new Point(6, 4)); //punch
-            base.pcSegmentEndings.Add(new Point(2, 5)); //kick
-            base.pcSegmentEndings.Add(new Point(6, 6)); //block
-            base.pcSegmentEndings.Add(new Point(6, 6)); //blockhit
+            base.pcSegmentEndings.Add(new Point(9, 3)); //jumpkick
+            base.pcSegmentEndings.Add(new Point(5, 4)); //punch
+            base.pcSegmentEndings.Add(new Point(6, 5)); //kick
+            base.pcSegmentEndings.Add(new Point(0, 6)); //block
+            base.pcSegmentEndings.Add(new Point(0, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(2, 7)); //hit
-            base.pcSegmentEndings.Add(new Point(13, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(22, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(12, 8)); //knockdown
+            base.pcSegmentEndings.Add(new Point(21, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
@@ -61,16 +59,17 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 7;
+            fireChargeFrame = 18;
 
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(50); //jumpkick
+            base.pcSegmentTimings.Add(40); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
-            base.pcSegmentTimings.Add(100); //kick
+            base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
-            base.pcSegmentTimings.Add(60); //blockhit
-            base.pcSegmentTimings.Add(60); //hit
+            base.pcSegmentTimings.Add(100); //blockhit
+            base.pcSegmentTimings.Add(200); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(60); //charging
             base.pcSegmentTimings.Add(50); //superIdle
@@ -86,67 +85,48 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            canAOE = true;
-            canSmash = true;
-            CHARACTER_DAMAGE = 2;
+            canJumpKick = true;
+            canFire = true;
+            CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 1;
-            CHARACTER_NAME = "Venom";
+            CHARACTER_NAME = "Lyndis";
         }
 
         public override void spawn(PlayerPreset preset)
         {
-
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
-            CHARACTER_NAME = "Venom";
-            chargeMax = 1100;
+            chargeMax = 800;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = venomHitboxOffsetFlipped;
+                hitboxOffset = lyndisHitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = venomHitboxOffsetNotFlipped;
+                hitboxOffset = lyndisHitboxOffsetNotFlipped;
             }
             update = true;
         }
 
         public override void charging()
         {
-            
-                AOE = true;
-                smash = true;
-                velocity.Y = 0;
-                gravity = noGravity;
-                hitboxOffset = AOEHitboxOffset;
-                regenHitbox();
+
         }
 
 
         public override void chargedOne()
         {
-            smash = false;
         }
         public override void chargedTwo()
         {
-            
-                if (effects == SpriteEffects.FlipHorizontally)
-                {
-                    hitboxOffset = venomHitboxOffsetFlipped;
-                }
-                else
-                {
-                    hitboxOffset = venomHitboxOffsetNotFlipped;
-                }
-                gravity = defaultGravity;
-                regenHitbox();
-                AOE = false;
-                smash = false;
+            fire = true;
+            hasFired = true;
         }
 
     }
 }
+
