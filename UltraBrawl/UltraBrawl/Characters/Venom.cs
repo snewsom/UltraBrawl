@@ -100,6 +100,11 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = venomHitboxOffsetFlipped;
             }
+            else
+            {
+                effects = SpriteEffects.None;
+                hitboxOffset = venomHitboxOffsetNotFlipped;
+            }
             update = true;
         }
 
