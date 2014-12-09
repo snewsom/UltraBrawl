@@ -71,7 +71,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //blockhit
             base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(120); //charging
+            base.pcSegmentTimings.Add(80); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -85,6 +85,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
+            chargeMax = 1800;
             canSmash = true;
             canJumpKick = true;
             canAOE = true;
@@ -110,7 +111,6 @@ namespace UltraBrawl
         public override void charging()
         {
             velocity.Y = 0;
-            smash = true;
             AOE = true;
             hitboxOffset = AOEHitboxOffset;
             gravity = noGravity;
@@ -120,23 +120,22 @@ namespace UltraBrawl
 
         public override void chargedOne()
         {
-            smash = false;
         }
         public override void chargedTwo()
         {
-             if (effects == SpriteEffects.FlipHorizontally)
+
+
+            if (effects == SpriteEffects.FlipHorizontally)
             {
                 hitboxOffset = kazuyaHitboxOffsetFlipped;
             }
             else
             {
                 hitboxOffset = kazuyaHitboxOffsetNotFlipped;
-            } 
+            }
             gravity = defaultGravity;
             regenHitbox();
             AOE = false;
-            smash = false;
-            gravity = defaultGravity;
 
         }
 
