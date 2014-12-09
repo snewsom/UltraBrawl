@@ -82,6 +82,7 @@ namespace UltraBrawl
         private Texture2D venomButton;
         private Texture2D zeroButton;
         private Texture2D kazuyaButton;
+        private Texture2D lyndisButton;
 
         private Texture2D bgCursor;
         private Texture2D bgButton1;
@@ -203,6 +204,7 @@ namespace UltraBrawl
             venomButton = Game.Content.Load<Texture2D>(@"Images/venomButton");
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
+            lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
 
 
             bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
@@ -482,7 +484,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(ryuButton, charSelectMenu[2, 0], Color.White);
                 spriteBatch.Draw(guileButton, charSelectMenu[2, 1], Color.White);
                 spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
-                spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 1], Color.White);
+                spriteBatch.Draw(lyndisButton, charSelectMenu[3, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -825,8 +827,8 @@ namespace UltraBrawl
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)
                         {
-                            players[playerNum] = factory.selectCharacter(6);
-                            selectedChars[playerNum] = kazuyaButton;
+                            players[playerNum] = factory.selectCharacter(7);
+                            selectedChars[playerNum] = lyndisButton;
                             ready[playerNum] = true;
                         }
                     }
