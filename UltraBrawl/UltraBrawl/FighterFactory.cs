@@ -27,13 +27,13 @@ namespace UltraBrawl
             {
                 return new Goku(game.Content.Load<Texture2D>(@"Images/Goku"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
-            else if (CharID == 1)
+            else if (CharID == 1)                       
             {
                 return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"));
             }
             else if (CharID == 2)
             {
-                return new Ryu(game.Content.Load<Texture2D>(@"Images/Ryu"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Ryu(game.Content.Load<Texture2D>(@"Images/Ryu"), game.Content.Load<SoundEffect>(@"Sound/Ryu Charge"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             else if (CharID == 3)
             {
@@ -49,7 +49,7 @@ namespace UltraBrawl
             }
             else if (CharID == 6)
             {
-                return new Kazuya(game.Content.Load<Texture2D>(@"Images/Kazuya"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Kazuya(game.Content.Load<Texture2D>(@"Images/Kazuya"), game.Content.Load<SoundEffect>(@"Sound/Kazuya Laugh"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }
