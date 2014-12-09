@@ -326,7 +326,6 @@ namespace UltraBrawl
                 {
                     if (playing[i])
                     {
-                        players[i].canMove = false;
                         if (players[i].currentHealth > 0)
                         {
                             winner = i;
@@ -374,7 +373,10 @@ namespace UltraBrawl
                         if (players[i].fire)
                         {
                             Debug.WriteLine(players[i].flipped);
+
+                            if (players[i].CHARACTER_ID == 1)
                             spriteList.Add(new MegamanBuster(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+
                             players[i].fire = false;
                         }
                         if (players[i].currentHealth <= 0)
