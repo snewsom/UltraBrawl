@@ -1015,8 +1015,8 @@ namespace UltraBrawl
                 }
                 if (player.canFire && !player.hasFired)
                 {
-                    if ((player.currentFrame.X > player.fireChargeFrame - 1 && (player.chargeTimer + 500) < player.chargeMax) ||
-                        (player.currentFrame.X > player.fireChargeFrame - 1 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
+                    if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 500) < player.chargeMax) ||
+                        (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
                         player.currentFrame.X = player.fireChargeFrame - 1;
                     }

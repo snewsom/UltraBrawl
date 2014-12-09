@@ -59,7 +59,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 5;
-            fireChargeFrame = 3;
+            fireChargeFrame = 4;
 
             base.pcSegmentTimings.Add(80); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -85,6 +85,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
+            chargeMax = 1000;
             base.canSuper = false;
             canFire = true;
             canJumpKick = true;
