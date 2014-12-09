@@ -98,7 +98,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
-            chargeMax = 400;
+            chargeMax = 550;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
