@@ -383,7 +383,7 @@ namespace UltraBrawl
                                 spriteList.Add(new GuileSonicBoom(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 7)
                                 spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
-
+                            spriteList.ElementAt(spriteList.Count - 1).myOwner = players[i];
                             players[i].fire = false;
                         }
                         if (players[i].currentHealth <= 0)
