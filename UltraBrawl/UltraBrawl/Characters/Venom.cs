@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using System.Diagnostics;
 
 namespace UltraBrawl
 {
@@ -94,9 +95,11 @@ namespace UltraBrawl
 
         public override void spawn(PlayerPreset preset)
         {
+
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
+            CHARACTER_NAME = "Venom";
             chargeMax = 1100;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
@@ -114,12 +117,13 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            AOE = true;
-            smash = true;
-            velocity.Y = 0;
-            gravity = noGravity;
-            hitboxOffset = AOEHitboxOffset;
-            regenHitbox();
+            
+                AOE = true;
+                smash = true;
+                velocity.Y = 0;
+                gravity = noGravity;
+                hitboxOffset = AOEHitboxOffset;
+                regenHitbox();
         }
 
 
@@ -129,18 +133,19 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            if (effects == SpriteEffects.FlipHorizontally)
-            {
-                hitboxOffset = venomHitboxOffsetFlipped;
-            }
-            else
-            {
-                hitboxOffset = venomHitboxOffsetNotFlipped;
-            } 
-            gravity = defaultGravity;
-            regenHitbox();
-            AOE = false;
-            smash = false;
+            
+                if (effects == SpriteEffects.FlipHorizontally)
+                {
+                    hitboxOffset = venomHitboxOffsetFlipped;
+                }
+                else
+                {
+                    hitboxOffset = venomHitboxOffsetNotFlipped;
+                }
+                gravity = defaultGravity;
+                regenHitbox();
+                AOE = false;
+                smash = false;
         }
 
     }
