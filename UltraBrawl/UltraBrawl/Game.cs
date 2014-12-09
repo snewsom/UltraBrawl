@@ -31,7 +31,7 @@ namespace UltraBrawl
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             // resize the game
-            graphics.IsFullScreen = true;
+            graphics.IsFullScreen = false;
             graphics.PreferredBackBufferHeight = 1080;
             graphics.PreferredBackBufferWidth = 1920;
         }

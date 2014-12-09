@@ -87,7 +87,7 @@ namespace UltraBrawl
             canJumpKick = true;
             canSmash = true;
             canSuper = false;
-            CHARACTER_DAMAGE = .9;
+            CHARACTER_DAMAGE = 1.1;
             CHARACTER_ID = 5;
             CHARACTER_NAME = "Zero";
         }

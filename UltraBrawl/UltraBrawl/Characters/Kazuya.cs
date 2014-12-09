@@ -26,7 +26,7 @@ namespace UltraBrawl
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
         static CollisionOffset kazuyaHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
         static CollisionOffset kazuyaHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
-        static Vector2 kazuyaSpeed = new Vector2(100 , 32);
+        static Vector2 kazuyaSpeed = new Vector2(128 , 32);
         static Vector2 kazuyaFriction = new Vector2(0.8f, 1f);
         static Point kazuyaFrameSize = new Point(170, 170);
         

@@ -38,6 +38,7 @@ namespace UltraBrawl
         public long pauseTime = 0;
         public long spamTimer = 0;
         protected int chargeMax = 2500;
+        public bool hasReleased = false;
 
         //sprite/sound variables
         static Point pcFrameSize;
@@ -214,7 +215,7 @@ namespace UltraBrawl
         public void getHit(SpriteEffects direction, int hitType, double oppDamage)
         {
             //if you aren't blocking or hit OR if you're facing the same direction(your back is to the other player)
-            if ((canMove && !isBlock) || direction.Equals(effects) || currentState.Equals(PlayerCharacterState.Charging))
+            if ((canMove && !isBlock) || (direction.Equals(effects) && isBlock)|| currentState.Equals(PlayerCharacterState.Charging))
             {
                 if (currentState.Equals(PlayerCharacterState.Charging))
                 {
@@ -225,6 +226,7 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_BLAST)
                 {
+                    canMove = false;
                     velocity.Y = -100f;
                     currentHealth -= (int)(10 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
@@ -293,6 +295,10 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_PUNCH)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
                     if (direction.Equals(SpriteEffects.None))
                     {
                         velocity.X += 100;
@@ -310,6 +316,12 @@ namespace UltraBrawl
             {
                 if (hitType == HIT_TYPE_BLAST)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
+                    canMove = false;
+                    isBlock = false;
                     velocity.Y = -100f;
                     if (CHARACTER_ID != 4)
                         currentHealth -= (int)(10 * oppDamage);
@@ -332,6 +344,10 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
                     if (CHARACTER_ID != 4)
                     currentHealth -= (int)(2 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
@@ -346,6 +362,10 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_KICK)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
                     if (direction.Equals(SpriteEffects.None))
                     {
                         velocity.X += 100;
@@ -360,6 +380,10 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_PUNCH)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
                     currentHealth -= (int)(1 * oppDamage);
                 }
             }
@@ -1024,6 +1048,10 @@ namespace UltraBrawl
                     }
                 }
                 player.chargeSoundInstance.Volume = 0.5f;
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
+                {
+                    player.hasReleased = true;
+                }
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash || player.canAOE)
                 {
                     player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
@@ -1056,18 +1084,19 @@ namespace UltraBrawl
                 }
                 if (player.canFire && !player.hasFired)
                 {
-                    if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 500) < player.chargeMax) ||
-                        (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
+                    if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 500) < player.chargeMax) || 
+                        (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed && player.hasReleased == false))
                     {
                         player.currentFrame.X = player.fireChargeFrame - 1;
                     }
-                    if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
+                    if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
                     {
                         player.chargedTwo();
                     }
                 }
-                if (player.hasFired && player.canFire && player.currentFrame.X >= (player.pcSegmentEndings.ElementAt(player.isSuper ? 21 : 10).X - 1) && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
+                if (player.hasFired && player.canFire && player.currentFrame.X >= (player.pcSegmentEndings.ElementAt(player.isSuper ? 21 : 10).X - 2) && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
                 {
+                    player.hasReleased = false;
                     player.hasFired = false;
                     player.chargeTimer = 0;
                     player.chargeSoundInstance.Stop(true);
@@ -1087,6 +1116,7 @@ namespace UltraBrawl
                 {
                     if (player.chargeTimer > player.chargeMax)
                     {
+                        player.hasReleased = false;
                         player.chargeTimer = 0;
                         player.chargedTwo();
                         player.chargeSoundInstance.Stop(true);
@@ -1103,6 +1133,7 @@ namespace UltraBrawl
                         }
                     }
                 }
+                player.oldGamePadState = GamePad.GetState(player.pcPlayerNum);
             }
         }
        

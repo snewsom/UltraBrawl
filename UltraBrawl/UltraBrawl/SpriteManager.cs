@@ -66,7 +66,7 @@ namespace UltraBrawl
         private Texture2D[] healthBars;
         private Texture2D[] healthBgs;
         private Texture2D[] wins;
-        private int winner = 4;
+        private int winner = 0;
         private Texture2D p12hub;
         private Texture2D p34hub;
         private Texture2D blastSheet;
@@ -96,6 +96,8 @@ namespace UltraBrawl
         private Texture2D bgButton4;
         private Texture2D bgButton5;
 
+        private Texture2D charAllReady;
+
 
 
         private Texture2D[] selectedChars = new Texture2D[4];
@@ -106,6 +108,10 @@ namespace UltraBrawl
         private Texture2D p2Cursor;
         private Texture2D p3Cursor;
         private Texture2D p4Cursor;
+        private Texture2D p1bgCursor;
+        private Texture2D p2bgCursor;
+        private Texture2D p3bgCursor;
+        private Texture2D p4bgCursor;
         private CursorLoc[] cursorLocs;
         List<Texture2D> cursors = new List<Texture2D>();
 
@@ -221,8 +227,8 @@ namespace UltraBrawl
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
             lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
 
-
-            bgCursor = Game.Content.Load<Texture2D>(@"Images/bgCursor");
+            charAllReady = Game.Content.Load<Texture2D>(@"Images/charAllReady");
+            
             bgButton1 = Game.Content.Load<Texture2D>(@"Images/bgButton1");
             bgButton2 = Game.Content.Load<Texture2D>(@"Images/bgButton2");
             bgButton3 = Game.Content.Load<Texture2D>(@"Images/bgButton3");
@@ -234,6 +240,12 @@ namespace UltraBrawl
             p2Cursor = Game.Content.Load<Texture2D>(@"Images/p2Cursor");
             p3Cursor = Game.Content.Load<Texture2D>(@"Images/p3Cursor");
             p4Cursor = Game.Content.Load<Texture2D>(@"Images/p4Cursor");
+
+
+            p1bgCursor = Game.Content.Load<Texture2D>(@"Images/bgcursor1");
+            p2bgCursor = Game.Content.Load<Texture2D>(@"Images/bgcursor2");
+            p3bgCursor = Game.Content.Load<Texture2D>(@"Images/bgcursor3");
+            p4bgCursor = Game.Content.Load<Texture2D>(@"Images/bgcursor4");
 
 
             startMenu = new Vector2[1, 2];
@@ -338,10 +350,6 @@ namespace UltraBrawl
             {
                 for (int i = 0; i < 4; i++)
                 {
-                    if (GamePad.GetState(gamepads[i]).Buttons.B == ButtonState.Pressed)
-                    {
-                        resetGame();
-                    }
                     if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && !playing[i])
                     {
                         playing[i] = true;
@@ -469,7 +477,6 @@ namespace UltraBrawl
                             if (sprite.collisionRect.Intersects(players[i].collisionRect))
                             {
                                 players[i].Collision(sprite);
-                                //sprite.Collision(players[i]);
                             }
                         }
                     }
@@ -503,21 +510,33 @@ namespace UltraBrawl
             }
             if (gameState == GameState.CharSelect)
             {
+                int readyCount = 0;
+                int playingCount = 0;
                 for (int i = 0; i < 4; i++)
                 {
                     if (ready[i])
                     {
                         spriteBatch.Draw(readyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                         spriteBatch.Draw(selectedChars[i], new Vector2((i % 2 == 0 ? 10 : 1760), (i < 2 ? 110 : 390)), Color.White);
+                        readyCount++;
+                        playingCount++;
                     }
                     else if (playing[i])
                     {
+                        playingCount++;
+                        readyCount--;
                         spriteBatch.Draw(notReadyTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                     }
                     else
                     {
+                        readyCount--;
+                        playingCount--;
                         spriteBatch.Draw(startTexs[i], new Vector2((i % 2 == 0 ? 0 : 1560), (i < 2 ? 20 : 300)), Color.White);
                     }
+                }
+                if (readyCount == playingCount)
+                {
+                    spriteBatch.Draw(charAllReady, new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 150), Color.White);
                 }
                 game.IsMouseVisible = false;
                 spriteBatch.Draw(gokuButton, charSelectMenu[0, 0], Color.White);
@@ -552,7 +571,32 @@ namespace UltraBrawl
                 spriteBatch.Draw(bgButton3, bgSelectMenu[0, 2], Color.White);
                 spriteBatch.Draw(bgButton4, bgSelectMenu[0, 3], Color.White);
                 spriteBatch.Draw(bgButton5, bgSelectMenu[0, 4], Color.White);
-                spriteBatch.Draw(bgCursor, cursorPositions[0], Color.White);
+                if (winner == 0)
+                {
+                    spriteBatch.Draw(p1bgCursor, cursorPositions[0], Color.White);
+                }
+                if (winner == 1)
+                {
+                    if (!playing[1])
+                        winner = 0;
+                    spriteBatch.Draw(p2bgCursor, cursorPositions[1], Color.White);
+                }
+                if (winner == 2)
+                {
+                    if (!playing[2])
+                        winner = 0;
+                    spriteBatch.Draw(p3bgCursor, cursorPositions[2], Color.White);
+                }
+                if (winner == 3)
+                {
+                    if (!playing[3])
+                        winner = 0;
+                    spriteBatch.Draw(p4bgCursor, cursorPositions[3], Color.White);
+                }
+                if (winner == 0)
+                {
+                    spriteBatch.Draw(p1bgCursor, cursorPositions[0], Color.White);
+                }
                 
             }
             if (gameState == GameState.Playing || gameState == GameState.Paused || gameState == GameState.GameOver)
@@ -611,7 +655,7 @@ namespace UltraBrawl
                 if (players[1].canAOE || players[1].canSmash )
                 {
 
-                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - players[1].pauseTime) / 10, 65, players[1].visibleHealth * 5, 20), Color.Blue);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - players[1].pauseTime) / 10, 65, (int)(players[1].spamTimer - players[2].pauseTime) / 10, 20), Color.Blue);
 
                 }
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
@@ -634,7 +678,7 @@ namespace UltraBrawl
             if (playing[3])
             {
                 spriteBatch.Draw(healthBgs[3], new Rectangle(1305, 82, 560, 65), Color.White);
-                spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, players[3].visibleHealth * 5, 78), Color.DarkRed);
+                spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, (int)(players[3].spamTimer - players[2].pauseTime) / 10, 78), Color.DarkRed);
 
                 //VENOM COOLDOWN HERE DON'T FORGET
                 if (players[3].canAOE || players[3].canSmash )
@@ -676,75 +720,73 @@ namespace UltraBrawl
             {
                 cursorPositions[i] = currentMenu[0, 0];
                 cursorLocs[i].resetLoc();
-                //cursorLocs[i] = new CursorLoc();
             }
         }
         void navigateMenu()
         {
+            int currentPlayer;
             //gamepad controls
             for (int i = 0; i < 4; i++)
             {
-                if (playing[i])
+                currentPlayer = i;
+                if ((playing[i] && currentMenu == charSelectMenu) || currentMenu != charSelectMenu || (currentMenu == bgSelectMenu && i == winner))
                 {
-                    if (cursorLocs[i].currentItemY + 1 < currentMenu.GetLength(1))
+                    if (currentMenu != charSelectMenu && currentMenu != bgSelectMenu)
+                    {
+                        currentPlayer = 0;
+                    }
+                    if (cursorLocs[currentPlayer].currentItemY + 1 < currentMenu.GetLength(1))
                     {
                         if (GamePad.GetState(gamepads[i]).DPad.Down == ButtonState.Pressed && previousGamePadState[i].DPad.Down == ButtonState.Released)
                         {
-                            cursorLocs[i].currentItemY++;
+                            cursorLocs[currentPlayer].currentItemY++;
                         }
-                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y < -.5f && previousGamePadState[i].ThumbSticks.Left.Y >= -.49f)
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y < -.5f && previousGamePadState[currentPlayer].ThumbSticks.Left.Y >= -.49f)
                         {
-                            cursorLocs[i].currentItemY++;
+                            cursorLocs[currentPlayer].currentItemY++;
                         }
                     }
-                    if (cursorLocs[i].currentItemX - 1 >= 0)
+                    if (cursorLocs[currentPlayer].currentItemX - 1 >= 0)
                     {
-                        if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[i].DPad.Left == ButtonState.Released)
+                        if (GamePad.GetState(gamepads[i]).DPad.Left == ButtonState.Pressed && previousGamePadState[currentPlayer].DPad.Left == ButtonState.Released)
                         {
-                            cursorLocs[i].currentItemX--;
+                            cursorLocs[currentPlayer].currentItemX--;
                         }
-                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X < -.5f && previousGamePadState[i].ThumbSticks.Left.X >= -.49f)
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X < -.5f && previousGamePadState[currentPlayer].ThumbSticks.Left.X >= -.49f)
                         {
-                            cursorLocs[i].currentItemX--;
+                            cursorLocs[currentPlayer].currentItemX--;
                         }
                     }
 
-                    if (cursorLocs[i].currentItemX + 1 < currentMenu.GetLength(0))
+                    if (cursorLocs[currentPlayer].currentItemX + 1 < currentMenu.GetLength(0))
                     {
-                        if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[i].DPad.Right == ButtonState.Released)
+                        if (GamePad.GetState(gamepads[i]).DPad.Right == ButtonState.Pressed && previousGamePadState[currentPlayer].DPad.Right == ButtonState.Released)
                         {
-                            cursorLocs[i].currentItemX++;
+                            cursorLocs[currentPlayer].currentItemX++;
                         }
-                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X > .5f && previousGamePadState[i].ThumbSticks.Left.X <= .49f)
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.X > .5f && previousGamePadState[currentPlayer].ThumbSticks.Left.X <= .49f)
                         {
-                            cursorLocs[i].currentItemX++;
+                            cursorLocs[currentPlayer].currentItemX++;
                         }
                     }
-                    if (cursorLocs[i].currentItemY - 1 >= 0)
+                    if (cursorLocs[currentPlayer].currentItemY - 1 >= 0)
                     {
-                        if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[i].DPad.Up == ButtonState.Released)
+                        if (GamePad.GetState(gamepads[i]).DPad.Up == ButtonState.Pressed && previousGamePadState[currentPlayer].DPad.Up == ButtonState.Released)
                         {
-                            cursorLocs[i].currentItemY--;
+                            cursorLocs[currentPlayer].currentItemY--;
                         }
-                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y > .5f && previousGamePadState[i].ThumbSticks.Left.Y <= .49f)
+                        else if (GamePad.GetState(gamepads[i]).ThumbSticks.Left.Y > .5f && previousGamePadState[currentPlayer].ThumbSticks.Left.Y <= .49f)
                         {
-                            cursorLocs[i].currentItemY--;
+                            cursorLocs[currentPlayer].currentItemY--;
                         }
                     }
                     if (GamePad.GetState(gamepads[i]).Buttons.A == ButtonState.Released && previousGamePadState[i].Buttons.A == ButtonState.Pressed)
                     {
-                        if (i == 0)
-                        {
-                            menuSelect(i, cursorPositions[i]);
-                        }
-                        else if (currentMenu == charSelectMenu)
-                        {
-                            menuSelect(i, cursorPositions[i]);
-                        }
+                        menuSelect(currentPlayer, cursorPositions[currentPlayer]);
                     }
                     if (currentMenu == bgSelectMenu)
                     {
-                        if (GamePad.GetState(gamepads[i]).Buttons.B == ButtonState.Released && previousGamePadState[i].Buttons.B == ButtonState.Pressed)
+                        if (GamePad.GetState(gamepads[currentPlayer]).Buttons.B == ButtonState.Released && previousGamePadState[currentPlayer].Buttons.B == ButtonState.Pressed)
                         {
                             background = Game.Content.Load<Texture2D>(@"Images/background");
                             startGame = false;
@@ -754,9 +796,20 @@ namespace UltraBrawl
                     }
                     if (currentMenu == charSelectMenu)
                     {
-                        if (GamePad.GetState(gamepads[0]).Buttons.Start == ButtonState.Pressed && previousGamePadState[0].Buttons.Start == ButtonState.Released)
+                        if (GamePad.GetState(gamepads[currentPlayer]).Buttons.Start == ButtonState.Pressed && previousGamePadState[currentPlayer].Buttons.Start == ButtonState.Released)
                         {
                             startGame = true;
+                        } 
+                        if (GamePad.GetState(gamepads[currentPlayer]).Buttons.B == ButtonState.Pressed && previousGamePadState[currentPlayer].Buttons.B == ButtonState.Released)
+                        {
+                            if (ready[currentPlayer])
+                                ready[currentPlayer] = false;
+                            else if (playing[currentPlayer])
+                                playing[currentPlayer] = false;
+                            else
+                            {
+                                resetGame();
+                            }
                         }
                         if (onGuile && !guilePlaying)
                         {
@@ -784,25 +837,25 @@ namespace UltraBrawl
                     }
                     if (currentMenu == bgSelectMenu)
                     {
-                        if (cursorLocs[0].currentItemX == 0)
+                        if (cursorLocs[winner].currentItemX == 0)
                         {
-                            if (cursorLocs[0].currentItemY == 0)
+                            if (cursorLocs[winner].currentItemY == 0)
                             {
                                 background = Game.Content.Load<Texture2D>(@"Images/background1");
                             }
-                            else if (cursorLocs[0].currentItemY == 1)
+                            else if (cursorLocs[winner].currentItemY == 1)
                             {
                                 background = Game.Content.Load<Texture2D>(@"Images/background2");
                             }
-                            else if (cursorLocs[0].currentItemY == 2)
+                            else if (cursorLocs[winner].currentItemY == 2)
                             {
                                 background = Game.Content.Load<Texture2D>(@"Images/background3");
                             }
-                            else if (cursorLocs[0].currentItemY == 3)
+                            else if (cursorLocs[winner].currentItemY == 3)
                             {
                                 background = Game.Content.Load<Texture2D>(@"Images/background4");
                             }
-                            else if (cursorLocs[0].currentItemY == 4)
+                            else if (cursorLocs[winner].currentItemY == 4)
                             {
                                 background = Game.Content.Load<Texture2D>(@"Images/background5");
                             }
@@ -815,7 +868,7 @@ namespace UltraBrawl
                     }
                     if (currentMenu == pauseMenu)
                     {
-                        if (GamePad.GetState(gamepads[i]).Buttons.Start == ButtonState.Pressed && previousGamePadState[i].Buttons.Start == ButtonState.Released)
+                        if (GamePad.GetState(gamepads[currentPlayer]).Buttons.Start == ButtonState.Pressed && previousGamePadState[currentPlayer].Buttons.Start == ButtonState.Released)
                         {
                             for (int j = 0; j < numPlayers; j++)
                             {
@@ -829,7 +882,7 @@ namespace UltraBrawl
                             gameState = GameState.Playing;
                         }
                     }
-                    cursorPositions[i] = currentMenu[cursorLocs[i].currentItemX, cursorLocs[i].currentItemY];
+                    cursorPositions[currentPlayer] = currentMenu[cursorLocs[currentPlayer].currentItemX, cursorLocs[currentPlayer].currentItemY];
                     previousGamePadState[i] = GamePad.GetState(gamepads[i]);
                 }
             }
@@ -918,7 +971,7 @@ namespace UltraBrawl
             }
             else if (gameState == GameState.BgSelect)
             {
-                if (cursorLocs[0].currentItemY == 0)
+                if (cursorLocs[winner].currentItemY == 0)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Le Perv Loop");
                     platformList = new List<Sprite>();
@@ -927,7 +980,7 @@ namespace UltraBrawl
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 650)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 875)));
                 }
-                else if (cursorLocs[0].currentItemY == 1)
+                else if (cursorLocs[winner].currentItemY == 1)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/Kirk Gadget & Valkyrie 1984 - Ghosts Loop");
                     platformList = new List<Sprite>();
@@ -938,7 +991,7 @@ namespace UltraBrawl
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 460)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 875)));
                 }
-                else if (cursorLocs[0].currentItemY == 2)
+                else if (cursorLocs[winner].currentItemY == 2)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/LazerHawk - King of The Streets Loop");
                     platformList = new List<Sprite>();
@@ -948,7 +1001,7 @@ namespace UltraBrawl
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 650)));
                 }
-                else if (cursorLocs[0].currentItemY == 3)
+                else if (cursorLocs[winner].currentItemY == 3)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/SelloRekT LA Dreams - Feel The Burn Loop");
                     platformList = new List<Sprite>();
@@ -957,7 +1010,7 @@ namespace UltraBrawl
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
                 }
-                else if (cursorLocs[0].currentItemY == 4)
+                else if (cursorLocs[winner].currentItemY == 4)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/SellorektLA Dreams - LightSpeed Loop");
                     platformList = new List<Sprite>();
@@ -1030,7 +1083,10 @@ namespace UltraBrawl
         }
         private void resetGame()
         {
-            winner = 4;
+            if (winner == 4)
+            {
+                winner = 0;
+            }
             for (int j = 0; j < 4; j++)
             {
                 ready[j] = false;
