@@ -85,6 +85,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(60); //superCharge
             base.setSegments();
 
+            JKknockdown = true;
             canJumpKick = true;
             canSuper = true;
             CHARACTER_ID = 0;

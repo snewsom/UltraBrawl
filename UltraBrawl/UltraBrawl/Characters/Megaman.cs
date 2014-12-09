@@ -85,6 +85,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
+            JKknockdown = true;
             canJumpKick = true;
             canFire = true;
             CHARACTER_DAMAGE = 1;
@@ -97,7 +98,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
-            chargeMax = 600;
+            chargeMax = 500;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {

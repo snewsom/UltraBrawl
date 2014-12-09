@@ -71,7 +71,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //blockhit
             base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(80); //charging
+            base.pcSegmentTimings.Add(100); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -85,8 +85,9 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            chargeMax = 500;
+            chargeMax = 700;
             base.canSuper = false;
+            JKknockdown = true;
             canFire = true;
             canJumpKick = true;
             CHARACTER_DAMAGE = 1.2;

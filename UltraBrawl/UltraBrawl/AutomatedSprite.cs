@@ -48,13 +48,13 @@ namespace UltraBrawl
                     {
                         if (PROJECTILE_ID == 4 || PROJECTILE_ID == 2)
                         {
-                            otherPlayer.getHit(effects, 1, 1);
+                            otherPlayer.getHit(effects, 1, 1, true);
                         }
                         else if(PROJECTILE_ID == 1){
-                            otherPlayer.getHit(effects, 1, 1);
+                            otherPlayer.getHit(effects, 1, 1, true);
                         }
                         else {
-                            otherPlayer.getHit(effects, 3, 1);
+                            otherPlayer.getHit(effects, 3, 1, true);
                         }
                         disable = true;
                     }

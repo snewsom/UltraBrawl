@@ -31,6 +31,7 @@ namespace UltraBrawl
         }
         PlayerCharacterState currentState;
         AbstractState[] states;
+        public bool JKknockdown = false;
         public bool AOE = false;
         public bool smash = false;
         public bool update = false;
@@ -212,7 +213,7 @@ namespace UltraBrawl
         }
 
         //get hit by other character
-        public void getHit(SpriteEffects direction, int hitType, double oppDamage)
+        public void getHit(SpriteEffects direction, int hitType, double oppDamage, bool otherCanKnockdown)
         {
             //if you aren't blocking or hit OR if you're facing the same direction(your back is to the other player)
             if ((canMove && !isBlock) || (direction.Equals(effects) && isBlock)|| currentState.Equals(PlayerCharacterState.Charging))
@@ -271,7 +272,7 @@ namespace UltraBrawl
                         velocity.X = -1000f;
                     }
                     jumpCount = 4;
-                    if (!isSuper)
+                    if (!isSuper && otherCanKnockdown)
                         switchState(PlayerCharacterState.Knockdown);
                     else
                         switchState(PlayerCharacterState.Hit);
@@ -284,11 +285,11 @@ namespace UltraBrawl
                     }
                     if (direction.Equals(SpriteEffects.None))
                     {
-                        velocity.X += 500;
+                        velocity.X += 1500;
                     }
                     else
                     {
-                        velocity.X -= 500;
+                        velocity.X -= 1500;
                     }
                     switchState(PlayerCharacterState.Hit);
                     currentHealth -= (int)(7 * oppDamage);
@@ -324,7 +325,13 @@ namespace UltraBrawl
                     isBlock = false;
                     velocity.Y = -100f;
                     if (CHARACTER_ID != 4)
+                    {
                         currentHealth -= (int)(10 * oppDamage);
+                    }
+                    else
+                    {
+                        currentHealth -= (int)(5 * oppDamage);
+                    }
                     if (direction.Equals(SpriteEffects.None))
                     {
                         flipped = true;
@@ -349,7 +356,7 @@ namespace UltraBrawl
                         chargedTwo();
                     }
                     if (CHARACTER_ID != 4)
-                    currentHealth -= (int)(2 * oppDamage);
+                        currentHealth -= (int)(2 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
                         velocity.X += 100;
@@ -464,11 +471,11 @@ namespace UltraBrawl
                     {
                         if (otherPlayer.position.X > position.X)
                         {
-                            otherPlayer.getHit(SpriteEffects.None, HIT_TYPE_BLAST, CHARACTER_DAMAGE);
+                            otherPlayer.getHit(SpriteEffects.None, HIT_TYPE_BLAST, CHARACTER_DAMAGE, JKknockdown);
                         }
                         else
                         {
-                            otherPlayer.getHit(SpriteEffects.FlipHorizontally, HIT_TYPE_BLAST, CHARACTER_DAMAGE);
+                            otherPlayer.getHit(SpriteEffects.FlipHorizontally, HIT_TYPE_BLAST, CHARACTER_DAMAGE, JKknockdown);
                         }
                     }
                     if (isJumpKick)
@@ -481,19 +488,19 @@ namespace UltraBrawl
                         }
                         if (otherPlayer.isJumpKick)
                         {
-                            getHit(effects, HIT_TYPE_JUMPKICK, otherPlayer.CHARACTER_DAMAGE);
+                            getHit(effects, HIT_TYPE_JUMPKICK, otherPlayer.CHARACTER_DAMAGE, JKknockdown);
                         }
-                        otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE);
+                        otherPlayer.getHit(effects, HIT_TYPE_JUMPKICK, CHARACTER_DAMAGE, JKknockdown);
                         isJumpKick = false;
                     }
                     else if (isKick)
                     {
-                        otherPlayer.getHit(effects, HIT_TYPE_KICK, CHARACTER_DAMAGE);
+                        otherPlayer.getHit(effects, HIT_TYPE_KICK, CHARACTER_DAMAGE, JKknockdown);
                         isKick = false;
                     }
                     else if (isPunch)
                     {
-                        otherPlayer.getHit(effects, HIT_TYPE_PUNCH, CHARACTER_DAMAGE);
+                        otherPlayer.getHit(effects, HIT_TYPE_PUNCH, CHARACTER_DAMAGE, JKknockdown);
                         isPunch = false;
                     }
                 }
@@ -888,11 +895,16 @@ namespace UltraBrawl
                 player.canMove = false;
                 player.canJump = false;
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X && GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed)
                 {
                     player.velocity.X = 0f;
-                    player.canMove = true;
+                    player.switchState(PlayerCharacterState.Blocking);
+                }
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X && GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Released)
+                {
+                    player.isBlock = false;
                     player.canJump = true;
+                    player.canMove = true;
                     player.switchState(PlayerCharacterState.Idle);
                 }
             }
