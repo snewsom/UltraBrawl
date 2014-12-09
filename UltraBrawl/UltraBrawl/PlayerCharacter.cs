@@ -246,7 +246,11 @@ namespace UltraBrawl
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
                     velocity.Y = -100f;
-                    currentHealth -= (int) (5 * oppDamage);
+                    currentHealth -= (int)(5 * oppDamage);
+                    if (AOE)
+                    {
+                        chargedTwo();
+                    }
                     if (direction.Equals(SpriteEffects.None))
                     {
                         flipped = true;
