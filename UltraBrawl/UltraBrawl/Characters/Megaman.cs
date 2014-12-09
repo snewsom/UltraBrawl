@@ -46,7 +46,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(1, 7)); //hit
             base.pcSegmentEndings.Add(new Point(10, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(18, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(16, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
@@ -56,7 +56,10 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
+            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
+            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 7;
+            fireChargeFrame = 10;
 
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -76,6 +79,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(40); //superPunch
             base.pcSegmentTimings.Add(40); //superKick
             base.pcSegmentTimings.Add(50); //superBlock
+            base.pcSegmentTimings.Add(100); //superBlockhit
+            base.pcSegmentTimings.Add(100); //superHit
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
@@ -114,6 +119,7 @@ namespace UltraBrawl
         public override void chargedTwo()
         {
             fire = true;
+            hasFired = true;
         }
 
     }

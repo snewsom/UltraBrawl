@@ -20,7 +20,7 @@ namespace UltraBrawl
         // constants for this particular sprite
         //static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point gokuNumberOfFrames = new Point(20, 20);
+        static Point gokuNumberOfFrames = new Point(20, 22);
         static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
         static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
@@ -56,7 +56,10 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 17)); //superBlock
             base.pcSegmentEndings.Add(new Point(1, 18)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(1, 19)); //superHit
+            base.pcSegmentEndings.Add(new Point(0, 0)); //ChargeBuffer
+            base.pcSegmentEndings.Add(new Point(11, 20)); //superCharge
             base.knockDownEndFrame = 6;
+            base.fireChargeFrame = 4;
     
             base.pcSegmentTimings.Add(50); //idle
             base.pcSegmentTimings.Add(80); //running
@@ -78,6 +81,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //superBlock
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
+            base.pcSegmentTimings.Add(0); //ChargeBuffer
+            base.pcSegmentTimings.Add(120); //superCharge
             base.setSegments();
 
             canJumpKick = true;
@@ -108,18 +113,22 @@ namespace UltraBrawl
         public override void chargedOne()
         {
             base.superLoopInstance.Play();
-            base.isSuper = true;
+            isSuper = true;
         }
         public override void chargedTwo()
         {
             if (canFire)
             {
                 fire = true;
+                hasFired = true;
             }
-            CHARACTER_DAMAGE *= 1.2;
-            base.isSuper = true;
-            canSuper = false;
-            canFire = true;
+            else
+            {
+                CHARACTER_DAMAGE *= 1.2;
+                canSuper = false;
+                canFire = true;
+                chargeMax = 1000;
+            }
         }
     }
 }

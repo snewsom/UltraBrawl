@@ -30,12 +30,10 @@ namespace UltraBrawl
             segments[numSegments] = new SpriteSheetSegment(frameSize, startFrame, endFrame, 
                 millisecondsPerFrame);
             ++numSegments;
-            System.Diagnostics.Debug.WriteLine("number of segments is " + numSegments);
         }
 
         public void setCurrentSegment(int which)
         {
-            System.Diagnostics.Debug.WriteLine("segment number " + which);
             currentSegment = segments[which];
         }
     }

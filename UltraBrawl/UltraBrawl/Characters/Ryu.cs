@@ -56,6 +56,8 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
+            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
+            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 5;
 
             base.pcSegmentTimings.Add(70); //idle
@@ -76,6 +78,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(40); //superPunch
             base.pcSegmentTimings.Add(40); //superKick
             base.pcSegmentTimings.Add(50); //superBlock
+            base.pcSegmentTimings.Add(100); //superBlockhit
+            base.pcSegmentTimings.Add(100); //superHit
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
