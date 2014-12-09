@@ -26,7 +26,7 @@ namespace UltraBrawl
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
         static CollisionOffset kazuyaHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
         static CollisionOffset kazuyaHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
-        static Vector2 kazuyaSpeed = new Vector2(60, 32);
+        static Vector2 kazuyaSpeed = new Vector2(100 , 32);
         static Vector2 kazuyaFriction = new Vector2(0.8f, 1f);
         static Point kazuyaFrameSize = new Point(170, 170);
         
@@ -62,7 +62,7 @@ namespace UltraBrawl
             base.knockDownEndFrame = 5;
 
             base.pcSegmentTimings.Add(100); //idle
-            base.pcSegmentTimings.Add(40); //running
+            base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
             base.pcSegmentTimings.Add(40); //jumpkick
             base.pcSegmentTimings.Add(35); //punch

@@ -29,7 +29,7 @@ namespace UltraBrawl
             }
             else if (CharID == 1)
             {
-                return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"));
             }
             else if (CharID == 2)
             {
@@ -41,15 +41,19 @@ namespace UltraBrawl
             }
             else if (CharID == 4)
             {
-                return new Venom(game.Content.Load<Texture2D>(@"Images/Venom"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Venom(game.Content.Load<Texture2D>(@"Images/Venom"), game.Content.Load<SoundEffect>(@"Sound/Venom Laugh"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             else if (CharID == 5)
             {
-                return new Zero(game.Content.Load<Texture2D>(@"Images/Zero"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Zero(game.Content.Load<Texture2D>(@"Images/Zero"), game.Content.Load<SoundEffect>(@"Sound/Lazer Sword"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             else if (CharID == 6)
             {
                 return new Kazuya(game.Content.Load<Texture2D>(@"Images/Kazuya"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+            }
+            else if (CharID == 7)
+            {
+                return new Lyndis(game.Content.Load<Texture2D>(@"Images/Lyndis"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }
