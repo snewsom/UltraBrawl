@@ -88,7 +88,7 @@ namespace UltraBrawl
 
             canAOE = true;
             canSmash = true;
-            CHARACTER_DAMAGE = 2;
+            CHARACTER_DAMAGE = 1.7;
             CHARACTER_ID = 4;
             CHARACTER_NAME = "Venom";
         }
@@ -128,7 +128,6 @@ namespace UltraBrawl
 
         public override void chargedOne()
         {
-            smash = false;
         }
         public override void chargedTwo()
         {

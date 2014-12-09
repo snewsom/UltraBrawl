@@ -37,7 +37,7 @@ namespace UltraBrawl
         PlayerPreset[] presets = new PlayerPreset[4];
 
         PlayerCharacter[] players;
-        Vector2[] spawnLocs = { new Vector2(200, 0), new Vector2(800, 0), new Vector2(200, 0), new Vector2(800, 0) };
+        Vector2[] spawnLocs = { new Vector2(200, 900), new Vector2(1500, 900), new Vector2(500, 1000), new Vector2(1200, 1000) };
         Texture2D background;
 
         List<AutomatedSprite> spriteList = new List<AutomatedSprite>();

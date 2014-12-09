@@ -124,7 +124,7 @@ namespace UltraBrawl
             }
             else
             {
-                CHARACTER_DAMAGE *= 1.2;
+                CHARACTER_DAMAGE *= 1.5;
                 canSuper = false;
                 canFire = true;
                 chargeMax = 900;

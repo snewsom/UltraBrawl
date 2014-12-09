@@ -276,16 +276,20 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_KICK)
                 {
+                    if (AOE || smash)
+                    {
+                        chargedTwo();
+                    }
                     if (direction.Equals(SpriteEffects.None))
                     {
-                        velocity.X += 100;
+                        velocity.X += 500;
                     }
                     else
                     {
-                        velocity.X -= 100;
+                        velocity.X -= 500;
                     }
                     switchState(PlayerCharacterState.Hit);
-                    currentHealth -= (int)(6 * oppDamage);
+                    currentHealth -= (int)(7 * oppDamage);
                 }
                 if (hitType == HIT_TYPE_PUNCH)
                 {
@@ -298,7 +302,7 @@ namespace UltraBrawl
                         velocity.X -= 100;
                     }
                     switchState(PlayerCharacterState.Hit);
-                    currentHealth -= (int)(3 * oppDamage);
+                    currentHealth -= (int)(5 * oppDamage);
                 }
             }
             //if you are blocking AND facing the other player
@@ -414,7 +418,6 @@ namespace UltraBrawl
         /* Collision */
         public override void Collision(Sprite otherSprite)
         {
-            // Platform platform = (Platform)otherSprite;
             System.Type type = otherSprite.GetType();
             if (type.ToString().Equals("UltraBrawl.Platform"))
             {
@@ -480,6 +483,14 @@ namespace UltraBrawl
                 if (isSuper)
                 {
                     superLoopInstance.Pause();
+                }
+                if (currentHealth == 0)
+                {
+                    pauseTime = System.Environment.TickCount;
+                    if (visibleHealth != 0)
+                    {
+                        visibleHealth--;
+                    }
                 }
             }
             else
@@ -740,7 +751,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if ((((!player.isSuper && player.canSuper)|| player.canAOE) && player.jumpCount < 4) &&!player.noSpam)
+                if ((((!player.isSuper && player.canSuper)|| player.canAOE || player.canFire) && player.jumpCount < 4) &&!player.noSpam && (player.CHARACTER_ID == 4 || player.CHARACTER_ID == 7))
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {

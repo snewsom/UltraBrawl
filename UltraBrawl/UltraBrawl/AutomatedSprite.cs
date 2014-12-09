@@ -46,12 +46,14 @@ namespace UltraBrawl
                 {
                     if (otherPlayer.currentHealth > 0)
                     {
-                        if (PROJECTILE_ID == 4 || PROJECTILE_ID == 1 || PROJECTILE_ID == 2)
+                        if (PROJECTILE_ID == 4 || PROJECTILE_ID == 2)
                         {
                             otherPlayer.getHit(effects, 1, 1);
                         }
-                        else
-                        {
+                        else if(PROJECTILE_ID == 1){
+                            otherPlayer.getHit(effects, 1, 1);
+                        }
+                        else {
                             otherPlayer.getHit(effects, 3, 1);
                         }
                         disable = true;

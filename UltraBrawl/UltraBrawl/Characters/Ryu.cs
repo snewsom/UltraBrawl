@@ -89,7 +89,7 @@ namespace UltraBrawl
             base.canSuper = false;
             canFire = true;
             canJumpKick = true;
-            CHARACTER_DAMAGE = 1;
+            CHARACTER_DAMAGE = 1.2;
             CHARACTER_ID = 2;
             CHARACTER_NAME = "Ryu";
         }
