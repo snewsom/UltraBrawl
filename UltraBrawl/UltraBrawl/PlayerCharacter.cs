@@ -35,6 +35,7 @@ namespace UltraBrawl
         public bool smash = false;
         public bool update = false;
         public bool noSpam = false;
+        public long pauseTime = 0;
         public long spamTimer = 0;
         protected int chargeMax = 2500;
 
@@ -996,7 +997,14 @@ namespace UltraBrawl
                 }
                 else
                 {
-                    player.spamTimer = System.Environment.TickCount + 5000;
+                    if (player.AOE)
+                    {
+                        player.spamTimer = System.Environment.TickCount + 5000;
+                    }
+                    else if (player.smash)
+                    {
+                        player.spamTimer = System.Environment.TickCount + 3000;
+                    }
                 }
                 player.chargeSoundInstance.Volume = 0.5f;
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash || player.canAOE)
