@@ -58,20 +58,20 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.knockDownEndFrame = 7;
+            base.knockDownEndFrame = 8;
             fireChargeFrame = 18;
 
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(40); //jumpkick
+            base.pcSegmentTimings.Add(30); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(200); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(60); //charging
+            base.pcSegmentTimings.Add(30); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -97,7 +97,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
             controller = preset.controller;
-            chargeMax = 800;
+            chargeMax = 650;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {

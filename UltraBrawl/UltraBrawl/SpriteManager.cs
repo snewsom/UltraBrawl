@@ -584,7 +584,7 @@ namespace UltraBrawl
             spriteBatch.Draw(healthBgs[0], new Rectangle(65, 17, 560, 65), Color.White);
             spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].visibleHealth * 5, 78), Color.DarkRed);
             spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].currentHealth * 5, 78), Color.LightGray);
-            if (players[0].CHARACTER_NAME.Equals("Venom"))
+            if (players[0].canAOE)
             {
                 //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
                 spriteBatch.Draw(venomBar[0], new Rectangle(120, 65, (int)(players[0].spamTimer-System.Environment.TickCount)/10, 20), Color.Yellow);
@@ -599,6 +599,11 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].visibleHealth * 5, 10, players[1].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[1], new Rectangle(1810 - players[1].currentHealth * 5, 10, players[1].currentHealth * 5, 78), Color.LightGray);
                 //VENOM COOLDOWN HERE DON'T FORGET
+                if (players[1].canAOE)
+                {
+                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 65, (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 20), Color.Yellow);
+                }
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
                 spriteBatch.DrawString(font, "p2", new Vector2(1200, 35), Color.Blue);
                 spriteBatch.Draw(selectedChars[1], new Rectangle(1235, 17, 65, 65), Color.White);
@@ -608,10 +613,10 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBgs[2], new Rectangle(65, 82, 560, 65), Color.White);
                 spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].currentHealth * 5, 78), Color.LightGray);
-                if (players[1].CHARACTER_NAME.Equals("Venom"))
+                if (players[2].canAOE)
                 {
                     //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
-                    spriteBatch.Draw(venomBar[0], new Rectangle(120, 130, (int)(players[0].spamTimer - System.Environment.TickCount) / 10, 20), Color.Yellow);
+                    spriteBatch.Draw(venomBar[2], new Rectangle(120, 130, (int)(players[2].spamTimer - System.Environment.TickCount) / 10, 20), Color.Yellow);
                 }
                 spriteBatch.DrawString(font, players[2].currentHealth + "%", new Vector2(350, 101), Color.Green);
                 spriteBatch.DrawString(font, "p3", new Vector2(700, 100), Color.Green);
@@ -623,6 +628,11 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, players[3].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].currentHealth * 5, 75, players[3].currentHealth * 5, 78), Color.LightGray);
                 //VENOM COOLDOWN HERE DON'T FORGET
+                if (players[3].canAOE)
+                {
+                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[3].spamTimer - System.Environment.TickCount) / 10, 130, (int)(players[3].spamTimer - System.Environment.TickCount) / 10, 20), Color.Yellow);
+                }
                 spriteBatch.DrawString(font, players[3].currentHealth + "%", new Vector2(1530, 101), Color.Orange);
                 spriteBatch.DrawString(font, "p4", new Vector2(1200, 100), Color.Orange);
                 spriteBatch.Draw(selectedChars[3], new Rectangle(1235, 82, 65, 65), Color.White);

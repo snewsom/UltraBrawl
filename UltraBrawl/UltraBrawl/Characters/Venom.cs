@@ -119,7 +119,6 @@ namespace UltraBrawl
         {
             
                 AOE = true;
-                smash = true;
                 velocity.Y = 0;
                 gravity = noGravity;
                 hitboxOffset = AOEHitboxOffset;
@@ -145,7 +144,6 @@ namespace UltraBrawl
                 gravity = defaultGravity;
                 regenHitbox();
                 AOE = false;
-                smash = false;
         }
 
     }
