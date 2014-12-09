@@ -64,7 +64,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
             base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(50); //jumpkick
+            base.pcSegmentTimings.Add(40); //jumpkick
             base.pcSegmentTimings.Add(30); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
