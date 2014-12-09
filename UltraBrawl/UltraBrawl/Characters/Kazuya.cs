@@ -47,7 +47,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(1, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(3, 7)); //hit
             base.pcSegmentEndings.Add(new Point(21, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(18, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(22, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
@@ -85,8 +85,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            chargeMax = 1800;
-            canSmash = true;
+            chargeMax = 1750;
             canJumpKick = true;
             canAOE = true;
             CHARACTER_DAMAGE = 1.2;
