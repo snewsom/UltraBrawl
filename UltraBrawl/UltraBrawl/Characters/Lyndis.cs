@@ -18,13 +18,13 @@ namespace UltraBrawl
     class Lyndis : PlayerCharacter
     {
         // constants for this particular sprite
-       // static List<Texture2D> particleList;
+        //static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
         static Point lyndisNumberOfFrames = new Point(30, 20);
         static CollisionOffset lyndisCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset lyndisHitboxOffset = new CollisionOffset(100, 10, 40, 100);
-        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
-        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
+        static CollisionOffset lyndisHitboxOffset = new CollisionOffset(100, 10, 10, 100);
+        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 10);
+        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 10, 120);
         static Vector2 lyndisSpeed = new Vector2(200, 32);
         static Vector2 lyndisFriction = new Vector2(0.8f, 1f);
         static Point lyndisFrameSize = new Point(170, 170);
@@ -68,8 +68,8 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //punch
             base.pcSegmentTimings.Add(40); //kick
             base.pcSegmentTimings.Add(50); //block
-            base.pcSegmentTimings.Add(100); //blockhit
-            base.pcSegmentTimings.Add(200); //hit
+            base.pcSegmentTimings.Add(50); //blockhit
+            base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(30); //charging
             base.pcSegmentTimings.Add(50); //superIdle
@@ -88,7 +88,7 @@ namespace UltraBrawl
             canJumpKick = true;
             canFire = true;
             CHARACTER_DAMAGE = 1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 7;
             CHARACTER_NAME = "Lyndis";
         }
 

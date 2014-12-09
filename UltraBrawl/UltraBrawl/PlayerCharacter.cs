@@ -236,7 +236,7 @@ namespace UltraBrawl
                         effects = SpriteEffects.None;
                         velocity.X = -1000f;
                     }
-                    if (AOE)
+                    if (AOE || smash)
                     {
                         chargedTwo();
                     }
@@ -249,7 +249,7 @@ namespace UltraBrawl
                 {
                     velocity.Y = -100f;
                     currentHealth -= (int)(5 * oppDamage);
-                    if (AOE)
+                    if (AOE || smash)
                     {
                         chargedTwo();
                     }
