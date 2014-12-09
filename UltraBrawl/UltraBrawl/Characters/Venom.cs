@@ -89,7 +89,7 @@ namespace UltraBrawl
             canAOE = true;
             canSmash = true;
             CHARACTER_DAMAGE = 2;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 4;
             CHARACTER_NAME = "Venom";
         }
 

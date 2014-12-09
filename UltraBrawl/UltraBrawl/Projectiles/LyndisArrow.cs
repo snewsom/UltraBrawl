@@ -23,7 +23,7 @@ namespace UltraBrawl
             {
                 this.speed.X = speed.X;
                 this.velocity = new Vector2(64, 0);
-                this.position.X = position.X + 20;
+                this.position.X = position.X + 30;
                
             }
             this.position.Y = position.Y - 60;
