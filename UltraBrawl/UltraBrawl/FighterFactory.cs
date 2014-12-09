@@ -53,7 +53,7 @@ namespace UltraBrawl
             }
             else if (CharID == 7)
             {
-                return new Lyndis(game.Content.Load<Texture2D>(@"Images/Lyndis"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Lyndis(game.Content.Load<Texture2D>(@"Images/Lyndis"), game.Content.Load<SoundEffect>(@"Sound/Lyndis Woosh"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             return null;
         }
