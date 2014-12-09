@@ -611,7 +611,7 @@ namespace UltraBrawl
                 if (players[1].canAOE || players[1].canSmash )
                 {
 
-                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - players[1].pauseTime) / 10, 65, (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 20), Color.Blue);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - players[1].pauseTime) / 10, 65, players[1].visibleHealth * 5, 20), Color.Blue);
 
                 }
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
