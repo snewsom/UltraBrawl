@@ -478,7 +478,7 @@ namespace UltraBrawl
             }
             else
             {
-                if (canAOE && System.Environment.TickCount < spamTimer)
+                if ((canAOE && System.Environment.TickCount < spamTimer) || (canSmash && System.Environment.TickCount < spamTimer))
                 {
                     noSpam = true;
                 }
@@ -990,7 +990,7 @@ namespace UltraBrawl
                 {
                     player.chargeSoundInstance.Play();
                 }
-                if (!player.AOE)
+                if (!player.AOE && !player.smash)
                 {
                     player.charging();
                 }
