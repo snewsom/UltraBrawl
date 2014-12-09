@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System.Diagnostics;
 
 namespace UltraBrawl
 {
@@ -41,10 +42,13 @@ namespace UltraBrawl
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (otherPlayer.currentHealth > 0)
                 {
-                    otherPlayer.getHit(effects, 3, 1.5);
+                    otherPlayer.getHit(effects, 3, 1);
                     disable = true;
                 }
+
+                Debug.WriteLine(otherSprite.GetType());
             }
+
         }
 
         public override void Update(GameTime gameTime, Rectangle clientBounds)
