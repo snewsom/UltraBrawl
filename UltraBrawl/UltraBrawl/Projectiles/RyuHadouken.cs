@@ -28,7 +28,7 @@ namespace UltraBrawl
             }
             this.position.Y = position.Y - 60;
             gravity = new Vector2(0, 0);
-            Point frameSize = new Point(150, 130);
+            Point frameSize = new Point(170, 170);
             spriteSheet.addSegment(frameSize, new Point(0, 0), new Point(0, 7), 10);
 
             spriteSheet.setCurrentSegment(0);

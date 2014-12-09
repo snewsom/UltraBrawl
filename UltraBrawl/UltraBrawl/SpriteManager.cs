@@ -69,6 +69,7 @@ namespace UltraBrawl
         private int winner = 4;
         private Texture2D p12hub;
         private Texture2D p34hub;
+        private Texture2D blastSheet;
         private Texture2D[] venomBar;
 
         //player readies
@@ -373,7 +374,7 @@ namespace UltraBrawl
                         if (players[i].fire)
                         {
                             Debug.WriteLine(players[i].flipped);
-                            spriteList.Add(new MegamanBuster(Game.Content.Load<Texture2D>(@"Images/megamanBuster"), new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                            spriteList.Add(new MegamanBuster(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             players[i].fire = false;
                         }
                         if (players[i].currentHealth <= 0)
@@ -956,6 +957,7 @@ namespace UltraBrawl
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
                     platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
                 }
+                blastSheet = Game.Content.Load<Texture2D>(@"Images/blasts");
                 spawnCharacters();
                 //music under spawn characters as spawnCharacters checks if guile is there.
                 if(guilePlaying)
