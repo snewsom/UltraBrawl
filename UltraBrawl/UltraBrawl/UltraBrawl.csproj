@@ -124,6 +124,9 @@
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleEngine2D.cs" />
     <Compile Include="PlayerPreset.cs" />
+    <Compile Include="Projectiles\GokuKamehameha.cs" />
+    <Compile Include="Projectiles\RyuHadouken.cs" />
+    <Compile Include="Projectiles\LyndisArrow.cs" />
     <Compile Include="Projectiles\GuileSonicBoom.cs" />
     <Compile Include="Projectiles\MegamanBuster.cs" />
     <Compile Include="PlayerCharacter.cs" />
