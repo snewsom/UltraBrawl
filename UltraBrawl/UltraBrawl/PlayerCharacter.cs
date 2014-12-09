@@ -733,7 +733,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if ((((!player.isSuper && player.canSuper)|| player.canAOE || player.canFire) && player.jumpCount < 4) &&!player.noSpam)
+                if ((((!player.isSuper && player.canSuper)|| player.canAOE) && player.jumpCount < 4) &&!player.noSpam)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
