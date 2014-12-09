@@ -16,6 +16,7 @@ namespace UltraBrawl
         Vector2 friction = new Vector2(1f, 1f);
         public bool disable = false;
         Vector2 oldPosition = new Vector2(-1, -1);
+        public int PROJECTILE_ID;
 
         public AutomatedSprite(SpriteSheet spriteSheet, Vector2 position, CollisionOffset collisionOffset, Vector2 speed, Boolean flipped)
             : base(spriteSheet, position, collisionOffset)
@@ -42,7 +43,14 @@ namespace UltraBrawl
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (otherPlayer.currentHealth > 0)
                 {
-                    otherPlayer.getHit(effects, 3, 1);
+                    if (PROJECTILE_ID == 4)
+                    {
+                        otherPlayer.getHit(effects, 1, 1);
+                    }
+                    else
+                    {
+                        otherPlayer.getHit(effects, 3, 1);
+                    }
                     disable = true;
                 }
 

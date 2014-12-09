@@ -12,6 +12,7 @@ namespace UltraBrawl
             : base(new SpriteSheet(texture, new Point(4000, 4000), 1.0f), position,
             new CollisionOffset(50, 50, 50, 50), new Vector2(8f, 1), flipped)
         {
+            PROJECTILE_ID = 3;
             if (flipped)
             {
                 this.speed.X = speed.X * -1;
