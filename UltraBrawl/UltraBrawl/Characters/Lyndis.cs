@@ -18,7 +18,7 @@ namespace UltraBrawl
     class Lyndis : PlayerCharacter
     {
         // constants for this particular sprite
-       // static List<Texture2D> particleList;
+        //static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
         static Point lyndisNumberOfFrames = new Point(30, 20);
         static CollisionOffset lyndisCollisionOffset = new CollisionOffset(80, 1, 60, 60);
@@ -88,7 +88,7 @@ namespace UltraBrawl
             canJumpKick = true;
             canFire = true;
             CHARACTER_DAMAGE = 1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 7;
             CHARACTER_NAME = "Lyndis";
         }
 
