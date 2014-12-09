@@ -58,7 +58,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.knockDownEndFrame = 5;
+            base.knockDownEndFrame = 6;
             fireChargeFrame = 4;
 
             base.pcSegmentTimings.Add(80); //idle
