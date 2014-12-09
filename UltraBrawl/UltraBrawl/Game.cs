@@ -107,10 +107,6 @@ namespace UltraBrawl
                 _elapsed_time = 0;
             }
 
-            // Allows the game to exit
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
-                this.Exit();
-
             // TODO: Add your update logic here
             //i did dat ^ ^ right dat for particalz
            // particleEngine.EmitterLocation = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
