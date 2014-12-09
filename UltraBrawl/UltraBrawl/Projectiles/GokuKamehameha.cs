@@ -16,20 +16,20 @@ namespace UltraBrawl
             if (flipped)
             {
                 this.speed.X = speed.X * -1;
-                this.velocity = new Vector2(-16, 0);
+                this.velocity = new Vector2(-32, 0);
                 this.position.X = position.X - 190;
                 
             } 
             else
             {
                 this.speed.X = speed.X;
-                this.velocity = new Vector2(16, 0);
-                this.position.X = position.X + 20;
+                this.velocity = new Vector2(32, 0);
+                this.position.X = position.X;
                
             }
             this.position.Y = position.Y - 60;
             gravity = new Vector2(0, 0);
-            Point frameSize = new Point(150, 130);
+            Point frameSize = new Point(170, 170);
             currentFrame.Y = 4;
             spriteSheet.addSegment(frameSize, new Point(0, 4), new Point(2, 4), 10);
 

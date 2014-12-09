@@ -59,7 +59,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 0)); //ChargeBuffer
             base.pcSegmentEndings.Add(new Point(11, 20)); //superCharge
             base.knockDownEndFrame = 6;
-            base.fireChargeFrame = 4;
+            base.fireChargeFrame = 3;
     
             base.pcSegmentTimings.Add(50); //idle
             base.pcSegmentTimings.Add(80); //running
@@ -82,7 +82,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
             base.pcSegmentTimings.Add(0); //ChargeBuffer
-            base.pcSegmentTimings.Add(120); //superCharge
+            base.pcSegmentTimings.Add(60); //superCharge
             base.setSegments();
 
             canJumpKick = true;
@@ -127,7 +127,7 @@ namespace UltraBrawl
                 CHARACTER_DAMAGE *= 1.2;
                 canSuper = false;
                 canFire = true;
-                chargeMax = 1000;
+                chargeMax = 900;
             }
         }
     }

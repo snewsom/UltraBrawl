@@ -206,6 +206,8 @@ namespace UltraBrawl
             if(currentState == PlayerCharacterState.Charging)
             chargeSoundInstance.Resume();
             update = true;
+            spamTimer += System.Environment.TickCount - pauseTime;
+
         }
 
         //get hit by other character
@@ -305,7 +307,8 @@ namespace UltraBrawl
                 if (hitType == HIT_TYPE_BLAST)
                 {
                     velocity.Y = -100f;
-                    currentHealth -= (int)(10 * oppDamage);
+                    if (CHARACTER_ID != 4)
+                        currentHealth -= (int)(10 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
                         flipped = true;
@@ -325,6 +328,7 @@ namespace UltraBrawl
                 }
                 if (hitType == HIT_TYPE_JUMPKICK)
                 {
+                    if (CHARACTER_ID != 4)
                     currentHealth -= (int)(2 * oppDamage);
                     if (direction.Equals(SpriteEffects.None))
                     {
@@ -345,7 +349,8 @@ namespace UltraBrawl
                     else
                     {
                         velocity.X -= 100;
-                    }
+                    } 
+                    if (CHARACTER_ID != 4)
                     currentHealth -= (int)(2 * oppDamage);
                     switchState(PlayerCharacterState.BlockHit);
                 }
@@ -479,7 +484,8 @@ namespace UltraBrawl
             }
             else
             {
-                if ((canAOE && System.Environment.TickCount < spamTimer) || (canSmash && System.Environment.TickCount < spamTimer))
+                pauseTime = System.Environment.TickCount;
+                if ((canAOE && pauseTime < spamTimer) || (canSmash && pauseTime < spamTimer))
                 {
                     noSpam = true;
                 }

@@ -596,8 +596,7 @@ namespace UltraBrawl
             spriteBatch.Draw(healthBars[0], new Rectangle(120, 10, players[0].currentHealth * 5, 78), Color.LightGray);
             if (players[0].canAOE || players[0].canSmash)
             {
-                //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
-                spriteBatch.Draw(venomBar[0], new Rectangle(120, 65, (int)(players[0].spamTimer-System.Environment.TickCount)/10, 20), Color.Red);
+                spriteBatch.Draw(venomBar[0], new Rectangle(120, 65, (int)(players[0].spamTimer - players[0].pauseTime) / 10, 20), Color.Red);
             }
             spriteBatch.DrawString(font, players[0].currentHealth + "%", new Vector2(350, 36), Color.Red);
             spriteBatch.DrawString(font, "p1", new Vector2(700, 35), Color.Red);
@@ -611,8 +610,7 @@ namespace UltraBrawl
                 //VENOM COOLDOWN HERE DON'T FORGET
                 if (players[1].canAOE || players[0].canSmash )
                 {
-                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
-                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 65, (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 20), Color.Blue);
+                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[1].spamTimer - players[1].pauseTime) / 10, 65, (int)(players[1].spamTimer - System.Environment.TickCount) / 10, 20), Color.Blue);
                 }
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
                 spriteBatch.DrawString(font, "p2", new Vector2(1200, 35), Color.Blue);
@@ -625,8 +623,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBars[2], new Rectangle(120, 75, players[2].currentHealth * 5, 78), Color.LightGray);
                 if (players[2].canAOE || players[0].canSmash )
                 {
-                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
-                    spriteBatch.Draw(venomBar[2], new Rectangle(120, 130, (int)(players[2].spamTimer - System.Environment.TickCount) / 10, 20), Color.Green);
+                    spriteBatch.Draw(venomBar[2], new Rectangle(120, 130, (int)(players[2].spamTimer - players[2].pauseTime) / 10, 20), Color.Green);
                 }
                 spriteBatch.DrawString(font, players[2].currentHealth + "%", new Vector2(350, 101), Color.Green);
                 spriteBatch.DrawString(font, "p3", new Vector2(700, 100), Color.Green);
@@ -637,11 +634,10 @@ namespace UltraBrawl
                 spriteBatch.Draw(healthBgs[3], new Rectangle(1305, 82, 560, 65), Color.White);
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].visibleHealth * 5, 75, players[3].visibleHealth * 5, 78), Color.DarkRed);
                 spriteBatch.Draw(healthBars[3], new Rectangle(1810 - players[3].currentHealth * 5, 75, players[3].currentHealth * 5, 78), Color.LightGray);
-                //VENOM COOLDOWN HERE DON'T FORGET
+
                 if (players[3].canAOE || players[0].canSmash )
                 {
-                    //Debug.WriteLine(players[0].spamTimer-System.Environment.TickCount);
-                    spriteBatch.Draw(venomBar[0], new Rectangle(1810 - (int)(players[3].spamTimer - System.Environment.TickCount) / 10, 130, (int)(players[3].spamTimer - System.Environment.TickCount) / 10, 20), Color.Orange);
+                    spriteBatch.Draw(venomBar[3], new Rectangle(1810 - (int)(players[3].spamTimer - players[3].pauseTime) / 10, 130, (int)(players[3].spamTimer - System.Environment.TickCount) / 10, 20), Color.Orange);
                 }
                 spriteBatch.DrawString(font, players[3].currentHealth + "%", new Vector2(1530, 101), Color.Orange);
                 spriteBatch.DrawString(font, "p4", new Vector2(1200, 100), Color.Orange);
@@ -672,6 +668,7 @@ namespace UltraBrawl
         void switchMenu(Vector2[,] menu)
         {
             currentMenu = menu;
+            
             for (int i = 0; i < 4; i++)
             {
                 cursorPositions[i] = currentMenu[0, 0];
