@@ -241,14 +241,14 @@ namespace UltraBrawl
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
             charSelectMenu = new Vector2[4, 2];
-            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 600, 600);
-            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 600, 800);
-            charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 400, 600);
-            charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 400, 800);
-            charSelectMenu[2, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 600);
-            charSelectMenu[2, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 200, 800);
-            charSelectMenu[3, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 000, 600);
-            charSelectMenu[3, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 000, 800);
+            charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 425, 600);
+            charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 425, 800);
+            charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 175, 600);
+            charSelectMenu[1, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 175, 800);
+            charSelectMenu[2, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 75, 600);
+            charSelectMenu[2, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 75, 800);
+            charSelectMenu[3, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 325, 600);
+            charSelectMenu[3, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 325, 800);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
