@@ -931,40 +931,40 @@ namespace UltraBrawl
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/Kirk Gadget & Valkyrie 1984 - Ghosts Loop");
                     platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 900)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1100, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 600)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 850)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1100, 600)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 850)));
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 460)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 850)));
                 }
                 else if (cursorLocs[0].currentItemY == 2)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/LazerHawk - King of The Streets Loop");
                     platformList = new List<Sprite>();
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 850)));
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 900)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 700)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 850)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 650)));
                 }
                 else if (cursorLocs[0].currentItemY == 3)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/SelloRekT LA Dreams - Feel The Burn Loop");
                     platformList = new List<Sprite>();
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(100, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 850)));
                     //platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 850)));
                 }
                 else if (cursorLocs[0].currentItemY == 4)
                 {
                     inGameMusic = game.Content.Load<SoundEffect>("Sound/SellorektLA Dreams - LightSpeed Loop");
                     platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 900)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 700)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 900)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150,  600)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 850)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 600)));
+                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 850)));
                 }
                 blastSheet = Game.Content.Load<Texture2D>(@"Images/blasts");
                 spawnCharacters();
