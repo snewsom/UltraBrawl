@@ -25,6 +25,7 @@ namespace UltraBrawl
         Vector2[,] charSelectMenu;
         Vector2[,] pauseMenu;
         Vector2[,] bgSelectMenu;
+        Vector2[,] gameOverMenu;
 
 
         Camera2d cam;
@@ -64,6 +65,8 @@ namespace UltraBrawl
         private Texture2D title;
         private Texture2D[] healthBars;
         private Texture2D[] healthBgs;
+        private Texture2D[] wins;
+        private int winner = 4;
         private Texture2D p12hub;
         private Texture2D p34hub;
 
@@ -117,7 +120,8 @@ namespace UltraBrawl
             CharSelect,
             Playing,
             Paused,
-            BgSelect
+            BgSelect,
+            GameOver
         }
 
         SpriteFont font;
@@ -178,13 +182,16 @@ namespace UltraBrawl
             startTexs = new Texture2D[4];
             healthBars = new Texture2D[4];
             healthBgs = new Texture2D[4];
+            wins = new Texture2D[5];
             for (int i = 0; i < 4; i++)
             {
                 readyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "R");
                 notReadyTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "NR");
                 startTexs[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "S");
+                wins[i] = Game.Content.Load<Texture2D>(@"Images/" + (i + 1) + "W");
                 healthBars[i] = Game.Content.Load<Texture2D>(@"Images/healthBar");
             }
+            wins[4] = Game.Content.Load<Texture2D>(@"Images/draw");
             healthBgs[0] = Game.Content.Load<Texture2D>(@"Images/p1healthBg");
             healthBgs[1] = Game.Content.Load<Texture2D>(@"Images/p2healthBg");
             healthBgs[2] = Game.Content.Load<Texture2D>(@"Images/p3healthBg");
@@ -247,6 +254,9 @@ namespace UltraBrawl
             bgSelectMenu[0, 3] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 700);
             bgSelectMenu[0, 4] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 75, 900);
 
+            gameOverMenu = new Vector2[1, 1];
+            gameOverMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 500);
+
             menuMusicInstance.Play();
             switchMenu(startMenu);
 
@@ -298,10 +308,25 @@ namespace UltraBrawl
         public override void Update(GameTime gameTime)
         {
 
-            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect)
+            if (gameState == GameState.StartMenu || gameState == GameState.Paused || gameState == GameState.CharSelect || gameState == GameState.BgSelect || gameState == GameState.GameOver)
             {
                 navigateMenu();
             }
+            if (gameState == GameState.GameOver)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    if (playing[i])
+                    {
+                        players[i].canMove = false;
+                        if (players[i].currentHealth > 0)
+                        {
+                            winner = i;
+                        }
+                    }
+                }
+            }
+
             if (gameState == GameState.CharSelect)
             {
                 for (int i = 0; i < 4; i++)
@@ -329,7 +354,7 @@ namespace UltraBrawl
                     gameState = GameState.BgSelect;
                 }
             }
-            else if (gameState == GameState.Playing)
+            else if (gameState == GameState.Playing || gameState == GameState.GameOver)
             {
 
                 for (int i = 0; i < numPlayers; i++)
@@ -356,7 +381,8 @@ namespace UltraBrawl
                 }
                 if (deadCount == numPlayers - 1 && numPlayers > 1)
                 {
-                    resetGame();
+                    switchMenu(gameOverMenu);
+                    gameState = GameState.GameOver;
                 }
                 deadCount = 0;
                 for (int i = 0; i < 4; i++)
@@ -512,14 +538,10 @@ namespace UltraBrawl
                 spriteBatch.Draw(bgCursor, cursorPositions[0], Color.White);
                 
             }
-            if (gameState == GameState.Playing || gameState == GameState.Paused)
+            if (gameState == GameState.Playing || gameState == GameState.Paused || gameState == GameState.GameOver)
             {
-
                 game.IsMouseVisible = false;
                 LoadGame(gameTime);
-                for (int i = 0; i < numPlayers; i++)
-                {
-                }
             }
             if (gameState == GameState.Paused)
             {
@@ -528,6 +550,17 @@ namespace UltraBrawl
                 spriteBatch.Draw(mainmenuButton, pauseMenu[0, 1], Color.White);
                 spriteBatch.Draw(exitButton, pauseMenu[0, 2], Color.White);
                 spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
+            }
+
+            if (gameState == GameState.GameOver)
+            {
+
+                game.IsMouseVisible = false;
+
+                spriteBatch.Draw(wins[winner], new Vector2((GraphicsDevice.Viewport.Width / 2) - 250, 150), Color.White);
+                spriteBatch.Draw(mainmenuButton, startMenu[0, 0], Color.White);
+                spriteBatch.Draw(defaultCursor, cursorPositions[0], Color.White);
+
             }
 
             spriteBatch.End();
@@ -947,9 +980,17 @@ namespace UltraBrawl
                     game.Exit();
                 }
             }
+            else if (gameState == GameState.GameOver)
+            {
+                if (cursorLocs[playerNum].currentItemY == 0)
+                {
+                    resetGame();
+                }
+            }
         }
         private void resetGame()
         {
+            winner = 4;
             for (int j = 0; j < 4; j++)
             {
                 ready[j] = false;
