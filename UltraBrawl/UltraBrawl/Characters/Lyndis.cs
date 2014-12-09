@@ -45,7 +45,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 6)); //block
             base.pcSegmentEndings.Add(new Point(0, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(2, 7)); //hit
-            base.pcSegmentEndings.Add(new Point(15, 8)); //knockdown
+            base.pcSegmentEndings.Add(new Point(14, 8)); //knockdown
             base.pcSegmentEndings.Add(new Point(21, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
