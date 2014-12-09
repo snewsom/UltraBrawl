@@ -21,7 +21,7 @@ namespace UltraBrawl
         // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
         static Point venomNumberOfFrames = new Point(30, 20);
-        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 10, 60, 60);
+        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
         static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 20, 120);
         static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
