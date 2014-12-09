@@ -203,11 +203,14 @@ namespace UltraBrawl
         }
         public void resumeChar()
         {
-            if(isSuper)
-            superLoopInstance.Resume();
-            if(currentState == PlayerCharacterState.Charging)
-            chargeSoundInstance.Resume();
-            update = true;
+            if (currentHealth > 0)
+            {
+                if (isSuper)
+                    superLoopInstance.Resume();
+                if (currentState == PlayerCharacterState.Charging)
+                    chargeSoundInstance.Resume();
+                update = true;
+            }
             spamTimer += System.Environment.TickCount - pauseTime;
 
         }
