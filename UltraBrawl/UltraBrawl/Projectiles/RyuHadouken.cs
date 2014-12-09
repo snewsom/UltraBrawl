@@ -16,14 +16,14 @@ namespace UltraBrawl
             if (flipped)
             {
                 this.speed.X = speed.X * -1;
-                this.velocity = new Vector2(-16, 0);
+                this.velocity = new Vector2(-20, 0);
                 this.position.X = position.X - 190;
                 
             } 
             else
             {
                 this.speed.X = speed.X;
-                this.velocity = new Vector2(16, 0);
+                this.velocity = new Vector2(20, 0);
                 this.position.X = position.X + 20;
                
             }
