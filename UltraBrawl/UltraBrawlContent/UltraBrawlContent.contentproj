@@ -485,10 +485,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Images\lyndisButton.png">
       <Name>lyndisButton</Name>
-=======
     <Compile Include="Images\1W.png">
       <Name>1W</Name>
       <Importer>TextureImporter</Importer>
@@ -506,19 +504,16 @@
     </Compile>
     <Compile Include="Images\4W.png">
       <Name>4W</Name>
->>>>>>> origin/master
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Images\Lyndis.png">
       <Name>Lyndis</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
-=======
     <Compile Include="Images\draw.png">
       <Name>draw</Name>
       <Importer>TextureImporter</Importer>
@@ -550,7 +545,6 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
->>>>>>> origin/master
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
