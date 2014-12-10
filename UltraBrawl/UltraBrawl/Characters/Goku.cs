@@ -56,8 +56,8 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(0, 17)); //superBlock
             base.pcSegmentEndings.Add(new Point(1, 18)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(1, 19)); //superHit
-            base.pcSegmentEndings.Add(new Point(0, 0)); //ChargeBuffer
-            base.pcSegmentEndings.Add(new Point(11, 20)); //superCharge
+            base.pcSegmentEndings.Add(new Point(12, 20)); //superKnockDown
+            base.pcSegmentEndings.Add(new Point(11, 21)); //superCharge
             base.knockDownEndFrame = 6;
             base.fireChargeFrame = 3;
     
@@ -81,7 +81,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //superBlock
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
-            base.pcSegmentTimings.Add(0); //ChargeBuffer
+            base.pcSegmentTimings.Add(40); //superKnockDown
             base.pcSegmentTimings.Add(70); //superCharge
             base.setSegments();
 
@@ -94,8 +94,9 @@ namespace UltraBrawl
         }
         public override void projTimer()
         {
-            if(pauseTime < spamTimer){
+            if(pauseTime < disableTimer){
                 disableProjectile = true;
+                beam = false;
             }
         }
         public override void spawn(PlayerPreset preset)
@@ -119,7 +120,7 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
+            beam = true;
         }
         public override void chargedOne()
         {
@@ -135,15 +136,17 @@ namespace UltraBrawl
             {
                 fire = true;
                 hasFired = true;
-                spamTimer = System.Environment.TickCount + 1000;
+                disableTimer = System.Environment.TickCount + 1000;
             }
             else
             {
+                canBeam = true;
                 isSuper = true;
                 CHARACTER_DAMAGE *= 1.5;
                 canSuper = false;
                 canFire = true;
-                chargeMax = 900;
+                chargeMax = 700;
+                knockDownEndFrame = 5;
             }
         }
     }
