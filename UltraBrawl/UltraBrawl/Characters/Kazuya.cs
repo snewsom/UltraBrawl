@@ -24,8 +24,8 @@ namespace UltraBrawl
         static CollisionOffset kazuyaCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset kazuyaHitboxOffset = new CollisionOffset(100, 10, 20, 100);
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
-        static CollisionOffset kazuyaHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset kazuyaHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset kazuyaHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset kazuyaHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
         static Vector2 kazuyaSpeed = new Vector2(128 , 32);
         static Vector2 kazuyaFriction = new Vector2(0.8f, 1f);
         static Point kazuyaFrameSize = new Point(170, 170);
@@ -47,7 +47,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(1, 6)); //blockhit
             base.pcSegmentEndings.Add(new Point(3, 7)); //hit
             base.pcSegmentEndings.Add(new Point(21, 8)); //knockdown
-            base.pcSegmentEndings.Add(new Point(22, 9)); //charging
+            base.pcSegmentEndings.Add(new Point(17, 9)); //charging
             base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
             base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
             base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
@@ -86,7 +86,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            chargeMax = 1750;
+            chargeMax = 1400;
             canJumpKick = true;
             canAOE = true;
             CHARACTER_DAMAGE = 1.2;
@@ -105,6 +105,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = kazuyaHitboxOffsetFlipped;
             }
+            regenHitbox();
             update = true;
         }
 

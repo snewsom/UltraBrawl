@@ -17,14 +17,14 @@ namespace UltraBrawl
             {
                 this.speed.X = speed.X * -1;
                 this.velocity = new Vector2(-32, 0);
-                this.position.X = position.X - 190;
+                this.position.X = position.X - 100;
                 
             } 
             else
             {
                 this.speed.X = speed.X;
                 this.velocity = new Vector2(32, 0);
-                this.position.X = position.X;
+                this.position.X = position.X - 40;
                
             }
             this.position.Y = position.Y - 60;

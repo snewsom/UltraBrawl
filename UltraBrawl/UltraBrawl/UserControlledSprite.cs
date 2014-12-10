@@ -13,7 +13,7 @@ namespace UltraBrawl
         // physics
         protected Vector2 velocity;
         Vector2 friction;
-        Vector2 speed;
+        public Vector2 speed;
         public Vector2 noGravity = new Vector2(0, 0);
         public Vector2 defaultGravity = new Vector2(0, 9.8f * 100);
         public Vector2 gravity = new Vector2(0, 9.8f * 100);

@@ -23,8 +23,8 @@ namespace UltraBrawl
         static Point megamanNumberOfFrames = new Point(30, 20);
         static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 40, 100);
-        static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 40);
-        static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 120);
+        static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 100);
+        static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 100, 40);
         static Vector2 megamanSpeed = new Vector2(200, 32);
         static Vector2 megamanFriction = new Vector2(0.8f, 1f);
         static Point megamanFrameSize = new Point(170, 170);
@@ -111,6 +111,7 @@ namespace UltraBrawl
                 hitboxOffset = megamanHitboxOffsetNotFlipped;
             }
             update = true;
+            regenHitbox();
         }
 
         public override void charging()

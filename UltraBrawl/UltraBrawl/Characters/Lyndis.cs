@@ -23,8 +23,8 @@ namespace UltraBrawl
         static Point lyndisNumberOfFrames = new Point(30, 20);
         static CollisionOffset lyndisCollisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset lyndisHitboxOffset = new CollisionOffset(100, 10, 10, 100);
-        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 10);
-        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 10, 120);
+        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 100);
+        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 10);
         static Vector2 lyndisSpeed = new Vector2(200, 32);
         static Vector2 lyndisFriction = new Vector2(0.8f, 1f);
         static Point lyndisFrameSize = new Point(170, 170);
@@ -110,6 +110,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.None;
                 hitboxOffset = lyndisHitboxOffsetNotFlipped;
             }
+            regenHitbox();
             update = true;
         }
 

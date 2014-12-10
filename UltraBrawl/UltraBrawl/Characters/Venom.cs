@@ -25,8 +25,8 @@ namespace UltraBrawl
         static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
         static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 10, 120);
-        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 10);
-        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 10, 120);
+        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 120);
+        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 120, 10);
         static Vector2 venomSpeed = new Vector2(90, 32);
         static Vector2 venomFriction = new Vector2(0.8f, 1f);
         static Point venomFrameSize = new Point(170, 170);
@@ -113,6 +113,7 @@ namespace UltraBrawl
                 hitboxOffset = venomHitboxOffsetNotFlipped;
             }
             update = true;
+            regenHitbox();
         }
 
         public override void charging()

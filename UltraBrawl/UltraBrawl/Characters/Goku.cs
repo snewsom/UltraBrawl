@@ -23,8 +23,8 @@ namespace UltraBrawl
         static Point gokuNumberOfFrames = new Point(20, 22);
         static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset gokuHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset gokuHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
         static Vector2 gokuSpeed = new Vector2(180, 32);
         static Vector2 gokuFriction = new Vector2(0.8f, 1f);
         static Point gokuFrameSize = new Point(170, 170);
@@ -82,7 +82,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superBlockhit
             base.pcSegmentTimings.Add(100); //superHit
             base.pcSegmentTimings.Add(0); //ChargeBuffer
-            base.pcSegmentTimings.Add(60); //superCharge
+            base.pcSegmentTimings.Add(70); //superCharge
             base.setSegments();
 
             JKknockdown = true;
@@ -104,6 +104,11 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = gokuHitboxOffsetFlipped;
             }
+            else
+            {
+                hitboxOffset = gokuHitboxOffsetNotFlipped;
+            }
+            regenHitbox();
             update = true;
         }
 
@@ -114,7 +119,6 @@ namespace UltraBrawl
         public override void chargedOne()
         {
             base.superLoopInstance.Play();
-            isSuper = true;
         }
         public override void chargedTwo()
         {
@@ -125,10 +129,11 @@ namespace UltraBrawl
             }
             else
             {
+                isSuper = true;
                 CHARACTER_DAMAGE *= 1.5;
                 canSuper = false;
                 canFire = true;
-                chargeMax = 900;
+                chargeMax = 700;
             }
         }
     }

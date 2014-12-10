@@ -120,7 +120,6 @@
     <Compile Include="Characters\Goku.cs" />
     <Compile Include="CursorLoc.cs" />
     <Compile Include="FighterFactory.cs" />
-    <Compile Include="Menus\MenuMain.cs" />
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleEngine2D.cs" />
     <Compile Include="PlayerPreset.cs" />

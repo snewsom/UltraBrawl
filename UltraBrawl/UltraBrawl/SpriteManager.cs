@@ -27,9 +27,10 @@ namespace UltraBrawl
         Vector2[,] bgSelectMenu;
         Vector2[,] gameOverMenu;
         Vector2[,] previousMenu;
-        Vector2[,] nowPlaying;
+        Vector2[,] nowPlaying; // necessary, do not remove
 
-        public long gameOverTimer;
+        long gameOverTimer;
+        bool gameOver;
 
         Camera2d cam;
         public int whoPaused;
@@ -415,8 +416,9 @@ namespace UltraBrawl
                         deadCount++;
                     }
                 }
-                if (deadCount == numPlayers - 1 && numPlayers > 1)
+                if (deadCount == numPlayers - 1 && numPlayers > 1 && gameOver == false)
                 {
+                    gameOver = true;
                     gameOverTimer = System.Environment.TickCount + 5000;
                     switchMenu(gameOverMenu);
                     gameState = GameState.GameOver;
@@ -476,6 +478,18 @@ namespace UltraBrawl
                                 if (players[i].newHitbox.Intersects(players[j].collisionRect))
                                 {
                                     players[i].Collision(players[j]);
+                                }
+                                //cannot run through while blocking
+                                if (players[i].collisionRect.Intersects(players[j].newHitbox) && players[j].isBlock && players[i].flipped != players[j].flipped)
+                                {
+                                    if (players[j].flipped && players[i].collisionRect.Right > players[j].newHitbox.Right + 40)
+                                    {
+                                        players[i].position.X -= (players[i].speed.X / 12);
+                                    }
+                                    else if (!players[j].flipped && players[i].collisionRect.Left < players[j].newHitbox.Left - 40)
+                                    {
+                                        players[i].position.X += (players[i].speed.X / 12);
+                                    }
                                 }
                             }
                         }
@@ -1099,7 +1113,7 @@ namespace UltraBrawl
             }
             else if (gameState == GameState.GameOver)
             {
-                if (cursorLocs[playerNum].currentItemY == 0)
+                if (System.Environment.TickCount > gameOverTimer)
                 {
                     resetGame();
                 }
@@ -1137,6 +1151,7 @@ namespace UltraBrawl
             {
                 //same thing pretty much
             }
+            gameOver = false;
             menuMusicInstance.Play();
             numPlayers = 1;
             defaultCursorLoc.resetLoc();

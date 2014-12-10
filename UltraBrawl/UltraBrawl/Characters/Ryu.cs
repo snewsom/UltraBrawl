@@ -23,8 +23,8 @@ namespace UltraBrawl
         static Point ryuNumberOfFrames = new Point(30, 20);
         static CollisionOffset ryuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
         static CollisionOffset ryuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset ryuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset ryuHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset ryuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset ryuHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
         static Vector2 ryuSpeed = new Vector2(85, 32);
         static Vector2 ryuFriction = new Vector2(0.8f, 1f);
         static Point ryuFrameSize = new Point(170, 170);
@@ -111,6 +111,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.None;
                 hitboxOffset = ryuHitboxOffsetNotFlipped;
             }
+            regenHitbox();
             update = true;
         }
 

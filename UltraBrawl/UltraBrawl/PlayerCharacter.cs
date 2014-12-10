@@ -53,7 +53,7 @@ namespace UltraBrawl
         //player variables
         public PlayerIndex pcPlayerNum;
         public PlayerController controller;
-        private GamePadState oldGamePadState;
+        public GamePadState oldGamePadState;
         public List<Keys> pcPlayerKeys = new List<Keys>();
 
         //state variables
@@ -77,10 +77,10 @@ namespace UltraBrawl
         public bool hasFired = false;
 
         //attack variables
-        private bool isBlock = false;
-        private bool isPunch = false;
-        private bool isKick = false;
-        private bool isJumpKick = false;
+        public bool isBlock = false;
+        public bool isPunch = false;
+        public bool isKick = false;
+        public bool isJumpKick = false;
         private const int HIT_TYPE_PUNCH = 0;
         private const int HIT_TYPE_KICK = 1;
         private const int HIT_TYPE_JUMPKICK = 2;
@@ -436,13 +436,11 @@ namespace UltraBrawl
                 if (inputDirection.X < 0)
                 {
                     effects = SpriteEffects.FlipHorizontally;
-                    hitboxOffset = hitboxOffsetFlipped;
                 }
 
                 else if (inputDirection.X > 0)
                 {
                     effects = SpriteEffects.None;
-                    hitboxOffset = hitboxOffsetNotFlipped;
                 }
 
                 return inputDirection;
@@ -547,10 +545,12 @@ namespace UltraBrawl
                 if (effects == SpriteEffects.FlipHorizontally)
                 {
                     flipped = true;
+                    hitboxOffset = hitboxOffsetFlipped;
                 }
                 else
                 {
                     flipped = false;
+                    hitboxOffset = hitboxOffsetNotFlipped;
                 }
                 // call Update for the current state
                 states[(Int32)currentState].Update(gameTime, clientBounds);
@@ -925,7 +925,7 @@ namespace UltraBrawl
             }
         }
         
-        /* Hit State  (NOT SET UP)*/
+        /* Hit State */
         private class HitState : AbstractState
         {
 
@@ -940,12 +940,19 @@ namespace UltraBrawl
                 player.canMove = false;
                 player.canJump = false;
                 // animate once through -- then go to standing still frame
-                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X)
+                if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X && player.onGround)
                 {
                     player.velocity.X = 0f;
                     player.canMove = true;
                     player.canJump = true;
                     player.switchState(PlayerCharacterState.Idle);
+                } else if (player.currentFrame.X == player.spriteSheet.currentSegment.endFrame.X && !player.onGround)
+                {
+                    player.velocity.X = 0f;
+                    player.canMove = true;
+                    player.canJump = true;
+                    player.switchState(PlayerCharacterState.Jumping);
+                    player.currentFrame.X = player.pcSegmentEndings.ElementAt(2).X - 1;
                 }
             }
         }

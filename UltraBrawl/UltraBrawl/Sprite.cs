@@ -18,7 +18,7 @@ namespace UltraBrawl
         public CollisionOffset hitboxOffset;
 
         int timeSinceLastFrame = 0;
-        protected Vector2 position;
+        public Vector2 position;
 
         public Sprite(SpriteSheet spriteSheet, CollisionOffset collisionOffset)
         {
@@ -115,7 +115,7 @@ namespace UltraBrawl
             get
             {
                 return new Rectangle(
-                    (int)(position.X + (collisionOffset.east * spriteSheet.scale)),
+                    (int)(position.X + (collisionOffset.west * spriteSheet.scale)),
                     (int)(position.Y + (collisionOffset.north * spriteSheet.scale)),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - (collisionOffset.east + collisionOffset.west))),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.Y - (collisionOffset.north + collisionOffset.south))));
@@ -127,7 +127,7 @@ namespace UltraBrawl
             get
             {
                 return new Rectangle(
-                    (int)(position.X + (hitboxOffset.east * spriteSheet.scale)),
+                    (int)(position.X + (hitboxOffset.west * spriteSheet.scale)),
                     (int)(position.Y + (hitboxOffset.north * spriteSheet.scale)),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - (hitboxOffset.east + hitboxOffset.west))),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.Y - (hitboxOffset.north + hitboxOffset.south))));
@@ -138,7 +138,7 @@ namespace UltraBrawl
         public void regenHitbox()
         {
             newHitbox = new Rectangle(
-                    (int)(position.X + (hitboxOffset.east * spriteSheet.scale)),
+                    (int)(position.X + (hitboxOffset.west * spriteSheet.scale)),
                     (int)(position.Y + (hitboxOffset.north * spriteSheet.scale)),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - (hitboxOffset.east + hitboxOffset.west))),
                     (int)(spriteSheet.scale * (spriteSheet.currentSegment.frameSize.Y - (hitboxOffset.north + hitboxOffset.south))));

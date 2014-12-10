@@ -22,9 +22,9 @@ namespace UltraBrawl
         //static ParticleEngine2D particleEngine;
         static Point zeroNumberOfFrames = new Point(30, 20);
         static CollisionOffset zeroCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset zeroHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset zeroHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 120, 20);
-        static CollisionOffset zeroHitboxOffsetFlipped = new CollisionOffset(100, 10, 20, 120);
+        static CollisionOffset zeroHitboxOffset = new CollisionOffset(100, 10, 15, 100);
+        static CollisionOffset zeroHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 15, 100);
+        static CollisionOffset zeroHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 15);
         static Vector2 zeroSpeed = new Vector2(320, 32);
         static Vector2 zeroFriction = new Vector2(0.75f, 1f);
         static Point zeroFrameSize = new Point(170, 170);
@@ -104,6 +104,7 @@ namespace UltraBrawl
                 effects = SpriteEffects.FlipHorizontally;
                 hitboxOffset = zeroHitboxOffsetFlipped;
             }
+            regenHitbox();
             update = true;
         }
 
