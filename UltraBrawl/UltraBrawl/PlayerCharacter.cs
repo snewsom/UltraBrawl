@@ -39,6 +39,7 @@ namespace UltraBrawl
         public long pauseTime = 0;
         public long spamTimer = 0;
         protected int chargeMax = 2500;
+        public float JKvelocity = 400;
         public bool hasReleased = false;
 
         //sprite/sound variables
@@ -75,6 +76,7 @@ namespace UltraBrawl
         public bool flipped = false;
         public bool fire = false;
         public bool hasFired = false;
+        public bool disableProjectile = false;
 
         //attack variables
         public bool isBlock = false;
@@ -187,6 +189,9 @@ namespace UltraBrawl
         {
         }
         public virtual void chargedTwo()
+        {
+        }
+        public virtual void projTimer()
         {
         }
         public void stopChar()
@@ -527,6 +532,7 @@ namespace UltraBrawl
             }
             else
             {
+                projTimer();
                 pauseTime = System.Environment.TickCount;
                 if ((canAOE && pauseTime < spamTimer) || (canSmash && pauseTime < spamTimer))
                 {
@@ -1018,20 +1024,20 @@ namespace UltraBrawl
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
                 player.canMove = false;
-                Point ssEndFrame = new Point(8, 8);
+                //Point ssEndFrame = new Point(8, 8);
                 if (player.isJumpKick)
                 {
                     if (player.effects == SpriteEffects.None)
                     {
-                        player.velocity.X += 400f;
+                        player.velocity.X += player.JKvelocity;
 
                     }
                     else
                     {
-                        player.velocity.X += -400f;
+                        player.velocity.X -= player.JKvelocity;
                     }
                 }
-                if (player.currentFrame.X + 2 >= player.spriteSheet.currentSegment.endFrame.X || player.currentFrame.X + 2 == ssEndFrame.X)
+                if (player.currentFrame.X + 2 >= player.spriteSheet.currentSegment.endFrame.X)
                 {
                     player.isJumpKick = false;
                 }
@@ -1062,98 +1068,42 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
-                if (player.chargeSoundInstance.State == SoundState.Stopped)
-                {
-                    player.chargeSoundInstance.Play();
-                }
-                if (!player.AOE && !player.smash)
-                {
-                    player.charging();
-                }
-                else
-                {
-                    if (player.AOE)
+                
+                    if (player.chargeSoundInstance.State == SoundState.Stopped)
                     {
-                        player.spamTimer = System.Environment.TickCount + 5000;
+                        player.chargeSoundInstance.Play();
                     }
-                    else if (player.smash)
+                    if (!player.AOE && !player.smash)
                     {
-                        player.spamTimer = System.Environment.TickCount + 3000;
-                    }
-                }
-                player.chargeSoundInstance.Volume = 0.5f;
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
-                {
-                    player.hasReleased = true;
-                }
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash || player.canAOE)
-                {
-                    player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
-                    player.canMove = false;
-                }
-                else if (!player.canFire)
-                {
-                    player.canMove = true;
-                    //charge->fall
-                    if (!player.onGround)
-                    {
-                        player.switchState(PlayerCharacterState.Jumping);
-                        player.currentFrame.X = player.pcSegmentEndings.ElementAt(2).X - 1;
+                        player.charging();
                     }
                     else
                     {
-                        player.switchState(PlayerCharacterState.Idle);
+                        if (player.AOE)
+                        {
+                            player.spamTimer = System.Environment.TickCount + 5000;
+                        }
+                        else if (player.smash)
+                        {
+                            player.spamTimer = System.Environment.TickCount + 3000;
+                        }
                     }
-                    player.chargeSoundInstance.Stop(true);
-                    player.cancelSuper = true;
-                    if (player.canAOE)
+                    player.chargeSoundInstance.Volume = 0.5f;
+                    if (player.canFire && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
                     {
-                        player.chargedTwo();
-                    }
-                }
-
-                if ((player.chargeTimer + 500) > player.chargeMax)
-                {
-                    player.chargedOne();
-                }
-                if (player.canFire && !player.hasFired)
-                {
-                    if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 500) < player.chargeMax) || 
-                        (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed && player.hasReleased == false))
-                    {
-                        player.currentFrame.X = player.fireChargeFrame - 1;
-                    }
-                    if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
-                    {
-                        player.chargedTwo();
-                    }
-                }
-                if (player.hasFired && player.canFire && player.currentFrame.X >= (player.pcSegmentEndings.ElementAt(player.isSuper ? 21 : 10).X - 2) && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
-                {
-                    player.hasReleased = false;
-                    player.hasFired = false;
-                    player.chargeTimer = 0;
-                    player.chargeSoundInstance.Stop(true);
-                    player.canMove = true;
-                    //charge->fall
-                    if (!player.onGround)
-                    {
-                        player.switchState(PlayerCharacterState.Jumping);
-                        player.currentFrame.X = player.pcSegmentEndings.ElementAt(player.isSuper ? 13 : 2).X - 1;
+                        player.hasReleased = true;
                     }
                     else
-                    {
-                        player.switchState(PlayerCharacterState.Idle);
-                    }
-                }
-                else if (player.canSuper || player.canAOE || player.canSmash)
-                {
-                    if (player.chargeTimer > player.chargeMax)
                     {
                         player.hasReleased = false;
-                        player.chargeTimer = 0;
-                        player.chargedTwo();
-                        player.chargeSoundInstance.Stop(true);
+                    }
+                    if (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed || player.canFire || player.canSmash || player.canAOE)
+                    {
+                        player.chargeTimer += gameTime.ElapsedGameTime.Milliseconds;
+                        player.canMove = false;
+                    }
+                    else if (!player.canFire)
+                    {
                         player.canMove = true;
                         //charge->fall
                         if (!player.onGround)
@@ -1165,8 +1115,70 @@ namespace UltraBrawl
                         {
                             player.switchState(PlayerCharacterState.Idle);
                         }
+                        player.chargeSoundInstance.Stop(true);
+                        player.cancelSuper = true;
+                        if (player.canAOE)
+                        {
+                            player.chargedTwo();
+                        }
                     }
-                }
+
+                    if ((player.chargeTimer + 500) > player.chargeMax)
+                    {
+                        player.chargedOne();
+                    }
+                    if (player.canFire && !player.hasFired)
+                    {
+                        if ((player.currentFrame.X > player.fireChargeFrame - 2 && (player.chargeTimer + 200) < player.chargeMax) ||
+                            (player.currentFrame.X > player.fireChargeFrame - 2 && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed && player.hasReleased == false))
+                        {
+                            player.currentFrame.X = player.fireChargeFrame - 1;
+                        }
+                        if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
+                        {
+                            player.chargedTwo();
+                        }
+                    }
+                    if (player.hasFired && player.canFire && player.currentFrame.X >= (player.pcSegmentEndings.ElementAt(player.isSuper ? 21 : 10).X - 2) && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased == true)
+                    {
+                        player.hasReleased = false;
+                        player.hasFired = false;
+                        player.chargeTimer = 0;
+                        player.chargeSoundInstance.Stop(true);
+                        player.canMove = true;
+                        //charge->fall
+                        if (!player.onGround)
+                        {
+                            player.switchState(PlayerCharacterState.Jumping);
+                            player.currentFrame.X = player.pcSegmentEndings.ElementAt(player.isSuper ? 13 : 2).X - 1;
+                        }
+                        else
+                        {
+                            player.switchState(PlayerCharacterState.Idle);
+                        }
+                    }
+                    else if (player.canSuper || player.canAOE || player.canSmash)
+                    {
+                        if (player.chargeTimer > player.chargeMax)
+                        {
+                            player.hasReleased = false;
+                            player.chargeTimer = 0;
+                            player.chargedTwo();
+                            player.chargeSoundInstance.Stop(true);
+                            player.canMove = true;
+                            //charge->fall
+                            if (!player.onGround)
+                            {
+                                player.switchState(PlayerCharacterState.Jumping);
+                                player.currentFrame.X = player.pcSegmentEndings.ElementAt(2).X - 1;
+                            }
+                            else
+                            {
+                                player.switchState(PlayerCharacterState.Idle);
+                            }
+                        }
+                    }
+                
                 player.oldGamePadState = GamePad.GetState(player.pcPlayerNum);
             }
         }

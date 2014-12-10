@@ -92,7 +92,12 @@ namespace UltraBrawl
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;
         }
-
+        public override void projTimer()
+        {
+            if(pauseTime < spamTimer){
+                disableProjectile = true;
+            }
+        }
         public override void spawn(PlayerPreset preset)
         {
             position = preset.spawn;
@@ -118,7 +123,11 @@ namespace UltraBrawl
         }
         public override void chargedOne()
         {
-            base.superLoopInstance.Play();
+            if (canSuper)
+            {
+                base.superLoopInstance.Play();
+            }
+            disableProjectile = false;
         }
         public override void chargedTwo()
         {
@@ -126,6 +135,7 @@ namespace UltraBrawl
             {
                 fire = true;
                 hasFired = true;
+                spamTimer = System.Environment.TickCount + 1000;
             }
             else
             {
@@ -133,7 +143,7 @@ namespace UltraBrawl
                 CHARACTER_DAMAGE *= 1.5;
                 canSuper = false;
                 canFire = true;
-                chargeMax = 700;
+                chargeMax = 900;
             }
         }
     }

@@ -50,19 +50,27 @@ namespace UltraBrawl
                         {
                             otherPlayer.getHit(effects, 1, 1, true);
                         }
-                        else if(PROJECTILE_ID == 1){
+                        else if (PROJECTILE_ID == 1)
+                        {
                             otherPlayer.getHit(effects, 1, 1, true);
                         }
                         else {
                             otherPlayer.getHit(effects, 3, 1, true);
                         }
-                        disable = true;
+                        if (PROJECTILE_ID != 0)
+                        {
+                            disable = true;
+                        }
                     }
                 }
                 Debug.WriteLine(otherSprite.GetType());
             }
-
         }
+        public void setDisable()
+        {
+            disable = true;
+        }
+
 
         public override void Update(GameTime gameTime, Rectangle clientBounds)
         {
@@ -76,11 +84,17 @@ namespace UltraBrawl
 
             if (position.X < -collisionOffset.east)
             {
-                disable = true;
+                if (PROJECTILE_ID != 0)
+                {
+                    disable = true;
+                }
             }
             if (position.X > clientBounds.Width - spriteSheet.scale * (spriteSheet.currentSegment.frameSize.X - collisionOffset.west))
             {
-                disable = true;
+                if (PROJECTILE_ID != 0)
+                {
+                    disable = true;
+                }
             }
 
 

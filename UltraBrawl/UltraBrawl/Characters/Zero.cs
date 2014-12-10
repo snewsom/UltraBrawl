@@ -84,6 +84,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
+            JKvelocity = 800;
             canJumpKick = true;
             canSmash = true;
             canSuper = false;

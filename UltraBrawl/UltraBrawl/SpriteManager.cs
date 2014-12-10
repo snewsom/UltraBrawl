@@ -75,6 +75,7 @@ namespace UltraBrawl
         private Texture2D p12hub;
         private Texture2D p34hub;
         private Texture2D blastSheet;
+        private Texture2D kamehamehaSheet;
         private Texture2D[] cooldownBar;
 
         //player readies
@@ -94,7 +95,6 @@ namespace UltraBrawl
         private Texture2D kazuyaButton;
         private Texture2D lyndisButton;
 
-        private Texture2D bgCursor;
         private Texture2D bgButton1;
         private Texture2D bgButton2;
         private Texture2D bgButton3;
@@ -394,7 +394,7 @@ namespace UltraBrawl
                         {
                             Debug.WriteLine(players[i].flipped);
                             if (players[i].CHARACTER_ID == 0)
-                                spriteList.Add(new GokuKamehameha(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                                spriteList.Add(new GokuKamehameha(kamehamehaSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 1)
                                 spriteList.Add(new MegamanBuster(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 2)
@@ -419,7 +419,7 @@ namespace UltraBrawl
                 if (deadCount == numPlayers - 1 && numPlayers > 1 && gameOver == false)
                 {
                     gameOver = true;
-                    gameOverTimer = System.Environment.TickCount + 5000;
+                    gameOverTimer = System.Environment.TickCount + 2500;
                     switchMenu(gameOverMenu);
                     gameState = GameState.GameOver;
                 }
@@ -448,6 +448,10 @@ namespace UltraBrawl
 
                 for (int i = 0; i < spriteList.Count; i++)
                 {
+                    if (spriteList.ElementAt(i).myOwner.disableProjectile)
+                    {
+                        spriteList.ElementAt(i).setDisable();
+                    }
                     for (int j = 0; j < numPlayers; j++)
                     {
                         if (ready[j])
@@ -1006,63 +1010,67 @@ namespace UltraBrawl
             }
             else if (gameState == GameState.BgSelect)
             {
-                if (cursorLocs[winner].currentItemY == 0)
+                if (playerNum == winner)
                 {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Le Perv Loop");
-                    platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150, 650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 875)));
+                    if (cursorLocs[winner].currentItemY == 0)
+                    {
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/Carpenter Brut - Le Perv Loop");
+                        platformList = new List<Sprite>();
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 875)));
+                    }
+                    else if (cursorLocs[winner].currentItemY == 1)
+                    {
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/Kirk Gadget & Valkyrie 1984 - Ghosts Loop");
+                        platformList = new List<Sprite>();
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1100, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 875)));
+                    }
+                    else if (cursorLocs[winner].currentItemY == 2)
+                    {
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/LazerHawk - King of The Streets Loop");
+                        platformList = new List<Sprite>();
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 650)));
+                    }
+                    else if (cursorLocs[winner].currentItemY == 3)
+                    {
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/SelloRekT LA Dreams - Feel The Burn Loop");
+                        platformList = new List<Sprite>();
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
+                    }
+                    else if (cursorLocs[winner].currentItemY == 4)
+                    {
+                        inGameMusic = game.Content.Load<SoundEffect>("Sound/SellorektLA Dreams - LightSpeed Loop");
+                        platformList = new List<Sprite>();
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 875)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 650)));
+                        platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 875)));
+                    }
+                    blastSheet = Game.Content.Load<Texture2D>(@"Images/blasts");
+                    kamehamehaSheet = Game.Content.Load<Texture2D>(@"Images/GokuKamehameha");
+                    spawnCharacters();
+                    //music under spawn characters as spawnCharacters checks if guile is there.
+                    if (guilePlaying)
+                    {
+                        guilePlaying = false;
+                        inGameMusicInstance.Stop();
+                        menuMusicInstance.Resume();
+                    }
+                    inGameMusicInstance = inGameMusic.CreateInstance();
+                    inGameMusicInstance.IsLooped = true;
+                    menuMusicInstance.Stop();
+                    inGameMusicInstance.Play();
+                    gameState = GameState.Playing;
                 }
-                else if (cursorLocs[winner].currentItemY == 1)
-                {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/Kirk Gadget & Valkyrie 1984 - Ghosts Loop");
-                    platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(500, 650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(200, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1100, 650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1400, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 875)));
-                }
-                else if (cursorLocs[winner].currentItemY == 2)
-                {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/LazerHawk - King of The Streets Loop");
-                    platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(800, 650)));
-                }
-                else if (cursorLocs[winner].currentItemY == 3)
-                {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/SelloRekT LA Dreams - Feel The Burn Loop");
-                    platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(400, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1200, 875)));
-                }
-                else if (cursorLocs[winner].currentItemY == 4)
-                {
-                    inGameMusic = game.Content.Load<SoundEffect>("Sound/SellorektLA Dreams - LightSpeed Loop");
-                    platformList = new List<Sprite>();
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(150,  650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(250, 875)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1450, 650)));
-                    platformList.Add(new Platform(Game.Content.Load<Texture2D>(@"Images/BlankPlatform"), new Vector2(1500, 875)));
-                }
-                blastSheet = Game.Content.Load<Texture2D>(@"Images/blasts");
-                spawnCharacters();
-                //music under spawn characters as spawnCharacters checks if guile is there.
-                if(guilePlaying)
-                {
-                    guilePlaying = false;
-                    inGameMusicInstance.Stop();
-                    menuMusicInstance.Resume();
-                }
-                inGameMusicInstance = inGameMusic.CreateInstance();
-                inGameMusicInstance.IsLooped = true;
-                menuMusicInstance.Stop();
-                inGameMusicInstance.Play();
-                gameState = GameState.Playing;
 
             }
             else if (gameState == GameState.StartMenu)
