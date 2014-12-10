@@ -87,6 +87,7 @@ namespace UltraBrawl
 
         //character buttons
         private Texture2D gokuButton;
+        private Texture2D gokuButtonSS;
         private Texture2D megamanButton;
         private Texture2D ryuButton;
         private Texture2D guileButton;
@@ -224,6 +225,7 @@ namespace UltraBrawl
             menuMusicInstance.IsLooped = true;
 
             gokuButton = Game.Content.Load<Texture2D>(@"Images/gokuButton");
+            gokuButtonSS = Game.Content.Load<Texture2D>(@"Images/gokuButtonSS");
             megamanButton = Game.Content.Load<Texture2D>(@"Images/megamanButton");
             ryuButton = Game.Content.Load<Texture2D>(@"Images/ryuButton");
             guileButton = Game.Content.Load<Texture2D>(@"Images/guileButton");
@@ -680,7 +682,14 @@ namespace UltraBrawl
                 }
                 spriteBatch.DrawString(font, players[0].currentHealth + "%", new Vector2(350, 36), Color.Red);
                 spriteBatch.DrawString(font, "p1", new Vector2(700, 35), Color.Red);
-                spriteBatch.Draw(selectedChars[0], new Rectangle(630, 17, 65, 65), Color.White);
+                if (players[0].isSuper)
+                {
+                    spriteBatch.Draw(gokuButtonSS, new Rectangle(630, 17, 65, 65), Color.White);
+                }
+                else
+                {
+                    spriteBatch.Draw(selectedChars[0], new Rectangle(630, 17, 65, 65), Color.White);
+                }
                 spriteBatch.DrawString(font, "p1", new Vector2(players[0].collisionRect.Center.X, players[0].hitbox.Top - 60), Color.Red);
             }
             if (playing[1])
@@ -694,7 +703,14 @@ namespace UltraBrawl
                 }
                 spriteBatch.DrawString(font, players[1].currentHealth + "%" + " ", new Vector2(1530, 36), Color.Blue);
                 spriteBatch.DrawString(font, "p2", new Vector2(1200, 35), Color.Blue);
-                spriteBatch.Draw(selectedChars[1], new Rectangle(1235, 17, 65, 65), Color.White);
+                if (players[1].isSuper)
+                {
+                    spriteBatch.Draw(gokuButtonSS, new Rectangle(1235, 17, 65, 65), Color.White);
+                }
+                else
+                {
+                    spriteBatch.Draw(selectedChars[1], new Rectangle(1235, 17, 65, 65), Color.White);
+                }
                 spriteBatch.DrawString(font, "p2", new Vector2(players[1].collisionRect.Center.X, players[1].hitbox.Top - 60), Color.Blue);
             }
             if (playing[2] )
@@ -708,7 +724,14 @@ namespace UltraBrawl
                 }
                 spriteBatch.DrawString(font, players[2].currentHealth + "%", new Vector2(350, 101), Color.Green);
                 spriteBatch.DrawString(font, "p3", new Vector2(700, 100), Color.Green);
-                spriteBatch.Draw(selectedChars[2], new Rectangle(630, 82, 65, 65), Color.White);
+                if (players[2].isSuper)
+                {
+                    spriteBatch.Draw(gokuButtonSS, new Rectangle(630, 82, 65, 65), Color.White);
+                }
+                else
+                {
+                    spriteBatch.Draw(selectedChars[2], new Rectangle(630, 82, 65, 65), Color.White);
+                }
                 spriteBatch.DrawString(font, "p3", new Vector2(players[2].collisionRect.Center.X, players[2].hitbox.Top - 60), Color.Green);
             }
             if (playing[3])
@@ -722,7 +745,14 @@ namespace UltraBrawl
                 }
                 spriteBatch.DrawString(font, players[3].currentHealth + "%", new Vector2(1530, 101), Color.Orange);
                 spriteBatch.DrawString(font, "p4", new Vector2(1200, 100), Color.Orange);
-                spriteBatch.Draw(selectedChars[3], new Rectangle(1235, 82, 65, 65), Color.White);
+                if (players[3].isSuper)
+                {
+                    spriteBatch.Draw(gokuButtonSS, new Rectangle(1235, 82, 65, 65), Color.White);
+                }
+                else 
+                {
+                    spriteBatch.Draw(selectedChars[3], new Rectangle(1235, 82, 65, 65), Color.White);
+                }
                 spriteBatch.DrawString(font, "p4", new Vector2(players[3].collisionRect.Center.X, players[3].hitbox.Top - 60), Color.Orange);
             }
             for (int i = 0; i < numPlayers; i++)
