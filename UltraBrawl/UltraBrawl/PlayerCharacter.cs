@@ -802,7 +802,19 @@ namespace UltraBrawl
                 {
                     player.canJump = true;
                 }
+                //quickfall
+                if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(7)))
+                {
+                    player.jumpCount = 4;
+                    player.velocity.X = 0;
+                    player.isBlock = true;
+                }
+                else
+                {
+                    player.isBlock = false;
+                }
 
+                player.oldGamePadState = GamePad.GetState(player.pcPlayerNum);
                 if (player.jumpCount <= 2 && player.canJump)
                 {
                     if (GamePad.GetState(player.pcPlayerNum).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(player.controller.pcPlayerKeys.ElementAt(4)))
