@@ -86,12 +86,11 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
-            JKknockdown = true;
             canJumpKick = false;
             canFire = true;
             canAOE = true;
             CHARACTER_DAMAGE = 0.1;
-            CHARACTER_ID = 1;
+            CHARACTER_ID = 8;
             CHARACTER_NAME = "Airman";
         }
 
