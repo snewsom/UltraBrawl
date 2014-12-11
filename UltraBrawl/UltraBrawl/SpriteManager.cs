@@ -95,6 +95,7 @@ namespace UltraBrawl
         private Texture2D zeroButton;
         private Texture2D kazuyaButton;
         private Texture2D lyndisButton;
+        private Texture2D airmanButton;
 
         private Texture2D bgButton1;
         private Texture2D bgButton2;
@@ -233,6 +234,7 @@ namespace UltraBrawl
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
             lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
+            airmanButton = Game.Content.Load<Texture2D>(@"Images/airmanButton");
 
             charAllReady = Game.Content.Load<Texture2D>(@"Images/charAllReady");
             
@@ -259,7 +261,7 @@ namespace UltraBrawl
             startMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 500);
             startMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 600);
 
-            charSelectMenu = new Vector2[4, 2];
+            charSelectMenu = new Vector2[5, 2];
             charSelectMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 425, 600);
             charSelectMenu[0, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 425, 800);
             charSelectMenu[1, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 175, 600);
@@ -268,6 +270,8 @@ namespace UltraBrawl
             charSelectMenu[2, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 75, 800);
             charSelectMenu[3, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 325, 600);
             charSelectMenu[3, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 325, 800);
+            charSelectMenu[4, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 575, 600);
+            charSelectMenu[4, 1] = new Vector2((GraphicsDevice.Viewport.Width / 2) + 575, 800);
 
             pauseMenu = new Vector2[1, 3];
             pauseMenu[0, 0] = new Vector2((GraphicsDevice.Viewport.Width / 2) - 180, 200);
@@ -404,6 +408,8 @@ namespace UltraBrawl
                             if (players[i].CHARACTER_ID == 3)
                                 spriteList.Add(new GuileSonicBoom(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 7)
+                                spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                            if (players[i].CHARACTER_ID == 8)
                                 spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             spriteList.ElementAt(spriteList.Count - 1).myOwner = players[i];
                             players[i].fire = false;
@@ -581,6 +587,8 @@ namespace UltraBrawl
                 spriteBatch.Draw(guileButton, charSelectMenu[2, 1], Color.White);
                 spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
                 spriteBatch.Draw(lyndisButton, charSelectMenu[3, 1], Color.White);
+                spriteBatch.Draw(airmanButton, charSelectMenu[4, 0], Color.White);
+                spriteBatch.Draw(airmanButton, charSelectMenu[4, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -1026,9 +1034,15 @@ namespace UltraBrawl
                     {
                         if (cursorLocs[playerNum].currentItemY == 0)
                         {
+                            players[playerNum] = factory.selectCharacter(8);
+                            selectedChars[playerNum] = airmanButton;
+                            ready[playerNum] = true;
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)
                         {
+                            players[playerNum] = factory.selectCharacter(8);
+                            selectedChars[playerNum] = airmanButton;
+                            ready[playerNum] = true;
                         }
                     }
                 }

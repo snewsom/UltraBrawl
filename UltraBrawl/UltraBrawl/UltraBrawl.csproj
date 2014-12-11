@@ -109,6 +109,7 @@
   <ItemGroup>
     <Compile Include="AutomatedSprite.cs" />
     <Compile Include="Camera2d.cs" />
+    <Compile Include="Characters\Airman.cs" />
     <Compile Include="Characters\Lyndis.cs" />
     <Compile Include="Characters\Kazuya.cs" />
     <Compile Include="Characters\Zero.cs" />
