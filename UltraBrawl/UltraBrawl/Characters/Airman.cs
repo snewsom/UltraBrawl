@@ -37,6 +37,7 @@ namespace UltraBrawl
         public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
             : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, airmanFrameSize)
         {
+            this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping
@@ -60,7 +61,6 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 7;
-            fireChargeFrame = 12;
 
             base.pcSegmentTimings.Add(100); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -87,7 +87,6 @@ namespace UltraBrawl
             base.setSegments();
 
             canJumpKick = false;
-            canFire = true;
             canAOE = true;
             CHARACTER_DAMAGE = 0.1;
             CHARACTER_ID = 8;
@@ -100,6 +99,7 @@ namespace UltraBrawl
             pcPlayerNum = preset.index;
             chargeMax = 500;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
