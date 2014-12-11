@@ -163,7 +163,6 @@ namespace UltraBrawl
                 hasFired = true;
                 disableTimer = System.Environment.TickCount + 1000;
                 fireSoundInstance.Play();
-                chargePlayed = false;
             }
             else
             {

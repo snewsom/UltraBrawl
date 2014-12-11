@@ -133,7 +133,6 @@ namespace UltraBrawl
                 {
                     hitboxOffset = venomHitboxOffsetNotFlipped;
                 }
-                chargePlayed = false;
                 chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
                 gravity = defaultGravity;
                 regenHitbox();

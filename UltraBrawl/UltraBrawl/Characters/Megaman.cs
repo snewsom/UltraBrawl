@@ -114,7 +114,6 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            chargePlayed = false;
             chargeSoundInstance.Stop(true);
             fireSoundInstance.Play();
             isFire = true;

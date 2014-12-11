@@ -1124,6 +1124,7 @@ namespace UltraBrawl
                     player.hasFired = false;
                     player.chargeTimer = 0;
                     player.canMove = true;
+                    player.chargePlayed = false;
 
                     if (!player.onGround)
                     {
@@ -1142,6 +1143,7 @@ namespace UltraBrawl
                 if (player.chargeTimer > player.chargeMax && !player.canFire)
                 {
                     player.chargedTwo();
+                    player.chargePlayed = false;
                     player.hasReleased = false;
                     player.chargeTimer = 0;
                     player.canMove = true;
