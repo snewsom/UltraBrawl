@@ -34,8 +34,8 @@ namespace UltraBrawl
 
 
         // constructor
-        public Airman(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, sound1, sound2, airmanFrameSize)
+        public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
+            : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, airmanFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
@@ -99,7 +99,6 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
             chargeMax = 500;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
@@ -118,10 +117,18 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            AOE = true;
-            velocity.Y = 0;
-            hitboxOffset = AOEHitboxOffset;
-            regenHitbox();
+            if (!isAOE)
+            {
+                isAOE = true;
+                velocity.Y = 0;
+                gravity = noGravity;
+                hitboxOffset = AOEHitboxOffset;
+                regenHitbox();
+            }
+            else
+            {
+                spamTimer = System.Environment.TickCount + 5000;
+            }
         }
 
 
@@ -140,13 +147,12 @@ namespace UltraBrawl
             {
                 hitboxOffset = airmanHitboxOffsetNotFlipped;
             }
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             gravity = defaultGravity;
             regenHitbox();
-            AOE = false;
-            
-        }
-        
+            isAOE = false;
 
+        }
     }
         
 }

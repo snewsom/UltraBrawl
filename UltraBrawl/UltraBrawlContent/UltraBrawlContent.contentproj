@@ -621,7 +621,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <Compile Include="Images\airmanButton.png">
       <Name>airmanButton</Name>
       <Importer>TextureImporter</Importer>
@@ -633,7 +632,7 @@
       <Name>Airman</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
-=======
+    </Compile>
     <Compile Include="Sound\kamehamehaCharge.wav">
       <Name>kamehamehaCharge</Name>
       <Importer>WavImporter</Importer>
@@ -650,7 +649,6 @@
       <Name>busterFire</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
->>>>>>> origin/master
     </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
