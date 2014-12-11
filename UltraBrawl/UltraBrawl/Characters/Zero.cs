@@ -63,7 +63,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //charging
             base.setSegments();
 
-            JKvelocity = 800;
+            JKvelocity = 600;
             canJumpKick = true;
             canSmash = true;
             canSuper = false;
@@ -106,6 +106,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             isSmash = false;
         }
 

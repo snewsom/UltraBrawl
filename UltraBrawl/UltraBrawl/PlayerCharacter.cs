@@ -1099,14 +1099,14 @@ namespace UltraBrawl
                     player.cancelSpecial = true;
                 }
 
-                if ((player.chargeTimer + 500) > player.chargeMax)
+                if ((player.chargeTimer + 200) > player.chargeMax)
                 {
                     player.chargedOne();
                 }
                 if (player.canFire && !player.hasFired)
                 {
                     if ((player.currentFrame.X > player.fireChargeFrame - 2 && ((player.chargeTimer + 200) < player.chargeMax)) ||
-                        (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed && !player.hasReleased))
+                        (GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed && !player.hasReleased && player.currentFrame.X > player.fireChargeFrame - 2))
                     {
                         player.currentFrame.X = player.fireChargeFrame - 1;
                     }
@@ -1140,10 +1140,9 @@ namespace UltraBrawl
                 }
                 if (player.chargeTimer > player.chargeMax && !player.canFire)
                 {
+                    player.chargedTwo();
                     player.hasReleased = false;
                     player.chargeTimer = 0;
-                    player.chargedTwo();
-                    player.chargeSoundInstance.Stop(true);
                     player.canMove = true;
                     //charge->fall
                     if (!player.onGround)

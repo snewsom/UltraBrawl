@@ -63,9 +63,10 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(200); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(40); //charging
+            base.pcSegmentTimings.Add(30); //charging
             base.setSegments();
 
+            JKvelocity = 200;
             JKknockdown = true;
             canJumpKick = true;
             canFire = true;
@@ -78,7 +79,7 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            chargeMax = 500;
+            chargeMax = 400;
 
             fireSoundInstance = fireSound.CreateInstance();
             chargeSoundInstance = chargeSound.CreateInstance();
@@ -106,6 +107,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            chargeSoundInstance.Stop(true);
             fireSoundInstance.Play();
             isFire = true;
             hasFired = true;

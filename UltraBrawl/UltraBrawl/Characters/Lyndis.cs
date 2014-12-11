@@ -50,6 +50,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(21, 9)); //charging
             base.knockDownEndFrame = 8;
             fireChargeFrame = 18;
+            fireFrame = 18;
 
             base.pcSegmentTimings.Add(70); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -77,7 +78,7 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            chargeMax = 500;
+            chargeMax = 400;
 
             chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
@@ -105,6 +106,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             isFire = true;
             hasFired = true;
         }

@@ -168,6 +168,7 @@ namespace UltraBrawl
                 canFire = true;
                 chargeMax = 700;
                 knockDownEndFrame = 5;
+                chargeSoundInstance.Stop(true);
                 chargeSoundInstance = superChargeSound.CreateInstance();
             }
         }

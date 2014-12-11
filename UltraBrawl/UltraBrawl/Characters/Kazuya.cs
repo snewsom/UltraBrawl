@@ -119,6 +119,7 @@ namespace UltraBrawl
             {
                 hitboxOffset = kazuyaHitboxOffsetNotFlipped;
             }
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             regenHitbox();
             isAOE = false;
 
