@@ -18,7 +18,7 @@ namespace UltraBrawl
                 this.speed.X = speed.X * -1;
                 this.velocity = new Vector2(0, 0);
                 this.effects = SpriteEffects.FlipHorizontally;
-                this.position.X = position.X - 2000;
+                this.position.X = position.X - 1970;
                 
             } 
             else

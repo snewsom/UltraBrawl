@@ -130,7 +130,6 @@
     <Compile Include="Projectiles\GuileSonicBoom.cs" />
     <Compile Include="Projectiles\MegamanBuster.cs" />
     <Compile Include="PlayerCharacter.cs" />
-    <Compile Include="PlayerController.cs" />
     <Compile Include="Platform.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />

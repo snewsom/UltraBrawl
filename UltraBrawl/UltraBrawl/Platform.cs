@@ -22,6 +22,7 @@ namespace UltraBrawl
             spriteSheet.addSegment(platformFrameSize, new Point(0, 0), new Point(18, 0), 50);
             spriteSheet.setCurrentSegment(0);
             this.position = position;
+            isPlatform = true;
         }
 
         public override void Collision(Sprite otherSprite)

@@ -32,9 +32,10 @@ namespace UltraBrawl
             ++numSegments;
         }
 
-        public void setCurrentSegment(int which)
+        public SpriteSheetSegment setCurrentSegment(int which)
         {
             currentSegment = segments[which];
+            return currentSegment;
         }
     }
 }

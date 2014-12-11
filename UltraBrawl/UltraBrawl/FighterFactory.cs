@@ -25,11 +25,11 @@ namespace UltraBrawl
         {
             if (CharID == 0)
             {
-                return new Goku(game.Content.Load<Texture2D>(@"Images/Goku"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Goku(game.Content.Load<Texture2D>(@"Images/Goku"), game.Content.Load<SoundEffect>(@"Sound/Dragonball Z Charge Sound"), game.Content.Load<SoundEffect>(@"Sound/SSloop"), game.Content.Load<SoundEffect>(@"Sound/kamehamehaCharge"), game.Content.Load<SoundEffect>(@"Sound/kamehamehaFire"));
             }
             else if (CharID == 1)                       
             {
-                return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"));
+                return new Megaman(game.Content.Load<Texture2D>(@"Images/Megaman"), game.Content.Load<SoundEffect>(@"Sound/Mega Man Charging"), game.Content.Load<SoundEffect>(@"Sound/busterFire"));
             }
             else if (CharID == 2)
             {

@@ -181,7 +181,7 @@ namespace UltraBrawl
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             for (int i = 0; i < 4; i++)
             {
-                presets[i] = new PlayerPreset(gamepads[i], new PlayerController(gamepads[i]), spawnLocs[i]);
+                presets[i] = new PlayerPreset(gamepads[i], spawnLocs[i]);
             }
             font = Game.Content.Load<SpriteFont>("Images/dbzFont");
 
@@ -396,7 +396,7 @@ namespace UltraBrawl
                     {
                         players[i].Update(gameTime, Game.Window.ClientBounds);
 
-                        if (players[i].fire)
+                        if (players[i].isFire)
                         {
                             Debug.WriteLine(players[i].flipped);
                             if (players[i].CHARACTER_ID == 0)
@@ -412,7 +412,7 @@ namespace UltraBrawl
                             if (players[i].CHARACTER_ID == 8)
                                 spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             spriteList.ElementAt(spriteList.Count - 1).myOwner = players[i];
-                            players[i].fire = false;
+                            players[i].isFire = false;
                         }
                         if (players[i].currentHealth <= 0)
                         {

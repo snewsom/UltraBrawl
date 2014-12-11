@@ -33,57 +33,36 @@ namespace UltraBrawl
 
 
         // constructor
-        public Guile(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, guileNumberOfFrames, 2.0f), guileCollisionOffset, guileHitboxOffset, guileHitboxOffsetFlipped, guileHitboxOffsetNotFlipped, guileSpeed, guileFriction, sound1, sound2, guileFrameSize)
+        public Guile(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
+            : base(new SpriteSheet(image, guileNumberOfFrames, 2.0f), guileCollisionOffset, guileHitboxOffset, guileHitboxOffsetFlipped, guileHitboxOffsetNotFlipped, guileSpeed, guileFriction, guileFrameSize)
         {
-            base.pcSegmentEndings.Add(new Point(7, 0)); //idle
-            base.pcSegmentEndings.Add(new Point(5, 1)); //running
-            base.pcSegmentEndings.Add(new Point(3, 2)); //jumping
-            base.pcSegmentEndings.Add(new Point(5, 3)); //jumpkick;
-            base.pcSegmentEndings.Add(new Point(5, 4)); //punch
-            base.pcSegmentEndings.Add(new Point(7, 5)); //kick
-            base.pcSegmentEndings.Add(new Point(0, 6)); //block
-            base.pcSegmentEndings.Add(new Point(1, 6)); //blockhit
-            base.pcSegmentEndings.Add(new Point(3, 7)); //hit
-            base.pcSegmentEndings.Add(new Point(12, 8)); //knockdownl
-            base.pcSegmentEndings.Add(new Point(8, 9)); //charging
-            base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
-            base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
-            base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
-            base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
-            base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKick
-            base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.knockDownEndFrame = 7;
+            this.chargeSound = chargeSound;
+            pcSegmentEndings.Add(new Point(7, 0)); //idle
+            pcSegmentEndings.Add(new Point(5, 1)); //running
+            pcSegmentEndings.Add(new Point(3, 2)); //jumping
+            pcSegmentEndings.Add(new Point(5, 3)); //jumpkick;
+            pcSegmentEndings.Add(new Point(5, 4)); //punch
+            pcSegmentEndings.Add(new Point(7, 5)); //kick
+            pcSegmentEndings.Add(new Point(0, 6)); //block
+            pcSegmentEndings.Add(new Point(1, 6)); //blockhit
+            pcSegmentEndings.Add(new Point(3, 7)); //hit
+            pcSegmentEndings.Add(new Point(12, 8)); //knockdown
+            pcSegmentEndings.Add(new Point(8, 9)); //charging
+            knockDownEndFrame = 7;
             fireChargeFrame = 2;
 
-            base.pcSegmentTimings.Add(80); //idle
-            base.pcSegmentTimings.Add(60); //running
-            base.pcSegmentTimings.Add(120); //jumping
-            base.pcSegmentTimings.Add(50); //jumpkick
-            base.pcSegmentTimings.Add(30); //punch
-            base.pcSegmentTimings.Add(40); //kick
-            base.pcSegmentTimings.Add(50); //block
-            base.pcSegmentTimings.Add(50); //blockhit
-            base.pcSegmentTimings.Add(50); //hit
-            base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(80); //charging
-            base.pcSegmentTimings.Add(50); //superIdle
-            base.pcSegmentTimings.Add(80); //superRunning
-            base.pcSegmentTimings.Add(120); //superJumping
-            base.pcSegmentTimings.Add(40); //superJumpkicking
-            base.pcSegmentTimings.Add(40); //superPunch
-            base.pcSegmentTimings.Add(40); //superKick
-            base.pcSegmentTimings.Add(50); //superBlock
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
-            base.setSegments();
+            pcSegmentTimings.Add(80); //idle
+            pcSegmentTimings.Add(60); //running
+            pcSegmentTimings.Add(120); //jumping
+            pcSegmentTimings.Add(50); //jumpkick
+            pcSegmentTimings.Add(30); //punch
+            pcSegmentTimings.Add(40); //kick
+            pcSegmentTimings.Add(50); //block
+            pcSegmentTimings.Add(50); //blockhit
+            pcSegmentTimings.Add(50); //hit
+            pcSegmentTimings.Add(60); //knockdown
+            pcSegmentTimings.Add(80); //charging
+            setSegments();
 
             JKknockdown = true;
             canJumpKick = true;
@@ -98,9 +77,9 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
             chargeMax = 700;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
@@ -126,7 +105,8 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            fire = true;
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
+            isFire = true;
             hasFired = true;
         }
 

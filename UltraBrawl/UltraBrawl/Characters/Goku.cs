@@ -28,14 +28,21 @@ namespace UltraBrawl
         static Vector2 gokuSpeed = new Vector2(180, 32);
         static Vector2 gokuFriction = new Vector2(0.8f, 1f);
         static Point gokuFrameSize = new Point(170, 170);
+        private SoundEffect superChargeSound;
         
 
 
 
         // constructor
-        public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize)
+        public Goku(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop, SoundEffect superChargeSound, SoundEffect fireSound)
+            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, gokuFrameSize)
         {
+            this.chargeSound = chargeSound;
+            this.superLoop = superLoop;
+            this.fireSound = fireSound;
+            this.superChargeSound = superChargeSound;
+            //if the player cansuper it MUST be declared begore the segments are set.
+            canSuper = true;
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping
@@ -60,6 +67,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(11, 21)); //superCharge
             base.knockDownEndFrame = 6;
             base.fireChargeFrame = 3;
+            base.fireFrame = 6;
     
             base.pcSegmentTimings.Add(50); //idle
             base.pcSegmentTimings.Add(80); //running
@@ -71,7 +79,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(100); //hit
             base.pcSegmentTimings.Add(40); //knockdown
-            base.pcSegmentTimings.Add(140); //charging
+            base.pcSegmentTimings.Add(80); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -87,7 +95,6 @@ namespace UltraBrawl
 
             JKknockdown = true;
             canJumpKick = true;
-            canSuper = true;
             CHARACTER_ID = 0;
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;
@@ -96,14 +103,18 @@ namespace UltraBrawl
         {
             if(pauseTime < disableTimer){
                 disableProjectile = true;
-                beam = false;
+                isBeam = false;
             }
         }
         public override void spawn(PlayerPreset preset)
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
+
+            chargeSoundInstance = chargeSound.CreateInstance();
+            fireSoundInstance = fireSound.CreateInstance();
+            superLoopInstance = superLoop.CreateInstance();
+            superLoopInstance.IsLooped = true;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -120,7 +131,15 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            beam = true;
+            if (!isBeam && isSuper)
+            {
+                isBeam = true;
+            }
+            else if (isBeam)
+            {
+                chargePlayed = true;
+                spamTimer = System.Environment.TickCount + 2000;
+            }
         }
         public override void chargedOne()
         {
@@ -134,9 +153,11 @@ namespace UltraBrawl
         {
             if (canFire)
             {
-                fire = true;
+                isFire = true;
                 hasFired = true;
                 disableTimer = System.Environment.TickCount + 1000;
+                fireSoundInstance.Play();
+                chargePlayed = false;
             }
             else
             {
@@ -147,6 +168,8 @@ namespace UltraBrawl
                 canFire = true;
                 chargeMax = 700;
                 knockDownEndFrame = 5;
+                chargeSoundInstance.Stop(true);
+                chargeSoundInstance = superChargeSound.CreateInstance();
             }
         }
     }

@@ -33,9 +33,11 @@ namespace UltraBrawl
 
 
         // constructor
-        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize)
+        public Megaman(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
+            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, megamanFrameSize)
         {
+            this.chargeSound = chargeSound;
+            this.fireSound = fireSound;
             base.pcSegmentEndings.Add(new Point(8, 0)); //idle
             base.pcSegmentEndings.Add(new Point(8, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping
@@ -47,19 +49,9 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(1, 7)); //hit
             base.pcSegmentEndings.Add(new Point(10, 8)); //knockdown
             base.pcSegmentEndings.Add(new Point(16, 9)); //charging
-            base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
-            base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
-            base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
-            base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
-            base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKick
-            base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 7;
             fireChargeFrame = 12;
+            fireFrame = 12;
 
             base.pcSegmentTimings.Add(90); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -71,20 +63,10 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(200); //hit
             base.pcSegmentTimings.Add(60); //knockdown
-            base.pcSegmentTimings.Add(40); //charging
-            base.pcSegmentTimings.Add(50); //superIdle
-            base.pcSegmentTimings.Add(80); //superRunning
-            base.pcSegmentTimings.Add(120); //superJumping
-            base.pcSegmentTimings.Add(40); //superJumpkicking
-            base.pcSegmentTimings.Add(40); //superPunch
-            base.pcSegmentTimings.Add(40); //superKick
-            base.pcSegmentTimings.Add(50); //superBlock
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
+            base.pcSegmentTimings.Add(30); //charging
             base.setSegments();
 
+            JKvelocity = 200;
             JKknockdown = true;
             canJumpKick = true;
             canFire = true;
@@ -97,9 +79,10 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
-            chargeMax = 500;
+            chargeMax = 400;
 
+            fireSoundInstance = fireSound.CreateInstance();
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
@@ -116,7 +99,6 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
         }
 
 
@@ -125,7 +107,9 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            fire = true;
+            chargeSoundInstance.Stop(true);
+            fireSoundInstance.Play();
+            isFire = true;
             hasFired = true;
         }
 
