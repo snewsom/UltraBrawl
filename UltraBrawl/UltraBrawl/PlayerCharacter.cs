@@ -677,6 +677,7 @@ namespace UltraBrawl
                 {
                     if (player.onGround)
                     {
+                        player.isHVY = true;
                         player.switchState(PlayerCharacterState.HeavyAttack);
                     }
                 }
@@ -685,6 +686,7 @@ namespace UltraBrawl
                 {
                     if (player.onGround)
                     {
+                        player.isLGT = true;
                         player.switchState(PlayerCharacterState.LightAttack);
                     }
                 }
@@ -728,12 +730,14 @@ namespace UltraBrawl
                 {
                     if (player.onGround)
                     {
+                        player.isLGT = true;
                         player.switchState(PlayerCharacterState.LightAttack);
                     }
                 }
                 //run->kick
                 if ((player.oldGamePadState.Buttons.B == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.B == ButtonState.Pressed))
                 {
+                    player.isHVY = true;
                     player.switchState(PlayerCharacterState.HeavyAttack);
                 }
 
@@ -840,6 +844,7 @@ namespace UltraBrawl
                 {
                     if (GamePad.GetState(player.pcPlayerNum).Buttons.B == ButtonState.Pressed)
                     {
+                        player.isJumpKick = true;
                         player.jumpCount += 4;
                         player.switchState(PlayerCharacterState.JumpKicking);
                     }
@@ -981,7 +986,6 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
-                player.isHVY = true;
                 player.canMove = false;
                 player.heavyAttack();
                 if (player.currentFrame.X == player.currentSegment.endFrame.X)
@@ -1004,7 +1008,6 @@ namespace UltraBrawl
 
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
-                player.isLGT = true;
                 player.canMove = false;
                 player.lightAttack();
                 player.velocity.X = 0;
@@ -1029,7 +1032,6 @@ namespace UltraBrawl
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
                 player.jumpKick();
-                player.isJumpKick = true;
                 player.canMove = false;
                 if (player.isJumpKick)
                 {
