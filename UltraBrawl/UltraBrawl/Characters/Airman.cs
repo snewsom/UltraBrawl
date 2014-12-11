@@ -137,6 +137,17 @@ namespace UltraBrawl
             }
         }
 
+        public override void lightAttack()
+        {
+            base.lightAttack();
+        }
+
+        public override void heavyAttack()
+        {
+
+        base.heavyAttack();
+
+        }
 
 
 
