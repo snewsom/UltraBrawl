@@ -35,9 +35,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Venom(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+        public Venom(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, venomFrameSize)
         {
+            this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(12, 0)); //idle
             base.pcSegmentEndings.Add(new Point(9, 1)); //running
             base.pcSegmentEndings.Add(new Point(8, 2)); //jumping
@@ -80,6 +81,7 @@ namespace UltraBrawl
             CHARACTER_NAME = "Venom";
             chargeMax = 1100;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;

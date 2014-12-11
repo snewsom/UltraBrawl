@@ -33,9 +33,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Guile(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+        public Guile(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, guileNumberOfFrames, 2.0f), guileCollisionOffset, guileHitboxOffset, guileHitboxOffsetFlipped, guileHitboxOffsetNotFlipped, guileSpeed, guileFriction, guileFrameSize)
         {
+            this.chargeSound = chargeSound;
             pcSegmentEndings.Add(new Point(7, 0)); //idle
             pcSegmentEndings.Add(new Point(5, 1)); //running
             pcSegmentEndings.Add(new Point(3, 2)); //jumping
@@ -78,6 +79,7 @@ namespace UltraBrawl
             pcPlayerNum = preset.index;
             chargeMax = 700;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;

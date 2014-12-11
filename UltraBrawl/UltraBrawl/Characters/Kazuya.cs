@@ -34,9 +34,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Kazuya(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+        public Kazuya(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, kazuyaNumberOfFrames, 2.0f), kazuyaCollisionOffset, kazuyaHitboxOffset, kazuyaHitboxOffsetFlipped, kazuyaHitboxOffsetNotFlipped, kazuyaSpeed, kazuyaFriction, kazuyaFrameSize)
         {
+            this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(6, 0)); //idlel
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(5, 2)); //jumping
@@ -77,6 +78,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;

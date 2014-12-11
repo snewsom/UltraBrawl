@@ -33,9 +33,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Lyndis(Texture2D image, SoundEffect sound1, SoundEffect sound2)
+        public Lyndis(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, lyndisNumberOfFrames, 2.0f), lyndisCollisionOffset, lyndisHitboxOffset, lyndisHitboxOffsetFlipped, lyndisHitboxOffsetNotFlipped, lyndisSpeed, lyndisFriction, lyndisFrameSize)
         {
+            this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(9, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(8, 2)); //jumping
@@ -78,6 +79,7 @@ namespace UltraBrawl
             pcPlayerNum = preset.index;
             chargeMax = 500;
 
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
