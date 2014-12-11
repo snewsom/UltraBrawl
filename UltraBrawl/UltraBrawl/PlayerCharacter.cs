@@ -43,6 +43,7 @@ namespace UltraBrawl
         public SoundEffectInstance chargeSoundInstance;
         public SoundEffectInstance fireSoundInstance;
         public SoundEffectInstance superLoopInstance;
+        public bool hasChargeSound;
         public bool update = false;
         public bool flipped = false;
 
@@ -214,7 +215,11 @@ namespace UltraBrawl
 
         public void stopChar()
         {
-            superLoopInstance.Stop();
+            if (isSuper)
+            {
+                superLoopInstance.Stop();
+            }
+            if (hasChargeSound)
             chargeSoundInstance.Stop();
             update = false;
         }
@@ -224,6 +229,7 @@ namespace UltraBrawl
             {
                 superLoopInstance.Pause();
             }
+            if(hasChargeSound)
             chargeSoundInstance.Pause();
             update = false;
         }
@@ -234,6 +240,7 @@ namespace UltraBrawl
                 if (isSuper)
                     superLoopInstance.Resume();
                 if (currentState == PlayerCharacterState.Charging)
+                    if (hasChargeSound)
                     chargeSoundInstance.Resume();
                 update = true;
             }
@@ -1063,11 +1070,6 @@ namespace UltraBrawl
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
                 player.charging();
-                if (player.chargeSoundInstance.State == SoundState.Stopped && !player.chargePlayed)
-                {
-                    player.chargeSoundInstance.Play();
-                    player.chargeSoundInstance.Volume = 0.5f;
-                }
                 if (player.canFire && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released)
                 {
                     player.hasReleased = true;
@@ -1121,7 +1123,6 @@ namespace UltraBrawl
                     player.hasReleased = false;
                     player.hasFired = false;
                     player.chargeTimer = 0;
-                    player.chargeSoundInstance.Stop(true);
                     player.canMove = true;
 
                     if (!player.onGround)

@@ -36,6 +36,7 @@ namespace UltraBrawl
         public Megaman(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
             : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, megamanFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             this.fireSound = fireSound;
             base.pcSegmentEndings.Add(new Point(8, 0)); //idle
@@ -99,6 +100,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
         }
 
 
@@ -107,6 +114,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            chargePlayed = false;
             chargeSoundInstance.Stop(true);
             fireSoundInstance.Play();
             isFire = true;

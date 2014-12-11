@@ -33,10 +33,10 @@ namespace UltraBrawl
 
 
         // constructor
-        public Ryu(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
+        public Ryu(Texture2D image, SoundEffect fireSound, SoundEffect sound2)
             : base(new SpriteSheet(image, ryuNumberOfFrames, 2.0f), ryuCollisionOffset, ryuHitboxOffset, ryuHitboxOffsetFlipped, ryuHitboxOffsetNotFlipped, ryuSpeed, ryuFriction, ryuFrameSize)
         {
-            this.chargeSound = chargeSound;
+            this.fireSound = fireSound;
             base.pcSegmentEndings.Add(new Point(6, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping
@@ -80,7 +80,7 @@ namespace UltraBrawl
             position = preset.spawn;
             pcPlayerNum = preset.index;
 
-            chargeSoundInstance = chargeSound.CreateInstance();
+            fireSoundInstance = fireSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
@@ -97,7 +97,7 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
+            
         }
 
 
@@ -107,7 +107,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
+            fireSoundInstance.Play();
             isFire = true;
             hasFired = true;
         }

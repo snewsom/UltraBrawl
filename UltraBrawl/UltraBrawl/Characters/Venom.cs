@@ -38,6 +38,7 @@ namespace UltraBrawl
         public Venom(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, venomFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(12, 0)); //idle
             base.pcSegmentEndings.Add(new Point(9, 1)); //running
@@ -97,6 +98,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
             if (!isAOE)
             {
                 isAOE = true;
@@ -126,6 +133,7 @@ namespace UltraBrawl
                 {
                     hitboxOffset = venomHitboxOffsetNotFlipped;
                 }
+                chargePlayed = false;
                 chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
                 gravity = defaultGravity;
                 regenHitbox();

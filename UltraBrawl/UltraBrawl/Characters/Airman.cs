@@ -37,6 +37,7 @@ namespace UltraBrawl
         public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
             : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, airmanFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
@@ -116,6 +117,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
             if (!isAOE)
             {
                 isAOE = true;
@@ -146,6 +153,7 @@ namespace UltraBrawl
             {
                 hitboxOffset = airmanHitboxOffsetNotFlipped;
             }
+            chargePlayed = false;
             chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             gravity = defaultGravity;
             regenHitbox();

@@ -543,13 +543,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sound\Guile Sonic Boom.wav">
-      <Name>Guile Sonic Boom</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Sound\Kazuya Laugh.wav">
       <Name>Kazuya Laugh</Name>
       <Importer>WavImporter</Importer>
@@ -647,6 +640,18 @@
   <ItemGroup>
     <Compile Include="Sound\busterFire.wav">
       <Name>busterFire</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Sound\Guile Boom.wav">
+      <Name>Guile Boom</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Sound\Guile Sonic.wav">
+      <Name>Guile Sonic</Name>
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>

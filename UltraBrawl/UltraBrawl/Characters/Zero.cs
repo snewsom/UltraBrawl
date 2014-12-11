@@ -36,6 +36,7 @@ namespace UltraBrawl
         public Zero(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, zeroNumberOfFrames, 2.0f), zeroCollisionOffset, zeroHitboxOffset, zeroHitboxOffsetFlipped, zeroHitboxOffsetNotFlipped, zeroSpeed, zeroFriction, zeroFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(7, 0)); //idle
             base.pcSegmentEndings.Add(new Point(9, 1)); //running
@@ -90,6 +91,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
             if (!isSmash)
             {
                 isSmash = true;
@@ -106,6 +113,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            chargePlayed = false;
             chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             isSmash = false;
         }

@@ -33,10 +33,12 @@ namespace UltraBrawl
 
 
         // constructor
-        public Guile(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
+        public Guile(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
             : base(new SpriteSheet(image, guileNumberOfFrames, 2.0f), guileCollisionOffset, guileHitboxOffset, guileHitboxOffsetFlipped, guileHitboxOffsetNotFlipped, guileSpeed, guileFriction, guileFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
+            this.fireSound = fireSound;
             pcSegmentEndings.Add(new Point(7, 0)); //idle
             pcSegmentEndings.Add(new Point(5, 1)); //running
             pcSegmentEndings.Add(new Point(3, 2)); //jumping
@@ -80,6 +82,7 @@ namespace UltraBrawl
             chargeMax = 700;
 
             chargeSoundInstance = chargeSound.CreateInstance();
+            fireSoundInstance = fireSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
@@ -96,7 +99,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
         }
 
 
@@ -105,7 +113,8 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
+            chargePlayed = false;
+            fireSoundInstance.Play();//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             isFire = true;
             hasFired = true;
         }

@@ -37,6 +37,7 @@ namespace UltraBrawl
         public Kazuya(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
             : base(new SpriteSheet(image, kazuyaNumberOfFrames, 2.0f), kazuyaCollisionOffset, kazuyaHitboxOffset, kazuyaHitboxOffsetFlipped, kazuyaHitboxOffsetNotFlipped, kazuyaSpeed, kazuyaFriction, kazuyaFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(6, 0)); //idlel
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
@@ -90,6 +91,12 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+                chargePlayed = true;
+            }
             if (!isAOE)
             {
                 velocity.Y = 0;
@@ -119,6 +126,7 @@ namespace UltraBrawl
             {
                 hitboxOffset = kazuyaHitboxOffsetNotFlipped;
             }
+            chargePlayed = false;
             chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             regenHitbox();
             isAOE = false;

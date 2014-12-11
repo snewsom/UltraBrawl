@@ -37,7 +37,7 @@ namespace UltraBrawl
             }
             else if (CharID == 3)
             {
-                return new Guile(game.Content.Load<Texture2D>(@"Images/Guile"), game.Content.Load<SoundEffect>(@"Sound/Guile Sonic Boom"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Guile(game.Content.Load<Texture2D>(@"Images/Guile"), game.Content.Load<SoundEffect>(@"Sound/Guile Sonic"), game.Content.Load<SoundEffect>(@"Sound/Guile Boom"));
             }
             else if (CharID == 4)
             {

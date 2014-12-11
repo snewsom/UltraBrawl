@@ -37,6 +37,7 @@ namespace UltraBrawl
         public Goku(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop, SoundEffect superChargeSound, SoundEffect fireSound)
             : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, gokuFrameSize)
         {
+            hasChargeSound = true;
             this.chargeSound = chargeSound;
             this.superLoop = superLoop;
             this.fireSound = fireSound;
@@ -131,6 +132,11 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
+            {
+                chargeSoundInstance.Play();
+                chargeSoundInstance.Volume = 0.5f;
+            }
             if (!isBeam && isSuper)
             {
                 isBeam = true;
