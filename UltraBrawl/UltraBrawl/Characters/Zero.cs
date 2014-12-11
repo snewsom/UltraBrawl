@@ -34,7 +34,7 @@ namespace UltraBrawl
 
         // constructor
         public Zero(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, zeroNumberOfFrames, 2.0f), zeroCollisionOffset, zeroHitboxOffset, zeroHitboxOffsetFlipped, zeroHitboxOffsetNotFlipped, zeroSpeed, zeroFriction, sound1, sound2, zeroFrameSize)
+            : base(new SpriteSheet(image, zeroNumberOfFrames, 2.0f), zeroCollisionOffset, zeroHitboxOffset, zeroHitboxOffsetFlipped, zeroHitboxOffsetNotFlipped, zeroSpeed, zeroFriction, zeroFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(7, 0)); //idle
             base.pcSegmentEndings.Add(new Point(9, 1)); //running

@@ -36,7 +36,7 @@ namespace UltraBrawl
 
         // constructor
         public Venom(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, sound1, sound2, venomFrameSize)
+            : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, venomFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(12, 0)); //idle
             base.pcSegmentEndings.Add(new Point(9, 1)); //running

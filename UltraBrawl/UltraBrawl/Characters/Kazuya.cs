@@ -35,7 +35,7 @@ namespace UltraBrawl
 
         // constructor
         public Kazuya(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, kazuyaNumberOfFrames, 2.0f), kazuyaCollisionOffset, kazuyaHitboxOffset, kazuyaHitboxOffsetFlipped, kazuyaHitboxOffsetNotFlipped, kazuyaSpeed, kazuyaFriction, sound1, sound2, kazuyaFrameSize)
+            : base(new SpriteSheet(image, kazuyaNumberOfFrames, 2.0f), kazuyaCollisionOffset, kazuyaHitboxOffset, kazuyaHitboxOffsetFlipped, kazuyaHitboxOffsetNotFlipped, kazuyaSpeed, kazuyaFriction, kazuyaFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(6, 0)); //idlel
             base.pcSegmentEndings.Add(new Point(5, 1)); //running

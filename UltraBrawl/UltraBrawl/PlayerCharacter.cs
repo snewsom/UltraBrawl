@@ -37,9 +37,11 @@ namespace UltraBrawl
         static Point pcFrameSize;
         public List<Point> pcSegmentEndings = new List<Point>();
         public List<int> pcSegmentTimings = new List<int>();
-        static SoundEffect chargeSound;
-        static SoundEffect superLoop;
+        public SoundEffect chargeSound;
+        public SoundEffect fireSound;
+        public SoundEffect superLoop;
         public SoundEffectInstance chargeSoundInstance;
+        public SoundEffectInstance fireSoundInstance;
         public SoundEffectInstance superLoopInstance;
         public bool update = false;
         public bool flipped = false;
@@ -82,6 +84,7 @@ namespace UltraBrawl
         public int jumpCount = 0;
         public int knockDownEndFrame;
         public int fireChargeFrame;
+        public int fireFrame;
         public int chargeTimer = 0;
         public bool noSpam = false;
         public long pauseTime = 0;
@@ -91,6 +94,7 @@ namespace UltraBrawl
         public bool hasFired = false;
         public bool hasReleased = false;
         public bool cancelSpecial = false;
+        public bool chargePlayed = false;
         public bool disableProjectile = false;
 
         //character identification
@@ -100,16 +104,11 @@ namespace UltraBrawl
 
         // constructor
         public PlayerCharacter(SpriteSheet spriteSheet, CollisionOffset collisionOffset, CollisionOffset hitboxOffset, CollisionOffset hitboxOffsetFlipped, CollisionOffset hitboxOffsetNotFlipped,
-            Vector2 speed, Vector2 friction, SoundEffect sound1, SoundEffect sound2, Point frameSize)
+            Vector2 speed, Vector2 friction, Point frameSize)
             : base(spriteSheet, collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction)
         {
             update = false;
             pcFrameSize = frameSize;
-            chargeSound = sound1;
-            superLoop = sound2;
-            chargeSoundInstance = chargeSound.CreateInstance();
-            superLoopInstance = superLoop.CreateInstance();
-            superLoopInstance.IsLooped = true;
             isCharacter = true;
         }
 
@@ -221,7 +220,10 @@ namespace UltraBrawl
         }
         public void pauseChar()
         {
-            superLoopInstance.Pause();
+            if (isSuper)
+            {
+                superLoopInstance.Pause();
+            }
             chargeSoundInstance.Pause();
             update = false;
         }
@@ -1061,7 +1063,7 @@ namespace UltraBrawl
             public override void Update(GameTime gameTime, Rectangle clientBounds)
             {
                 player.charging();
-                if (player.chargeSoundInstance.State == SoundState.Stopped)
+                if (player.chargeSoundInstance.State == SoundState.Stopped && !player.chargePlayed)
                 {
                     player.chargeSoundInstance.Play();
                     player.chargeSoundInstance.Volume = 0.5f;
@@ -1108,7 +1110,7 @@ namespace UltraBrawl
                     {
                         player.currentFrame.X = player.fireChargeFrame - 1;
                     }
-                    if (player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased)
+                    if (player.currentFrame.X >= player.fireFrame && player.chargeTimer > player.chargeMax && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Released && player.hasReleased)
                     {
                         player.chargedTwo();
                     }

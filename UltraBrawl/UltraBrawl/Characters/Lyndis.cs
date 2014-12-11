@@ -34,7 +34,7 @@ namespace UltraBrawl
 
         // constructor
         public Lyndis(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, lyndisNumberOfFrames, 2.0f), lyndisCollisionOffset, lyndisHitboxOffset, lyndisHitboxOffsetFlipped, lyndisHitboxOffsetNotFlipped, lyndisSpeed, lyndisFriction, sound1, sound2, lyndisFrameSize)
+            : base(new SpriteSheet(image, lyndisNumberOfFrames, 2.0f), lyndisCollisionOffset, lyndisHitboxOffset, lyndisHitboxOffsetFlipped, lyndisHitboxOffsetNotFlipped, lyndisSpeed, lyndisFriction, lyndisFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(9, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running

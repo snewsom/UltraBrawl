@@ -33,9 +33,11 @@ namespace UltraBrawl
 
 
         // constructor
-        public Megaman(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, sound1, sound2, megamanFrameSize)
+        public Megaman(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
+            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, megamanFrameSize)
         {
+            this.chargeSound = chargeSound;
+            this.fireSound = fireSound;
             base.pcSegmentEndings.Add(new Point(8, 0)); //idle
             base.pcSegmentEndings.Add(new Point(8, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping
@@ -49,6 +51,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(16, 9)); //charging
             base.knockDownEndFrame = 7;
             fireChargeFrame = 12;
+            fireFrame = 12;
 
             base.pcSegmentTimings.Add(90); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -77,6 +80,8 @@ namespace UltraBrawl
             pcPlayerNum = preset.index;
             chargeMax = 500;
 
+            fireSoundInstance = fireSound.CreateInstance();
+            chargeSoundInstance = chargeSound.CreateInstance();
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
@@ -93,7 +98,6 @@ namespace UltraBrawl
 
         public override void charging()
         {
-
         }
 
 
@@ -102,6 +106,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
+            fireSoundInstance.Play();
             isFire = true;
             hasFired = true;
         }

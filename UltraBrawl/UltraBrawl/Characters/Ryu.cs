@@ -34,7 +34,7 @@ namespace UltraBrawl
 
         // constructor
         public Ryu(Texture2D image, SoundEffect sound1, SoundEffect sound2)
-            : base(new SpriteSheet(image, ryuNumberOfFrames, 2.0f), ryuCollisionOffset, ryuHitboxOffset, ryuHitboxOffsetFlipped, ryuHitboxOffsetNotFlipped, ryuSpeed, ryuFriction, sound1, sound2, ryuFrameSize)
+            : base(new SpriteSheet(image, ryuNumberOfFrames, 2.0f), ryuCollisionOffset, ryuHitboxOffset, ryuHitboxOffsetFlipped, ryuHitboxOffsetNotFlipped, ryuSpeed, ryuFriction, ryuFrameSize)
         {
             base.pcSegmentEndings.Add(new Point(6, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
