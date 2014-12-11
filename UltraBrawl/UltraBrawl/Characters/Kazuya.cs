@@ -48,17 +48,6 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(3, 7)); //hit
             base.pcSegmentEndings.Add(new Point(21, 8)); //knockdown
             base.pcSegmentEndings.Add(new Point(17, 9)); //charging
-            base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
-            base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
-            base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
-            base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
-            base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKick
-            base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 9;
             //
 
@@ -73,17 +62,6 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(80); //charging
-            base.pcSegmentTimings.Add(50); //superIdle
-            base.pcSegmentTimings.Add(80); //superRunning
-            base.pcSegmentTimings.Add(120); //superJumping
-            base.pcSegmentTimings.Add(40); //superJumpkicking
-            base.pcSegmentTimings.Add(40); //superPunch
-            base.pcSegmentTimings.Add(40); //superKick
-            base.pcSegmentTimings.Add(50); //superBlock
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
             chargeMax = 1400;
@@ -98,7 +76,6 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -111,10 +88,17 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            velocity.Y = 0;
-            AOE = true;
-            hitboxOffset = AOEHitboxOffset;
-            regenHitbox();
+            if (!isAOE)
+            {
+                velocity.Y = 0;
+                isAOE = true;
+                hitboxOffset = AOEHitboxOffset;
+                regenHitbox();
+            }
+            else
+            {
+                spamTimer = System.Environment.TickCount + 5000;
+            }
         }
 
 
@@ -134,7 +118,7 @@ namespace UltraBrawl
                 hitboxOffset = kazuyaHitboxOffsetNotFlipped;
             }
             regenHitbox();
-            AOE = false;
+            isAOE = false;
 
         }
 

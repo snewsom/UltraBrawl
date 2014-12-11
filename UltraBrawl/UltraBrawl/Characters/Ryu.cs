@@ -47,17 +47,6 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(3, 7)); //hit
             base.pcSegmentEndings.Add(new Point(9, 8)); //knockdown
             base.pcSegmentEndings.Add(new Point(12, 9)); //charging
-            base.pcSegmentEndings.Add(new Point(4, 10)); //superIdle
-            base.pcSegmentEndings.Add(new Point(5, 11)); //superRunning
-            base.pcSegmentEndings.Add(new Point(9, 12)); //superJumping
-            base.pcSegmentEndings.Add(new Point(13, 13)); //superJumpkicking
-            base.pcSegmentEndings.Add(new Point(3, 14)); //superPunch
-            base.pcSegmentEndings.Add(new Point(6, 15)); //superKickl
-            base.pcSegmentEndings.Add(new Point(0, 16)); //superBlock
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
-            base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 7;
             fireChargeFrame = 2;
 
@@ -72,17 +61,6 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //hit
             base.pcSegmentTimings.Add(60); //knockdown
             base.pcSegmentTimings.Add(70); //charging
-            base.pcSegmentTimings.Add(50); //superIdle
-            base.pcSegmentTimings.Add(80); //superRunning
-            base.pcSegmentTimings.Add(120); //superJumping
-            base.pcSegmentTimings.Add(40); //superJumpkicking
-            base.pcSegmentTimings.Add(40); //superPunch
-            base.pcSegmentTimings.Add(40); //superKick
-            base.pcSegmentTimings.Add(50); //superBlock
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
-            base.pcSegmentTimings.Add(100); //superBlockhit
-            base.pcSegmentTimings.Add(100); //superHit
             base.setSegments();
 
             JKvelocity = 400;
@@ -100,7 +78,6 @@ namespace UltraBrawl
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -128,7 +105,7 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            fire = true;
+            isFire = true;
             hasFired = true;
         }
 

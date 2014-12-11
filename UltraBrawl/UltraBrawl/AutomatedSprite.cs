@@ -39,7 +39,7 @@ namespace UltraBrawl
 
         public override void Collision(Sprite otherSprite)
         {
-            if (otherSprite.checkChar())
+            if (otherSprite.isCharacter)
             {
                 PlayerCharacter otherPlayer = (PlayerCharacter)otherSprite;
                 if (otherPlayer != myOwner)

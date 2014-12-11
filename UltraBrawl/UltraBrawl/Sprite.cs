@@ -11,11 +11,14 @@ namespace UltraBrawl
     {
         protected SpriteSheet spriteSheet;
         protected Point currentFrame;
+        protected SpriteSheetSegment currentSegment;
         protected Boolean pauseAnimation = false;
         protected SpriteEffects effects = SpriteEffects.None;
-        public static bool isCharacter = false;
         protected CollisionOffset collisionOffset;
         public CollisionOffset hitboxOffset;
+        public bool isPlatform = false;
+        public bool isCharacter = false;
+        public bool isProjectile = false;
 
         int timeSinceLastFrame = 0;
         public Vector2 position;
@@ -59,15 +62,7 @@ namespace UltraBrawl
                 }
             }
         }
-
-        /*
-         * Draw the sprite!
-         */
-        public bool checkChar()
-        {
-            return isCharacter;
-        }
-
+        
         public Vector2 getPosition()
         {
             return position;

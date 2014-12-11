@@ -36,6 +36,7 @@ namespace UltraBrawl
         public Goku(Texture2D image, SoundEffect sound1, SoundEffect sound2)
             : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, sound1, sound2, gokuFrameSize)
         {
+            canSuper = true;
             base.pcSegmentEndings.Add(new Point(14, 0)); //idle
             base.pcSegmentEndings.Add(new Point(5, 1)); //running
             base.pcSegmentEndings.Add(new Point(9, 2)); //jumping
@@ -71,7 +72,7 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(100); //blockhit
             base.pcSegmentTimings.Add(100); //hit
             base.pcSegmentTimings.Add(40); //knockdown
-            base.pcSegmentTimings.Add(140); //charging
+            base.pcSegmentTimings.Add(80); //charging
             base.pcSegmentTimings.Add(50); //superIdle
             base.pcSegmentTimings.Add(80); //superRunning
             base.pcSegmentTimings.Add(120); //superJumping
@@ -87,7 +88,6 @@ namespace UltraBrawl
 
             JKknockdown = true;
             canJumpKick = true;
-            canSuper = true;
             CHARACTER_ID = 0;
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;
@@ -96,14 +96,13 @@ namespace UltraBrawl
         {
             if(pauseTime < disableTimer){
                 disableProjectile = true;
-                beam = false;
+                isBeam = false;
             }
         }
         public override void spawn(PlayerPreset preset)
         {
             position = preset.spawn;
             pcPlayerNum = preset.index;
-            controller = preset.controller;
 
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
@@ -120,7 +119,14 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            beam = true;
+            if (!isBeam && isSuper)
+            {
+                isBeam = true;
+            }
+            else if (isBeam)
+            {
+                spamTimer = System.Environment.TickCount + 2000;
+            }
         }
         public override void chargedOne()
         {
@@ -134,7 +140,7 @@ namespace UltraBrawl
         {
             if (canFire)
             {
-                fire = true;
+                isFire = true;
                 hasFired = true;
                 disableTimer = System.Environment.TickCount + 1000;
             }

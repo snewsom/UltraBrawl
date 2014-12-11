@@ -15,13 +15,11 @@ namespace UltraBrawl
     class PlayerPreset
     {
         public PlayerIndex index;
-        public PlayerController controller;
         public Vector2 spawn;
 
-        public PlayerPreset(PlayerIndex index, PlayerController controller, Vector2 spawn)
+        public PlayerPreset(PlayerIndex index, Vector2 spawn)
         {
             this.index = index;
-            this.controller = controller;
             this.spawn = spawn;
         }
     }
