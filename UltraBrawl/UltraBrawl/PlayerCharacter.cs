@@ -197,6 +197,9 @@ namespace UltraBrawl
         public virtual void chargedTwo()
         {
         }
+        public virtual void cancelCharge()
+        {
+        }
         public virtual void heavyAttack()
         {
         }
@@ -328,7 +331,7 @@ namespace UltraBrawl
                 }
                 if (isAOE || isSmash || isBeam)
                 {
-                    chargedTwo();
+                    cancelCharge();
                 }
             }
             //if you are blocking AND facing the other player

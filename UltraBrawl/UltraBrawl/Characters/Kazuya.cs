@@ -91,7 +91,7 @@ namespace UltraBrawl
 
         public override void charging()
         {
-            if (chargeSoundInstance.State == SoundState.Stopped && chargePlayed)
+            if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
             {
                 chargeSoundInstance.Play();
                 chargeSoundInstance.Volume = 0.5f;
@@ -116,8 +116,6 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-
-
             if (effects == SpriteEffects.FlipHorizontally)
             {
                 hitboxOffset = kazuyaHitboxOffsetFlipped;
@@ -126,10 +124,23 @@ namespace UltraBrawl
             {
                 hitboxOffset = kazuyaHitboxOffsetNotFlipped;
             }
-            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             regenHitbox();
             isAOE = false;
+        }
 
+        public override void cancelCharge()
+        {
+            if (effects == SpriteEffects.FlipHorizontally)
+            {
+                hitboxOffset = kazuyaHitboxOffsetFlipped;
+            }
+            else
+            {
+                hitboxOffset = kazuyaHitboxOffsetNotFlipped;
+            }
+            chargeSoundInstance.Stop(true);
+            regenHitbox();
+            isAOE = false;
         }
 
     }

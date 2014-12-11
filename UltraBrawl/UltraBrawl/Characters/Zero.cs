@@ -113,7 +113,12 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
+            isSmash = false;
+        }
+
+        public override void cancelCharge()
+        {
+            chargeSoundInstance.Stop(true);
             isSmash = false;
         }
 

@@ -153,11 +153,25 @@ namespace UltraBrawl
             {
                 hitboxOffset = airmanHitboxOffsetNotFlipped;
             }
-            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
             gravity = defaultGravity;
             regenHitbox();
             isAOE = false;
 
+        }
+        public override void cancelCharge()
+        {
+            if (effects == SpriteEffects.FlipHorizontally)
+            {
+                hitboxOffset = airmanHitboxOffsetFlipped;
+            }
+            else
+            {
+                hitboxOffset = airmanHitboxOffsetNotFlipped;
+            }
+            chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
+            gravity = defaultGravity;
+            regenHitbox();
+            isAOE = false;
         }
     }
         

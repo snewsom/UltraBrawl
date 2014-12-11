@@ -117,7 +117,11 @@ namespace UltraBrawl
             isFire = true;
             hasFired = true;
         }
-
+        public override void cancelCharge()
+        {
+            chargePlayed = false;
+            chargeSoundInstance.Stop(true);
+        }
     }
 }
 

@@ -124,7 +124,6 @@ namespace UltraBrawl
         }
         public override void chargedTwo()
         {
-            
                 if (effects == SpriteEffects.FlipHorizontally)
                 {
                     hitboxOffset = venomHitboxOffsetFlipped;
@@ -133,10 +132,25 @@ namespace UltraBrawl
                 {
                     hitboxOffset = venomHitboxOffsetNotFlipped;
                 }
-                chargeSoundInstance.Stop(true);//will want to move this to a new method called cancelCharge so that it will finish if uninterrupted.
                 gravity = defaultGravity;
                 regenHitbox();
                 isAOE = false;
+        }
+        public override void cancelCharge()
+        {
+            chargeSoundInstance.Stop(true);
+            isSmash = false;
+            if (effects == SpriteEffects.FlipHorizontally)
+            {
+                hitboxOffset = venomHitboxOffsetFlipped;
+            }
+            else
+            {
+                hitboxOffset = venomHitboxOffsetNotFlipped;
+            }
+            gravity = defaultGravity;
+            regenHitbox();
+            isAOE = false;
         }
 
     }
