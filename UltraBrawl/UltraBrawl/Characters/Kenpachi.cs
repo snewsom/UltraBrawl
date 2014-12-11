@@ -65,6 +65,7 @@ namespace UltraBrawl
             base.setSegments();
 
             JKvelocity = 500;
+            JKknockdown = true;
             canSpecial = false;
             canJumpKick = true;
             canSmash = true;
@@ -76,13 +77,16 @@ namespace UltraBrawl
 
         public override void heavyAttack()
         {
-            if (effects == SpriteEffects.None)
+            if (isHVY)
             {
-               velocity.X += 300;
-            }
-            else
-            {
-                velocity.X -= 300;
+                if (effects == SpriteEffects.None)
+                {
+                    velocity.X += 300;
+                }
+                else
+                {
+                    velocity.X -= 300;
+                }
             }
         }
 
