@@ -96,6 +96,7 @@ namespace UltraBrawl
         private Texture2D kazuyaButton;
         private Texture2D lyndisButton;
         private Texture2D airmanButton;
+        private Texture2D kenpachiButton;
 
         private Texture2D bgButton1;
         private Texture2D bgButton2;
@@ -235,6 +236,7 @@ namespace UltraBrawl
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
             lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
             airmanButton = Game.Content.Load<Texture2D>(@"Images/airmanButton");
+            kenpachiButton = Game.Content.Load<Texture2D>(@"Images/kenpachiButton");
 
             charAllReady = Game.Content.Load<Texture2D>(@"Images/charAllReady");
             
@@ -588,7 +590,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
                 spriteBatch.Draw(lyndisButton, charSelectMenu[3, 1], Color.White);
                 spriteBatch.Draw(airmanButton, charSelectMenu[4, 0], Color.White);
-                spriteBatch.Draw(airmanButton, charSelectMenu[4, 1], Color.White);
+                spriteBatch.Draw(kenpachiButton, charSelectMenu[4, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
                 if (playing[1])
@@ -1040,8 +1042,8 @@ namespace UltraBrawl
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)
                         {
-                            players[playerNum] = factory.selectCharacter(8);
-                            selectedChars[playerNum] = airmanButton;
+                            players[playerNum] = factory.selectCharacter(9);
+                            selectedChars[playerNum] = kenpachiButton;
                             ready[playerNum] = true;
                         }
                     }

@@ -46,6 +46,7 @@ namespace UltraBrawl
         public bool hasChargeSound;
         public bool update = false;
         public bool flipped = false;
+        public bool canSpecial = true;
 
         //player variables
         public PlayerIndex pcPlayerNum;
@@ -638,7 +639,7 @@ namespace UltraBrawl
                 player.canJump = true;
                 player.pauseAnimation = false;
                 //idle->charge
-                if (!player.noSpam)
+                if (!player.noSpam && player.canSpecial)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -715,7 +716,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //run->charge
-                if (!player.noSpam)
+                if (!player.noSpam && player.canSpecial)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
@@ -789,7 +790,7 @@ namespace UltraBrawl
                     player.switchState(PlayerCharacterState.Idle);
                 }
                 //jump->charge
-                if (player.jumpCount < 4 && !player.noSpam && player.canJumpSpecial)
+                if (player.jumpCount < 4 && !player.noSpam && player.canSpecial && player.canJumpSpecial)
                 {
                     if ((player.oldGamePadState.Buttons.Y == ButtonState.Released && GamePad.GetState(player.pcPlayerNum).Buttons.Y == ButtonState.Pressed))
                     {
