@@ -412,7 +412,8 @@ namespace UltraBrawl
                             if (players[i].CHARACTER_ID == 7)
                                 spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 8)
-                                spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                                //spriteList.Add(new AirManLightGust(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                                //spriteList.Add(new AirManHeavyGust(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             spriteList.ElementAt(spriteList.Count - 1).myOwner = players[i];
                             players[i].isFire = false;
                         }

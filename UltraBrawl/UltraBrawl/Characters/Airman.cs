@@ -34,10 +34,9 @@ namespace UltraBrawl
 
 
         // constructor
-        public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
+        public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect heavyAttackSound)
             : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, airmanFrameSize)
         {
-            hasChargeSound = true;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
@@ -61,7 +60,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
-            base.knockDownEndFrame = 7;
+            base.knockDownEndFrame = 2;
 
             base.pcSegmentTimings.Add(100); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -139,13 +138,17 @@ namespace UltraBrawl
 
         public override void lightAttack()
         {
-            base.lightAttack();
+            isFire = true;
+            isFire = false;
+
         }
+        
 
         public override void heavyAttack()
         {
+            isFire = true;
+            isFire = false;
 
-        base.heavyAttack();
 
         }
 
