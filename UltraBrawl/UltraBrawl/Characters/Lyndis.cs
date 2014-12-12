@@ -20,21 +20,21 @@ namespace UltraBrawl
         // constants for this particular sprite
         //static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point lyndisNumberOfFrames = new Point(30, 20);
-        static CollisionOffset lyndisCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset lyndisHitboxOffset = new CollisionOffset(100, 10, 10, 100);
-        static CollisionOffset lyndisHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 100);
-        static CollisionOffset lyndisHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 10);
-        static Vector2 lyndisSpeed = new Vector2(200, 32);
-        static Vector2 lyndisFriction = new Vector2(0.8f, 1f);
-        static Point lyndisFrameSize = new Point(170, 170);
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 10, 100);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 100);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 10);
+        static Vector2 speed = new Vector2(200, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
         
 
 
 
         // constructor
         public Lyndis(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
-            : base(new SpriteSheet(image, lyndisNumberOfFrames, 2.0f), lyndisCollisionOffset, lyndisHitboxOffset, lyndisHitboxOffsetFlipped, lyndisHitboxOffsetNotFlipped, lyndisSpeed, lyndisFriction, lyndisFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -85,12 +85,12 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = lyndisHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = lyndisHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             regenHitbox();
             update = true;

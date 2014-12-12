@@ -21,22 +21,22 @@ namespace UltraBrawl
         // constants for this particular sprite
         // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point venomNumberOfFrames = new Point(30, 20);
-        static CollisionOffset venomCollisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 60, 60);
         static CollisionOffset AOEHitboxOffset = new CollisionOffset(0, 0, 0, 0);
-        static CollisionOffset venomHitboxOffset = new CollisionOffset(100, 10, 10, 120);
-        static CollisionOffset venomHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 120);
-        static CollisionOffset venomHitboxOffsetFlipped = new CollisionOffset(100, 10, 120, 10);
-        static Vector2 venomSpeed = new Vector2(90, 32);
-        static Vector2 venomFriction = new Vector2(0.8f, 1f);
-        static Point venomFrameSize = new Point(170, 170);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 10, 120);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 10, 120);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 120, 10);
+        static Vector2 speed = new Vector2(90, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
 
 
 
 
         // constructor
         public Venom(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
-            : base(new SpriteSheet(image, venomNumberOfFrames, 2.0f), venomCollisionOffset, venomHitboxOffset, venomHitboxOffsetFlipped, venomHitboxOffsetNotFlipped, venomSpeed, venomFriction, venomFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -85,12 +85,12 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = venomHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = venomHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             update = true;
             regenHitbox();
@@ -126,11 +126,11 @@ namespace UltraBrawl
         {
                 if (effects == SpriteEffects.FlipHorizontally)
                 {
-                    hitboxOffset = venomHitboxOffsetFlipped;
+                    hitboxOffset = hitboxOffsetFlipped;
                 }
                 else
                 {
-                    hitboxOffset = venomHitboxOffsetNotFlipped;
+                    hitboxOffset = hitboxOffsetNotFlipped;
                 }
                 gravity = defaultGravity;
                 regenHitbox();
@@ -142,11 +142,11 @@ namespace UltraBrawl
             isSmash = false;
             if (effects == SpriteEffects.FlipHorizontally)
             {
-                hitboxOffset = venomHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
-                hitboxOffset = venomHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             gravity = defaultGravity;
             regenHitbox();

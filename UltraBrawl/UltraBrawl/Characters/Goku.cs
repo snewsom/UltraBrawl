@@ -20,14 +20,14 @@ namespace UltraBrawl
         // constants for this particular sprite
         //static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point gokuNumberOfFrames = new Point(20, 22);
-        static CollisionOffset gokuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
-        static CollisionOffset gokuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset gokuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset gokuHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
-        static Vector2 gokuSpeed = new Vector2(180, 32);
-        static Vector2 gokuFriction = new Vector2(0.8f, 1f);
-        static Point gokuFrameSize = new Point(170, 170);
+        static Point numFrames = new Point(20, 22);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 50, 50);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
+        static Vector2 speed = new Vector2(180, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
         private SoundEffect superChargeSound;
         
 
@@ -35,7 +35,7 @@ namespace UltraBrawl
 
         // constructor
         public Goku(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop, SoundEffect superChargeSound, SoundEffect fireSound)
-            : base(new SpriteSheet(image, gokuNumberOfFrames, 2.0f), gokuCollisionOffset, gokuHitboxOffset, gokuHitboxOffsetFlipped, gokuHitboxOffsetNotFlipped, gokuSpeed, gokuFriction, gokuFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -120,11 +120,11 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = gokuHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
-                hitboxOffset = gokuHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             regenHitbox();
             update = true;

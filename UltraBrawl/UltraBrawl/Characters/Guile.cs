@@ -20,21 +20,21 @@ namespace UltraBrawl
         // constants for this particular sprite
        // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point guileNumberOfFrames = new Point(30, 20);
-        static CollisionOffset guileCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset guileHitboxOffset = new CollisionOffset(100, 10, 40, 120);
-        static CollisionOffset guileHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 40, 120);
-        static CollisionOffset guileHitboxOffsetFlipped = new CollisionOffset(100, 10, 120, 40);
-        static Vector2 guileSpeed = new Vector2(175, 32);
-        static Vector2 guileFriction = new Vector2(0.8f, 1f);
-        static Point guileFrameSize = new Point(170, 170);
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 40, 120);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 40, 120);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 120, 40);
+        static Vector2 speed = new Vector2(175, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
         
 
 
 
         // constructor
         public Guile(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
-            : base(new SpriteSheet(image, guileNumberOfFrames, 2.0f), guileCollisionOffset, guileHitboxOffset, guileHitboxOffsetFlipped, guileHitboxOffsetNotFlipped, guileSpeed, guileFriction, guileFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -86,12 +86,12 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = guileHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = guileHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             regenHitbox();
             update = true;

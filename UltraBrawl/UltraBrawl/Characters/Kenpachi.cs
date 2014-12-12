@@ -18,23 +18,23 @@ namespace UltraBrawl
     class Kenpachi : PlayerCharacter
     {
         // constants for this particular sprite
-       // static List<Texture2D> particleList;
-        //static ParticleEngine2D particleEngine;
-        static Point zeroNumberOfFrames = new Point(30, 20);
-        static CollisionOffset zeroCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset zeroHitboxOffset = new CollisionOffset(100, 10, 15, 100);
-        static CollisionOffset zeroHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 15, 100);
-        static CollisionOffset zeroHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 15);
-        static Vector2 zeroSpeed = new Vector2(320, 32);
-        static Vector2 zeroFriction = new Vector2(0.75f, 1f);
-        static Point zeroFrameSize = new Point(170, 170);
+        // static List<Texture2D> particleList;
+        // static ParticleEngine2D particleEngine;
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 15, 100);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 15, 100);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 15);
+        static Vector2 speed = new Vector2(320, 32);
+        static Vector2 friction = new Vector2(0.75f, 1f);
+        static Point frameSize = new Point(170, 170);
         
 
 
 
         // constructor
         public Kenpachi(Texture2D image, SoundEffect chargeSound, SoundEffect sound2)
-            : base(new SpriteSheet(image, zeroNumberOfFrames, 2.0f), zeroCollisionOffset, zeroHitboxOffset, zeroHitboxOffsetFlipped, zeroHitboxOffsetNotFlipped, zeroSpeed, zeroFriction, zeroFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -88,7 +88,8 @@ namespace UltraBrawl
                     velocity.X -= 300;
                 }
             }
-        }
+        }
+
 
         public override void spawn(PlayerPreset preset)
         {
@@ -100,7 +101,7 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = zeroHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             regenHitbox();
             update = true;
