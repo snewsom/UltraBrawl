@@ -20,21 +20,21 @@ namespace UltraBrawl
         // constants for this particular sprite
        // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point megamanNumberOfFrames = new Point(30, 20);
-        static CollisionOffset megamanCollisionOffset = new CollisionOffset(80, 1, 60, 60);
-        static CollisionOffset megamanHitboxOffset = new CollisionOffset(100, 10, 40, 100);
-        static CollisionOffset megamanHitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 100);
-        static CollisionOffset megamanHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 100, 40);
-        static Vector2 megamanSpeed = new Vector2(200, 32);
-        static Vector2 megamanFriction = new Vector2(0.8f, 1f);
-        static Point megamanFrameSize = new Point(170, 170);
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 60, 60);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 40, 100);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 40, 100);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 100, 40);
+        static Vector2 speed = new Vector2(200, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
         
 
 
 
         // constructor
         public Megaman(Texture2D image, SoundEffect chargeSound, SoundEffect fireSound)
-            : base(new SpriteSheet(image, megamanNumberOfFrames, 2.0f), megamanCollisionOffset, megamanHitboxOffset, megamanHitboxOffsetFlipped, megamanHitboxOffsetNotFlipped, megamanSpeed, megamanFriction, megamanFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             hasChargeSound = true;
             this.chargeSound = chargeSound;
@@ -87,12 +87,12 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = megamanHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = megamanHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             update = true;
             regenHitbox();

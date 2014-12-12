@@ -20,21 +20,21 @@ namespace UltraBrawl
         // constants for this particular sprite
        // static List<Texture2D> particleList;
         //static ParticleEngine2D particleEngine;
-        static Point ryuNumberOfFrames = new Point(30, 20);
-        static CollisionOffset ryuCollisionOffset = new CollisionOffset(80, 1, 50, 50);
-        static CollisionOffset ryuHitboxOffset = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset ryuHitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
-        static CollisionOffset ryuHitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
-        static Vector2 ryuSpeed = new Vector2(200, 32);
-        static Vector2 ryuFriction = new Vector2(0.8f, 1f);
-        static Point ryuFrameSize = new Point(170, 170);
+        static Point numFrames = new Point(30, 20);
+        static CollisionOffset collisionOffset = new CollisionOffset(80, 1, 50, 50);
+        static CollisionOffset hitboxOffset = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset hitboxOffsetNotFlipped = new CollisionOffset(100, 10, 20, 100);
+        static CollisionOffset hitboxOffsetFlipped = new CollisionOffset(100, 10, 100, 20);
+        static Vector2 speed = new Vector2(200, 32);
+        static Vector2 friction = new Vector2(0.8f, 1f);
+        static Point frameSize = new Point(170, 170);
         
 
 
 
         // constructor
         public Ryu(Texture2D image, SoundEffect fireSound, SoundEffect sound2)
-            : base(new SpriteSheet(image, ryuNumberOfFrames, 2.0f), ryuCollisionOffset, ryuHitboxOffset, ryuHitboxOffsetFlipped, ryuHitboxOffsetNotFlipped, ryuSpeed, ryuFriction, ryuFrameSize)
+            : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
             this.fireSound = fireSound;
             base.pcSegmentEndings.Add(new Point(6, 0)); //idle
@@ -84,12 +84,12 @@ namespace UltraBrawl
             if (preset.index.ToString().Equals("Two") || preset.index.ToString().Equals("Four"))
             {
                 effects = SpriteEffects.FlipHorizontally;
-                hitboxOffset = ryuHitboxOffsetFlipped;
+                hitboxOffset = hitboxOffsetFlipped;
             }
             else
             {
                 effects = SpriteEffects.None;
-                hitboxOffset = ryuHitboxOffsetNotFlipped;
+                hitboxOffset = hitboxOffsetNotFlipped;
             }
             regenHitbox();
             update = true;
