@@ -34,13 +34,8 @@ namespace UltraBrawl
 
 
         // constructor
-<<<<<<< HEAD
-        public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect heavyAttackSound)
-            : base(new SpriteSheet(image, airmanNumberOfFrames, 2.0f), airmanCollisionOffset, airmanHitboxOffset, airmanHitboxOffsetFlipped, airmanHitboxOffsetNotFlipped, airmanSpeed, airmanFriction, airmanFrameSize)
-=======
         public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
             : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
->>>>>>> origin/master
         {
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
