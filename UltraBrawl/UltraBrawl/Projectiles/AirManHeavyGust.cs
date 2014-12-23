@@ -17,7 +17,9 @@ namespace UltraBrawl
             {
                 this.speed.X = speed.X * -1;
                 this.velocity = new Vector2(-64, 0);
-                this.position.X = position.X - 150;
+                this.position.X = position.X + 300;
+              
+
 
             }
             else
@@ -27,7 +29,7 @@ namespace UltraBrawl
                 this.position.X = position.X-500;
 
             }
-            this.position.Y = position.Y;
+            this.position.Y = position.Y-50;
             gravity = new Vector2(0, 0);
             Point frameSize = new Point(170, 170);
             currentFrame.Y = 3;

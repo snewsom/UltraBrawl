@@ -43,7 +43,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
             base.pcSegmentEndings.Add(new Point(7, 2)); //jumping
             base.pcSegmentEndings.Add(new Point(5, 3)); //jumpkick
-            base.pcSegmentEndings.Add(new Point(7, 4)); //punch
+            base.pcSegmentEndings.Add(new Point(6, 4)); //punch
             base.pcSegmentEndings.Add(new Point(15, 5)); //kick
             base.pcSegmentEndings.Add(new Point(0, 6)); //block
             base.pcSegmentEndings.Add(new Point(0, 6)); //blockhit
@@ -96,6 +96,31 @@ namespace UltraBrawl
             CHARACTER_NAME = "Airman";
         }
 
+        public override void heavyAttack()
+        {
+            isFire = true;
+            hasFired = true;
+
+
+
+        }
+
+        public override void lightAttack()
+        {
+
+            if (isLGT)
+            {
+                if (effects == SpriteEffects.None)
+                {
+                    velocity.X += 300;
+                }
+                else
+                {
+                    velocity.X -= 300;
+                }
+            }
+        }
+
         public override void spawn(PlayerPreset preset)
         {
             position = preset.spawn;
@@ -143,14 +168,7 @@ namespace UltraBrawl
        
         
 
-        public override void heavyAttack()
-        {
-            isFire = true;
-            hasFired = true;
-
-
-        }
-
+      
 
         public override void chargedOne()
         {
