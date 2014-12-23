@@ -37,6 +37,7 @@ namespace UltraBrawl
         public Airman(Texture2D image, SoundEffect chargeSound, SoundEffect superLoop)
             : base(new SpriteSheet(image, numFrames, 2.0f), collisionOffset, hitboxOffset, hitboxOffsetFlipped, hitboxOffsetNotFlipped, speed, friction, frameSize)
         {
+            this.fireSound = superLoop;
             this.chargeSound = chargeSound;
             base.pcSegmentEndings.Add(new Point(1, 0)); //idle
             base.pcSegmentEndings.Add(new Point(22, 1)); //running
@@ -61,6 +62,7 @@ namespace UltraBrawl
             base.pcSegmentEndings.Add(new Point(2, 16)); //superBlockhit
             base.pcSegmentEndings.Add(new Point(2, 17)); //superHit
             base.knockDownEndFrame = 2;
+            base.fireChargeFrame = 12;
 
             base.pcSegmentTimings.Add(100); //idle
             base.pcSegmentTimings.Add(60); //running
@@ -88,6 +90,7 @@ namespace UltraBrawl
 
             canJumpKick = false;
             canAOE = true;
+            canFire = true;
             CHARACTER_DAMAGE = 0.1;
             CHARACTER_ID = 8;
             CHARACTER_NAME = "Airman";
@@ -116,6 +119,7 @@ namespace UltraBrawl
 
         public override void charging()
         {
+            canFire = false;
             if (chargeSoundInstance.State == SoundState.Stopped && !chargePlayed)
             {
                 chargeSoundInstance.Play();
@@ -136,22 +140,16 @@ namespace UltraBrawl
             }
         }
 
-        public override void lightAttack()
-        {
-            isFire = true;
-            isFire = false;
-
-        }
+       
         
 
         public override void heavyAttack()
         {
             isFire = true;
-            isFire = false;
+            hasFired = true;
 
 
         }
-
 
 
         public override void chargedOne()
