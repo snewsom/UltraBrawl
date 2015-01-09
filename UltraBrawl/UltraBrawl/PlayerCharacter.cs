@@ -572,11 +572,13 @@ namespace UltraBrawl
                     if (canSuper)
                     {
                         CHARACTER_DAMAGE /= 1.2;
+                        superLoopInstance.Pause();
+                        
                     }
                     isSuper = false;
                     chargeSoundInstance.Stop();
                     chargeTimer = 0;
-                    superLoopInstance.Pause();
+                    
                     cancelSpecial = false;
                 }
                 if (isSuper)
