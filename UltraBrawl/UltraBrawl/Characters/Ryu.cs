@@ -68,6 +68,7 @@ namespace UltraBrawl
             chargeMax = 650;
             base.canSuper = false;
             JKknockdown = true;
+            canBlock = true;
             canFire = true;
             canJumpKick = true;
             CHARACTER_DAMAGE = 1.1;

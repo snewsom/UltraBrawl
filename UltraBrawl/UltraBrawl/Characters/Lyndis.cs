@@ -70,6 +70,7 @@ namespace UltraBrawl
             JKknockdown = true;
             canJumpKick = true;
             canFire = true;
+            canBlock = true;
             CHARACTER_DAMAGE = 1;
             CHARACTER_ID = 7;
             CHARACTER_NAME = "Lyndis";

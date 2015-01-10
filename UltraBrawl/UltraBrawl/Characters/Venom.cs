@@ -69,6 +69,7 @@ namespace UltraBrawl
             canJumpSpecial = true;
             canAOE = true;
             canSuper = false;
+            canBlock = true;
             CHARACTER_DAMAGE = 1.7;
             CHARACTER_ID = 4;
             CHARACTER_NAME = "Venom";

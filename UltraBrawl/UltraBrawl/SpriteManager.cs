@@ -95,7 +95,7 @@ namespace UltraBrawl
         private Texture2D zeroButton;
         private Texture2D kazuyaButton;
         private Texture2D lyndisButton;
-        private Texture2D airmanButton;
+        private Texture2D jugoButton;
         private Texture2D kenpachiButton;
 
         private Texture2D bgButton1;
@@ -235,7 +235,7 @@ namespace UltraBrawl
             zeroButton = Game.Content.Load<Texture2D>(@"Images/zeroButton");
             kazuyaButton = Game.Content.Load<Texture2D>(@"Images/kazuyaButton");
             lyndisButton = Game.Content.Load<Texture2D>(@"Images/lyndisButton");
-            airmanButton = Game.Content.Load<Texture2D>(@"Images/airmanButton");
+            jugoButton = Game.Content.Load<Texture2D>(@"Images/jugoButton");
             kenpachiButton = Game.Content.Load<Texture2D>(@"Images/kenpachiButton");
 
             charAllReady = Game.Content.Load<Texture2D>(@"Images/charAllReady");
@@ -411,8 +411,7 @@ namespace UltraBrawl
                                 spriteList.Add(new GuileSonicBoom(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
                             if (players[i].CHARACTER_ID == 7)
                                 spriteList.Add(new LyndisArrow(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
-                            if (players[i].CHARACTER_ID == 8)
-                                spriteList.Add(new AirManHeavyGust(blastSheet, new Vector2(players[i].hitbox.Center.X, players[i].hitbox.Center.Y), players[i].flipped));
+                   
                             spriteList.ElementAt(spriteList.Count - 1).myOwner = players[i];
                             players[i].isFire = false;
                         }
@@ -589,7 +588,7 @@ namespace UltraBrawl
                 spriteBatch.Draw(guileButton, charSelectMenu[2, 1], Color.White);
                 spriteBatch.Draw(kazuyaButton, charSelectMenu[3, 0], Color.White);
                 spriteBatch.Draw(lyndisButton, charSelectMenu[3, 1], Color.White);
-                spriteBatch.Draw(airmanButton, charSelectMenu[4, 0], Color.White);
+                spriteBatch.Draw(jugoButton, charSelectMenu[4, 0], Color.White);
                 spriteBatch.Draw(kenpachiButton, charSelectMenu[4, 1], Color.White);
 
                 spriteBatch.Draw(p1Cursor, cursorPositions[0], Color.White);
@@ -1037,7 +1036,7 @@ namespace UltraBrawl
                         if (cursorLocs[playerNum].currentItemY == 0)
                         {
                             players[playerNum] = factory.selectCharacter(8);
-                            selectedChars[playerNum] = airmanButton;
+                            selectedChars[playerNum] = jugoButton;
                             ready[playerNum] = true;
                         }
                         else if (cursorLocs[playerNum].currentItemY == 1)

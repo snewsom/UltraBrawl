@@ -96,6 +96,7 @@ namespace UltraBrawl
 
             JKknockdown = true;
             canJumpKick = true;
+            canBlock = true;
             CHARACTER_ID = 0;
             CHARACTER_NAME = "Goku";
             CHARACTER_DAMAGE = 1.2;

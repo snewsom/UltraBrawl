@@ -52,6 +52,7 @@ namespace UltraBrawl
         public PlayerIndex pcPlayerNum;
         public GamePadState oldGamePadState;
         public bool canAOE = false;
+        public bool canBlock = false;
         public bool canFire = false;
         public bool canBeam = false;
         public bool canSuper = false;
@@ -573,10 +574,11 @@ namespace UltraBrawl
                     {
                         CHARACTER_DAMAGE /= 1.2;
                         superLoopInstance.Pause();
+                        chargeSoundInstance.Stop();
                         
                     }
                     isSuper = false;
-                    chargeSoundInstance.Stop();
+                    
                     chargeTimer = 0;
                     
                     cancelSpecial = false;
@@ -696,7 +698,10 @@ namespace UltraBrawl
                 //idle->block
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed)
                 {
-                    player.switchState(PlayerCharacterState.Blocking);
+                    if (player.canBlock == true)
+                    {
+                        player.switchState(PlayerCharacterState.Blocking);
+                    }
                 }
 
                 player.oldGamePadState = GamePad.GetState(player.pcPlayerNum);
@@ -762,7 +767,11 @@ namespace UltraBrawl
                 //run->block
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed)
                 {
+                     if (player.canBlock == true)
+                     {
+                
                     player.switchState(PlayerCharacterState.Blocking);
+                     }
                 }
 
                 player.oldGamePadState = GamePad.GetState(player.pcPlayerNum);
@@ -821,9 +830,12 @@ namespace UltraBrawl
                 //air block
                 if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Pressed)
                 {
-                    player.jumpCount = 4;
-                    player.velocity.X = 0;
-                    player.isBlock = true;
+                    if (player.canBlock == true)
+                    {
+                        player.jumpCount = 4;
+                        player.velocity.X = 0;
+                        player.isBlock = true;
+                    }
                 }
                 else
                 {
@@ -1184,12 +1196,14 @@ namespace UltraBrawl
                 player.canJump = false;
                 player.canMove = false;
                 player.pauseAnimation = false;
-                if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Released)
-                {
-                    player.isBlock = false;
-                    player.canJump = true;
-                    player.canMove = true;
-                    player.switchState(PlayerCharacterState.Idle);
+               
+                    if (GamePad.GetState(player.pcPlayerNum).Buttons.RightShoulder == ButtonState.Released)
+                    {
+                        player.isBlock = false;
+                        player.canJump = true;
+                        player.canMove = true;
+                        player.switchState(PlayerCharacterState.Idle);
+                    
                 }
             }
         }

@@ -657,8 +657,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Images\Kenpachi.png">
-      <Name>Kenpachi</Name>
+    <Compile Include="Images\Jugo.png">
+      <Name>Jugo</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
@@ -666,6 +666,13 @@
   <ItemGroup>
     <Compile Include="Images\kenpachiButton.png">
       <Name>kenpachiButton</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Images\JugoButton.png">
+      <Name>JugoButton</Name>
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>

@@ -57,7 +57,7 @@ namespace UltraBrawl
             }
             else if (CharID == 8)
             {
-                return new Airman(game.Content.Load<Texture2D>(@"Images/Airman"), game.Content.Load<SoundEffect>(@"Sound/Lyndis Woosh"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
+                return new Jugo(game.Content.Load<Texture2D>(@"Images/Jugo"), game.Content.Load<SoundEffect>(@"Sound/Lyndis Woosh"), game.Content.Load<SoundEffect>(@"Sound/SSloop"));
             }
             else if (CharID == 9)
             {

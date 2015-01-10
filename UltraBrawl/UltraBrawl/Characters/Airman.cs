@@ -98,15 +98,7 @@ namespace UltraBrawl
 
         public override void heavyAttack()
         {
-            isFire = true;
-            hasFired = true;
-
-
-
-        }
-
-        public override void lightAttack()
-        {
+            
 
             if (isLGT)
             {
@@ -119,6 +111,14 @@ namespace UltraBrawl
                     velocity.X -= 300;
                 }
             }
+
+        }
+
+        public override void lightAttack()
+        {
+            isFire = true;
+            hasFired = true;
+           
         }
 
         public override void spawn(PlayerPreset preset)

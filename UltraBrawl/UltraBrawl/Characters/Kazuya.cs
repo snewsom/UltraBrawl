@@ -69,6 +69,7 @@ namespace UltraBrawl
             chargeMax = 1400;
             canJumpKick = true;
             canAOE = true;
+            canBlock = true;
             CHARACTER_DAMAGE = 1.2;
             CHARACTER_ID = 6;
             CHARACTER_NAME = "Kazuya";

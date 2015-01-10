@@ -109,7 +109,7 @@
   <ItemGroup>
     <Compile Include="AutomatedSprite.cs" />
     <Compile Include="Camera2d.cs" />
-    <Compile Include="Characters\Airman.cs" />
+    <Compile Include="Characters\Jugo.cs" />
     <Compile Include="Characters\Kenpachi.cs" />
     <Compile Include="Characters\Lyndis.cs" />
     <Compile Include="Characters\Kazuya.cs" />
@@ -125,7 +125,6 @@
     <Compile Include="Particle.cs" />
     <Compile Include="ParticleEngine2D.cs" />
     <Compile Include="PlayerPreset.cs" />
-    <Compile Include="Projectiles\AirManHeavyGust.cs" />
     <Compile Include="Projectiles\GokuKamehameha.cs" />
     <Compile Include="Projectiles\RyuHadouken.cs" />
     <Compile Include="Projectiles\LyndisArrow.cs" />

@@ -70,6 +70,7 @@ namespace UltraBrawl
             canJumpKick = true;
             canFire = true;
             canSuper = false;
+            canBlock = true;
             CHARACTER_DAMAGE = 1.1;
             CHARACTER_ID = 3;
             CHARACTER_NAME = "Guile";

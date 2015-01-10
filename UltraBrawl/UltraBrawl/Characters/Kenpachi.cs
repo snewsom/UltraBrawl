@@ -70,6 +70,7 @@ namespace UltraBrawl
             canJumpKick = true;
             canSmash = true;
             canSuper = false;
+            canBlock = true;
             CHARACTER_DAMAGE = 1.5;
             CHARACTER_ID = 9;
             CHARACTER_NAME = "Kenpachi";
