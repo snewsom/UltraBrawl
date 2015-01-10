@@ -64,32 +64,19 @@ namespace UltraBrawl
             base.pcSegmentTimings.Add(50); //charging
             base.setSegments();
 
-            JKvelocity = 500;
+            JKvelocity = 300;
             JKknockdown = true;
             canSpecial = true;
             canJumpKick = true;
             canSmash = true;
             canSuper = false;
             canBlock = false;
-            CHARACTER_DAMAGE = 1.5;
+            CHARACTER_DAMAGE = 1.3;
             CHARACTER_ID = 8;
             CHARACTER_NAME = "Jugo";
         }
 
-        public override void heavyAttack()
-        {
-            //if (isHVY)
-            //{
-            //    if (effects == SpriteEffects.None)
-            //    {
-            //        velocity.X += 300;
-            //    }
-            //    else
-            //    {
-            //        velocity.X -= 300;
-            //    }
-           // }
-        }
+       
 
 
         public override void spawn(PlayerPreset preset)
