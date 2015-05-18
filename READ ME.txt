@@ -1,0 +1,2 @@
+I will be porting the game to MonoGame very soon (probably today). http://www.monogame.net/2015/04/29/monogame-3-4/
+XNA is not used anymore and MonoGame should be a much smoother development process. Plus, the port should be easy.
